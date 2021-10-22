@@ -1,0 +1,4 @@
+config BR2_PACKAGE_THUNDER_SWITCHBOARD
+	bool "SwitchBoard"
+	help
+	   WPE Platform Switch Board plugin

@@ -1,0 +1,12 @@
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/cobalt/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/gyp/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/kms-cube/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/libdash/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/libdrm-examples/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/rdksplashscreen/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/westeros/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpebackend/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpebackend-rdk/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpewebkit-ml/Config.in"
+

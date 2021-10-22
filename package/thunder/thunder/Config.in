@@ -1,0 +1,213 @@
+config BR2_PACKAGE_THUNDER
+    bool "thunder"
+    select BR2_PACKAGE_THUNDER_TOOLS
+    select BR2_PACKAGE_LIBZLIB
+    help
+      WPE Framework
+
+if BR2_PACKAGE_THUNDER
+
+menu "options"
+    choice BR2_PACKAGE_THUNDER_BUILD_TYPE
+        prompt "Build type"
+        default BR2_PACKAGE_THUNDER_BUILD_TYPE_RELEASE
+        help
+        Select the type of build you want to use.
+
+    config BR2_PACKAGE_THUNDER_BUILD_TYPE_DEBUG
+        bool "Debug"
+        help
+        This build type is with: traces, callstacks, symbols, asserts; without: optimizations.
+
+    config BR2_PACKAGE_THUNDER_BUILD_TYPE_DEBUG_OPTIMIZED
+        bool "Debug optimized"
+        help
+        This build type is with: traces, callstacks, symbols, asserts.
+
+    config BR2_PACKAGE_THUNDER_BUILD_TYPE_RELEASE_WITH_SYMBOLS
+        bool "Release with symbols"
+        help
+        This build type is with: callstacks, symbols; without: asserts, traces.
+
+    config BR2_PACKAGE_THUNDER_BUILD_TYPE_RELEASE
+        bool "Release"
+        help
+        This build type is with: callstacks; without: asserts, traces, symbols.
+
+    config BR2_PACKAGE_THUNDER_BUILD_TYPE_PRODUCTION
+        bool "Production"
+        help
+        This build type is without: traces, callstacks, symbols, asserts.
+
+    endchoice
+
+    config BR2_PACKAGE_THUNDER_CREATE_IPKG_TARGETS
+        bool "create ipkg targets"
+        select BR2_PACKAGE_HOST_OPKG_UTILS
+        depends on BR2_PACKAGE_THUNDER_PACKAGER
+        help
+            Creates from configured targets, a DEBIAN 2.0 (ipk, opk, deb) packages. Configured packages will install theirs
+            staging file, but not target files on the root filesystem
+
+    config BR2_PACKAGE_THUNDER_PORT
+        string "port"
+        default "80"
+
+    config BR2_PACKAGE_THUNDER_BIND
+        string "bind"
+        default "0.0.0.0"
+
+    config BR2_PACKAGE_THUNDER_INTERFACE
+        string "interface"
+        default ""
+
+    config BR2_PACKAGE_THUNDER_IDLE_TIME
+        string "idle-time"
+        default "180"
+
+    config BR2_PACKAGE_THUNDER_PERSISTENT_PATH
+        string "persistent path"
+        default "/root"
+
+    config BR2_PACKAGE_THUNDER_VOLATILE_PATH
+        string "volatile path"
+        default "/tmp"
+
+    config BR2_PACKAGE_THUNDER_DATA_PATH
+        string "data path"
+        default "/usr/share/WPEFramework"
+
+    config BR2_PACKAGE_THUNDER_SYSTEM_PATH
+        string "system path"
+        default "/usr/lib/thunder/plugins"
+
+    config BR2_PACKAGE_THUNDER_PROXYSTUB_PATH
+        string "proxystub path"
+        default "/usr/lib/thunder/proxystubs"
+
+    config BR2_PACKAGE_THUNDER_TRACE_SETTINGS
+        string "trace settings"
+        default ""
+
+    config BR2_PACKAGE_THUNDER_OOM_ADJUST
+        string "oom-adjust"
+        default ""
+
+    config BR2_PACKAGE_THUNDER_SYSTEM_PREFIX
+        string "system prefix"
+        default ""
+
+    config BR2_PACKAGE_THUNDER_EXCEPTIONS_ENABLE
+        bool "exceptions on"
+        default n
+
+    config BR2_PACKAGE_THUNDER_PERFORMANCE_MONITOR
+        bool "performance monitor on"
+        default n
+
+    config BR2_PACKAGE_THUNDER_WARNING_REPORTING
+        bool "DefensiveWarnings"
+        default n
+        help
+        Add a defensive warning system to the Thunder. It increases the footprint
+        of the Thunder application but it allows for profiling and early warning
+        on misbahving plugins. This feature should be used at least once before
+        creating a production build to get a feeling on the behaviour of new
+        plugins. They should not raise any warnings here !!!
+
+    config BR2_PACKAGE_THUNDER_EXCEPTION_CATCHING
+        bool "ExceptionCatching"
+        default n
+        help
+        Some plugins are developed with Exception handling turned on. If an exception
+        is not caught in the plugin it ends up in the framework. This feature tries
+        to recover from these uncaught execptions. If it happens on a workerpool thread
+        the framework will catch it, report it and continue. If the exception is thrown
+        from a thread not under control of the framework it reports and shutsdown the
+        framework. There is no possibility to recover from it.
+
+    source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-devtools/Config.in"
+
+endmenu
+
+menu "extensions"
+comment "Build-in extensions"
+
+config BR2_PACKAGE_THUNDER_BROADCAST
+    bool "Broadcast"
+        default n
+    help
+      Abstraction on QAM tuner and PSI/SI parser functionality.
+
+    if BR2_PACKAGE_THUNDER_BROADCAST
+    config BR2_PACKAGE_THUNDER_BROADCAST_SI_PARSING
+        bool "SI Parsing"
+            default n
+        help
+        Enable functionality to automatically parse SI information on the
+            tuned streams.
+    endif
+
+config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS
+    bool "Process Containers"
+        default n
+    help
+      Enable ability to start a containerized nanoservices
+
+    if BR2_PACKAGE_THUNDER_PROCESSCONTAINERS
+    choice BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BACKEND
+        prompt "Containers backend"
+        default BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BACKEND_LXC
+        help
+            Select which container framework to use as a backend
+
+    config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BACKEND_LXC
+        bool "LXC"
+        select BR2_PACKAGE_LXC
+        select BR2_PACKAGE_CGROUPFS_MOUNT
+
+    config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BACKEND_RUNC
+        bool "RunC"
+        select BR2_PACKAGE_RUNC
+        select BR2_PACKAGE_CGROUPFS_MOUNT
+
+    config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BACKEND_CRUN
+        bool "CRun"
+        select BR2_PACKAGE_CRUN
+        select BR2_PACKAGE_CGROUPFS_MOUNT
+    endchoice
+    endif
+
+config BR2_PACKAGE_THUNDER_SECURE_SOCKET
+    bool "SecureSocket"
+    select BR2_PACKAGE_OPENSSL
+    help
+      Adds a Secure Socket implementation (dependency OpenSSL)
+
+#"Init.d script from package config (deprecated)"
+config BR2_PACKAGE_THUNDER_INSTALL_INITD_DEPRECATED
+    bool 
+    help
+      Install thunder config file from buildroot package config folder"
+
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-clientlibraries/Config.in"
+endmenu
+
+menu "plugins"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-plugins/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-amazon/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-avs/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-avnclient/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-launcher/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-netflix/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-playgiga/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-provisioning/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-spotify/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-switchboard/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-ui/Config.in"
+endmenu
+
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-interfaces/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder/thunder-rdkservices/Config.in"
+
+endif

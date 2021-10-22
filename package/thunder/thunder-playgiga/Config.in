@@ -1,0 +1,5 @@
+config BR2_PACKAGE_THUNDER_PLAYGIGA
+	bool "PlayGiga"
+	depends on BR2_PACKAGE_PLAYGIGA
+	help
+	   WPE Platform PlayGiga plugin

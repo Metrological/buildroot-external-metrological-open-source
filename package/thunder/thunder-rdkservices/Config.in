@@ -1,0 +1,16 @@
+config BR2_PACKAGE_THUNDER_RDKSERVICES
+    bool
+
+choice
+    bool "Site for rdk plugins"
+    default THUNDER_RDKSERVICES_SITE_RDKCENTRAL
+    help
+        Choose the site where to get the rdk plugin sources.
+
+    config THUNDER_RDKSERVICES_SITE_RDKCENTRAL
+            bool "rdkcentral"
+
+    config THUNDER_RDKSERVICES_SITE_WEBPLATFORMFOREMBEDDED
+            bool "WebPlatformForEmbedded"
+
+endchoice

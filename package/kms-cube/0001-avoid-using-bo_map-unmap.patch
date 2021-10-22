@@ -1,0 +1,88 @@
+From 3b529be8888ce57c06ec46c9330ab28e7a65f79b Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <mail@bybram.com>
+Date: Wed, 22 Sep 2021 20:01:16 +0200
+Subject: [PATCH] avoid using bo_map/unmap
+
+---
+ gst-decoder.c | 7 ++++++-
+ kmscube.c     | 4 ++++
+ meson.build   | 3 +--
+ 3 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/gst-decoder.c b/gst-decoder.c
+index 5431014..0aa7a55 100644
+--- a/gst-decoder.c
++++ b/gst-decoder.c
+@@ -332,6 +332,7 @@ set_last_frame(struct decoder *dec, EGLImage frame, GstSample *samp)
+ 	dec->last_samp = samp;
+ }
+ 
++#if HAVE_GBM_BO_MAP
+ // TODO this could probably be a helper re-used by cube-tex:
+ static int
+ buf_to_fd(const struct gbm *gbm, int size, void *ptr)
+@@ -357,6 +358,7 @@ buf_to_fd(const struct gbm *gbm, int size, void *ptr)
+ 
+ 	return fd;
+ }
++#endif
+ 
+ static EGLImage
+ buffer_to_image(struct decoder *dec, GstBuffer *buf)
+@@ -410,12 +412,15 @@ buffer_to_image(struct decoder *dec, GstBuffer *buf)
+ 
+ 	if (is_dmabuf_mem) {
+ 		dmabuf_fd = dup(gst_dmabuf_memory_get_fd(mem));
+-	} else {
++	}
++#if HAVE_GBM_BO_MAP
++	else {
+ 		GstMapInfo map_info;
+ 		gst_buffer_map(buf, &map_info, GST_MAP_READ);
+ 		dmabuf_fd = buf_to_fd(dec->gbm, map_info.size, map_info.data);
+ 		gst_buffer_unmap(buf, &map_info);
+ 	}
++#endif
+ 
+ 	if (dmabuf_fd < 0) {
+ 		GST_ERROR("could not obtain DMABUF FD");
+diff --git a/kmscube.c b/kmscube.c
+index 28f2dcd..4c89f86 100644
+--- a/kmscube.c
++++ b/kmscube.c
+@@ -206,7 +206,11 @@ int main(int argc, char *argv[])
+ 	else if (mode == SHADERTOY)
+ 		egl = init_cube_shadertoy(gbm, shadertoy, samples);
+ 	else
++#if HAVE_GBM_BO_MAP
+ 		egl = init_cube_tex(gbm, mode, samples);
++#else
++		printf("gbm_bo_map() support missing\n");
++#endif
+ 
+ 	if (!egl) {
+ 		printf("failed to initialize EGL\n");
+diff --git a/meson.build b/meson.build
+index 4fca2f2..31d29fa 100644
+--- a/meson.build
++++ b/meson.build
+@@ -37,7 +37,6 @@ sources = files(
+   'common.c',
+   'cube-shadertoy.c',
+   'cube-smooth.c',
+-  'cube-tex.c',
+   'drm-atomic.c',
+   'drm-common.c',
+   'drm-legacy.c',
+@@ -52,7 +51,7 @@ cc = meson.get_compiler('c')
+ dep_m = cc.find_library('m', required : false)
+ dep_threads = dependency('threads')
+ dep_libdrm = dependency('libdrm', version : '>=2.4.71')
+-dep_gbm = dependency('gbm', version : '>=13.0')
++dep_gbm = dependency('gbm')
+ dep_egl = dependency('egl')
+ dep_gles2 = dependency('glesv2')
+ dep_libpng = dependency('libpng', required : false)
+-- 
+2.25.1
+
