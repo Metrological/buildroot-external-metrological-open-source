@@ -1,4 +1,4 @@
-# Metrological Restricted Buildroot External
+# Metrological Open Source Buildroot External
 
 This [buildroot external][1] includes Metrological's open source packages, patches,
 setup, and configuration to work on Metrological provided software not provided
