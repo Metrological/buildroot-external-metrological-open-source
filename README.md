@@ -76,4 +76,5 @@ information.
 For more information on using and updating buildroot, see the [buildroot documentation][3].
 
 [1]: https://buildroot.org/downloads/manual/manual.html#outside-br-custom
+[2]: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 [3]: https://buildroot.org/docs.html
