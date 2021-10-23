@@ -194,7 +194,7 @@ endif
 
 # Temporary fix for vss platforms
 ifeq ($(BR2_PACKAGE_VSS_SDK_MOVE_GSTREAMER),y)
-THUNDER_PKGDIR = "$(BR2_EXTERNAL_ML_CSS_PATH)/package/thunder/thunder"
+THUNDER_PKGDIR = "$(BR2_EXTERNAL_ML_OSS_PATH)/package/thunder/thunder"
 
 define THUNDER_APPLY_LOCAL_PATCHES
  # this platform needs to run this gstreamer version parallel
