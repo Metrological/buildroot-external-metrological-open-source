@@ -32,7 +32,7 @@ for your platform. Feel free to add defconfig if you are missing one.
 2. Enter the buildroot directory and prepare the environment. Usually the export is
    only needed once unless you want to add/remove layers.
    ``` shell
-   export BR2_EXTERNAL=$(PWD)../buildroot-external-metrological-open-source
+   export BR2_EXTERNAL="${PWD}/../buildroot-external-metrological-open-source"
    ```
 3. Continue your build as a usual buildroot build.
    ``` shell
