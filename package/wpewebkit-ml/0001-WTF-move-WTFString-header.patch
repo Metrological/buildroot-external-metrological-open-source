@@ -1,0 +1,28 @@
+From 32d30e078097fab71238a910c7e3cca0235b1bc0 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <bram.oosterhuis.nl@gmail.com>
+Date: Tue, 26 Oct 2021 10:58:21 +0200
+Subject: [PATCH] WTF: move WTFString header
+
+---
+ Source/WTF/wtf/RAMSize.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Source/WTF/wtf/RAMSize.cpp b/Source/WTF/wtf/RAMSize.cpp
+index ca1276de70..77001347a3 100644
+--- a/Source/WTF/wtf/RAMSize.cpp
++++ b/Source/WTF/wtf/RAMSize.cpp
+@@ -37,9 +37,10 @@
+ #endif // OS(LINUX)
+ #else
+ #include <bmalloc/bmalloc.h>
+-#include <wtf/text/WTFString.h>
+ #endif
+ 
++#include <wtf/text/WTFString.h>
++
+ namespace WTF {
+ 
+ #if OS(WINDOWS)
+-- 
+2.25.1
+
