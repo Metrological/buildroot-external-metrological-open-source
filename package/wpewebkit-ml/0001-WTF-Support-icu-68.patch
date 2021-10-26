@@ -1,0 +1,172 @@
+From 61e9c08c9b12cf6e05684765f1167f681be0e633 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <bram.oosterhuis.nl@gmail.com>
+Date: Tue, 26 Oct 2021 11:22:01 +0200
+Subject: [PATCH] WTF: Support icu >= 68
+
+---
+ Source/WTF/wtf/text/icu/UTextProvider.h       | 16 ++++++++++
+ .../WTF/wtf/text/icu/UTextProviderLatin1.cpp  | 32 +++++++++++++++++--
+ .../WTF/wtf/text/icu/UTextProviderUTF16.cpp   | 12 +++++--
+ 3 files changed, 56 insertions(+), 4 deletions(-)
+
+diff --git a/Source/WTF/wtf/text/icu/UTextProvider.h b/Source/WTF/wtf/text/icu/UTextProvider.h
+index c8f28d6ed3..a03ade934e 100644
+--- a/Source/WTF/wtf/text/icu/UTextProvider.h
++++ b/Source/WTF/wtf/text/icu/UTextProvider.h
+@@ -79,12 +79,20 @@ inline bool uTextAccessInChunkOrOutOfRange(UText* text, int64_t nativeIndex, int
+             // Ensure chunk offset is well formed if computed offset exceeds int32_t range.
+             ASSERT(offset < std::numeric_limits<int32_t>::max());
+             text->chunkOffset = offset < std::numeric_limits<int32_t>::max() ? static_cast<int32_t>(offset) : 0;
++#ifdef TRUE
+             isAccessible = TRUE;
++#else            
++            isAccessible = true;
++#endif
+             return true;
+         }
+         if (nativeIndex >= nativeLength && text->chunkNativeLimit == nativeLength) {
+             text->chunkOffset = text->chunkLength;
++#ifdef FALSE
+             isAccessible = FALSE;
++#else            
++            isAccessible = false;
++#endif
+             return true;
+         }
+     } else {
+@@ -93,12 +101,20 @@ inline bool uTextAccessInChunkOrOutOfRange(UText* text, int64_t nativeIndex, int
+             // Ensure chunk offset is well formed if computed offset exceeds int32_t range.
+             ASSERT(offset < std::numeric_limits<int32_t>::max());
+             text->chunkOffset = offset < std::numeric_limits<int32_t>::max() ? static_cast<int32_t>(offset) : 0;
++#ifdef TRUE
+             isAccessible = TRUE;
++#else            
++            isAccessible = true;
++#endif
+             return true;
+         }
+         if (nativeIndex <= 0 && !text->chunkNativeStart) {
+             text->chunkOffset = 0;
++#ifdef FALSE
+             isAccessible = FALSE;
++#else            
++            isAccessible = false;
++#endif
+             return true;
+         }
+     }
+diff --git a/Source/WTF/wtf/text/icu/UTextProviderLatin1.cpp b/Source/WTF/wtf/text/icu/UTextProviderLatin1.cpp
+index daf81c5ca0..b5822dc793 100644
+--- a/Source/WTF/wtf/text/icu/UTextProviderLatin1.cpp
++++ b/Source/WTF/wtf/text/icu/UTextProviderLatin1.cpp
+@@ -100,23 +100,39 @@ static UBool uTextLatin1Access(UText* uText, int64_t index, UBool forward)
+         if (index < uText->chunkNativeLimit && index >= uText->chunkNativeStart) {
+             // Already inside the buffer. Set the new offset.
+             uText->chunkOffset = static_cast<int32_t>(index - uText->chunkNativeStart);
++#ifdef TRUE
+             return TRUE;
++#else            
++            return true;
++#endif
+         }
+         if (index >= length && uText->chunkNativeLimit == length) {
+             // Off the end of the buffer, but we can't get it.
+             uText->chunkOffset = static_cast<int32_t>(index - uText->chunkNativeStart);
++#ifdef FALSE
+             return FALSE;
++#else            
++            return false;
++#endif
+         }
+     } else {
+         if (index <= uText->chunkNativeLimit && index > uText->chunkNativeStart) {
+             // Already inside the buffer. Set the new offset.
+             uText->chunkOffset = static_cast<int32_t>(index - uText->chunkNativeStart);
++#ifdef TRUE
+             return TRUE;
++#else            
++            return true;
++#endif
+         }
+         if (!index && !uText->chunkNativeStart) {
+             // Already at the beginning; can't go any farther.
+             uText->chunkOffset = 0;
++#ifdef FALSE
+             return FALSE;
++#else            
++            return false;
++#endif
+         }
+     }
+     
+@@ -144,7 +160,11 @@ static UBool uTextLatin1Access(UText* uText, int64_t index, UBool forward)
+ 
+     uText->nativeIndexingLimit = uText->chunkLength;
+ 
+-    return TRUE;
++#ifdef TRUE
++        return TRUE;
++#else            
++        return true;
++#endif
+ }
+ 
+ static int32_t uTextLatin1Extract(UText* uText, int64_t start, int64_t limit, UChar* dest, int32_t destCapacity, UErrorCode* status)
+@@ -337,7 +357,11 @@ static int64_t uTextLatin1ContextAwareNativeLength(UText* text)
+ static UBool uTextLatin1ContextAwareAccess(UText* text, int64_t nativeIndex, UBool forward)
+ {
+     if (!text->context)
++#ifdef FALSE
+         return FALSE;
++#else            
++        return false;
++#endif
+     int64_t nativeLength = uTextLatin1ContextAwareNativeLength(text);
+     UBool isAccessible;
+     if (uTextAccessInChunkOrOutOfRange(text, nativeIndex, nativeLength, forward, isAccessible))
+@@ -357,7 +381,11 @@ static UBool uTextLatin1ContextAwareAccess(UText* text, int64_t nativeIndex, UBo
+         ASSERT(newContext == UTextProviderContext::PriorContext);
+         textLatin1ContextAwareSwitchToPriorContext(text, nativeIndex, nativeLength, forward);
+     }
+-    return TRUE;
++#ifdef TRUE
++        return TRUE;
++#else            
++        return true;
++#endif
+ }
+ 
+ static int32_t uTextLatin1ContextAwareExtract(UText*, int64_t, int64_t, UChar*, int32_t, UErrorCode* errorCode)
+diff --git a/Source/WTF/wtf/text/icu/UTextProviderUTF16.cpp b/Source/WTF/wtf/text/icu/UTextProviderUTF16.cpp
+index 764eba2348..4a62abae88 100644
+--- a/Source/WTF/wtf/text/icu/UTextProviderUTF16.cpp
++++ b/Source/WTF/wtf/text/icu/UTextProviderUTF16.cpp
+@@ -126,7 +126,11 @@ static inline int64_t uTextUTF16ContextAwareNativeLength(UText* text)
+ static UBool uTextUTF16ContextAwareAccess(UText* text, int64_t nativeIndex, UBool forward)
+ {
+     if (!text->context)
+-        return FALSE;
++#ifdef FALSE
++       return FALSE;
++#else            
++       return false;
++#endif
+     int64_t nativeLength = uTextUTF16ContextAwareNativeLength(text);
+     UBool isAccessible;
+     if (uTextAccessInChunkOrOutOfRange(text, nativeIndex, nativeLength, forward, isAccessible))
+@@ -146,7 +150,11 @@ static UBool uTextUTF16ContextAwareAccess(UText* text, int64_t nativeIndex, UBoo
+         ASSERT(newContext == UTextProviderContext::PriorContext);
+         textUTF16ContextAwareSwitchToPriorContext(text, nativeIndex, nativeLength, forward);
+     }
+-    return TRUE;
++#ifdef TRUE
++        return TRUE;
++#else            
++        return true;
++#endif
+ }
+ 
+ static int32_t uTextUTF16ContextAwareExtract(UText*, int64_t, int64_t, UChar*, int32_t, UErrorCode* errorCode)
+-- 
+2.25.1
+
