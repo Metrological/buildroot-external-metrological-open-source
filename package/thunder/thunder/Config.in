@@ -79,11 +79,11 @@ menu "options"
 
     config BR2_PACKAGE_THUNDER_SYSTEM_PATH
         string "system path"
-        default "/usr/lib/thunder/plugins"
+        default "/usr/lib/WPEFramework/plugins"
 
     config BR2_PACKAGE_THUNDER_PROXYSTUB_PATH
         string "proxystub path"
-        default "/usr/lib/thunder/proxystubs"
+        default "/usr/lib/WPEFramework/proxystubs"
 
     config BR2_PACKAGE_THUNDER_TRACE_SETTINGS
         string "trace settings"
