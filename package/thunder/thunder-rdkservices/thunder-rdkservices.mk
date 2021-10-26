@@ -34,7 +34,9 @@ THUNDER_RDKSERVICES_CONF_OPTS += -DCOMCAST_CONFIG=OFF
 THUNDER_RDKSERVICES_PKGDIR = "$(BR2_EXTERNAL_ML_OSS_PATH)/package/thunder/thunder-rdkservices"
 
 define THUNDER_RDKSERVICES_APPLY_RDKCENTRAL_FIXES
- $(APPLY_PATCHES) $(@D) $(THUNDER_RDKSERVICES_PKGDIR) 9999-proxy_cast-Remove-proxy_cast-in-favour-of-the-constr.patch.conditional
+ $(APPLY_PATCHES) $(@D) $(THUNDER_RDKSERVICES_PKGDIR) 99991-proxy_cast-Remove-proxy_cast-in-favour-of-the-constr.patch.conditional
+ $(APPLY_PATCHES) $(@D) $(THUNDER_RDKSERVICES_PKGDIR) 99992-modified-webkitbrowser-plugin-to-enable-hang-detection-for.patch.conditional
+ $(APPLY_PATCHES) $(@D) $(THUNDER_RDKSERVICES_PKGDIR) 99993-Fix-IsOperational-signature.patch.conditional
 endef
 
 THUNDER_RDKSERVICES_POST_PATCH_HOOKS += THUNDER_RDKSERVICES_APPLY_RDKCENTRAL_FIXES

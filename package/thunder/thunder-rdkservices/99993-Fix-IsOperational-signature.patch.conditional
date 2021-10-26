@@ -1,0 +1,39 @@
+From 71ebb90566c29745ea0fa907fdc361f92fc36d7b Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <bram.oosterhuis.nl@gmail.com>
+Date: Tue, 26 Oct 2021 12:41:52 +0200
+Subject: [PATCH] Fix IsOperational signature
+
+---
+ OpenCDMi/OCDM.cpp                      | 2 +-
+ WebKitBrowser/WebKitImplementation.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/OpenCDMi/OCDM.cpp b/OpenCDMi/OCDM.cpp
+index ee6b420..c7595d6 100644
+--- a/OpenCDMi/OCDM.cpp
++++ b/OpenCDMi/OCDM.cpp
+@@ -58,7 +58,7 @@ namespace OCDM {
+             {
+                 return (IsOperational() ? 1 : 0);
+             }
+-            virtual const bool IsOperational() const
++            virtual bool IsOperational() const
+             {
+                 return _main.IsActive();
+             }
+diff --git a/WebKitBrowser/WebKitImplementation.cpp b/WebKitBrowser/WebKitImplementation.cpp
+index 6010539..c9120e2 100644
+--- a/WebKitBrowser/WebKitImplementation.cpp
++++ b/WebKitBrowser/WebKitImplementation.cpp
+@@ -2830,7 +2830,7 @@ namespace WebKitBrowser {
+             _children = Core::ProcessInfo::Iterator(_main.Id());
+             return ((_startTime == 0) || (_main.IsActive() == true) ? 1 : 0) + _children.Count();
+         }
+-        const bool IsOperational() const override
++        bool IsOperational() const override
+         {
+             uint32_t requiredProcesses = 0;
+ 
+-- 
+2.25.1
+
