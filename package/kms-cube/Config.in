@@ -1,5 +1,5 @@
 config BR2_PACKAGE_KMS_CUBE
-	bool "kmscube"
+	bool "kms-cube"
 	# requires libgbm from mesa3d
 	depends on BR2_PACKAGE_HAS_LIBEGL
 	depends on BR2_PACKAGE_HAS_LIBGLES
