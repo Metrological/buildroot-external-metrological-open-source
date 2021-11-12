@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-WPEBACKEND_RDK_VERSION = 6083f2b58f6a6e43ed4d51b1489b4d55425bda29
+WPEBACKEND_RDK_VERSION = 233de2dc6510e84f3b3231c4d0eb160445367720
 WPEBACKEND_RDK_SITE = $(call github,WebPlatformForEmbedded,WPEBackend-rdk,$(WPEBACKEND_RDK_VERSION))
 WPEBACKEND_RDK_INSTALL_STAGING = YES
 WPEBACKEND_RDK_DEPENDENCIES = wpebackend libglib2
@@ -24,7 +24,7 @@ ifeq ($(BR2_PACKAGE_THUNDER_COMPOSITORCLIENT), y)
     endif
 else
     ifeq ($(BR2_PACKAGE_GLUELOGIC_VIRTUAL_KEYBOARD),y)
-        WPEBACKEND_RDK_DEPENDENCIES += gluelogic 
+        WPEBACKEND_RDK_DEPENDENCIES += gluelogic
         WPEBACKEND_RDK_FLAGS += -DUSE_VIRTUAL_KEYBOARD=ON
     endif
 
@@ -61,10 +61,10 @@ else
             WPEBACKEND_RDK_FLAGS +=-DUSE_BACKEND_WPEFRAMEWORK=ON -DUSE_HOLE_PUNCH_GSTREAMER=OFF -DUSE_VIRTUAL_KEYBOARD=OFF -DUSE_INPUT_LIBINPUT=OFF
 
             ifeq ($(BR2_PACKAGE_WAYLAND)$(BR2_PACKAGE_WESTEROS),yy)
-               WPEBACKEND_RDK_DEPENDENCIES += wayland westeros wayland-egl-bnxs 
+               WPEBACKEND_RDK_DEPENDENCIES += wayland westeros wayland-egl-bnxs
             endif
         else
-            WPEBACKEND_RDK_FLAGS += -DUSE_BACKEND_BCM_NEXUS=ON 
+            WPEBACKEND_RDK_FLAGS += -DUSE_BACKEND_BCM_NEXUS=ON
             ifeq ($(BR2_PACKAGE_THUNDER_VIRTUALINPUT),y)
                 WPEBACKEND_RDK_FLAGS += -DUSE_INPUT_LIBINPUT=OFF
             else
