@@ -3,10 +3,10 @@
 # thunder
 #
 ################################################################################
-THUNDER_VERSION = a4b363a49cf81084d2a10e27eeff46d519e37a6d 
+THUNDER_VERSION = a4b363a49cf81084d2a10e27eeff46d519e37a6d
 THUNDER_SITE = $(call github,rdkcentral,Thunder,$(THUNDER_VERSION))
 THUNDER_INSTALL_STAGING = YES
-THUNDER_DEPENDENCIES = zlib $(call qstrip,$(BR2_PACKAGE_SDK_INSTALL)) host-thunder-tools
+THUNDER_DEPENDENCIES = zlib host-thunder-tools
 
 THUNDER_CONF_OPTS += -DBUILD_REFERENCE=$(THUNDER_VERSION) -DTREE_REFERENCE=$(shell $(GIT) rev-parse HEAD)
 THUNDER_CONF_OPTS += -DPORT=$(BR2_PACKAGE_THUNDER_PORT)
@@ -31,6 +31,10 @@ THUNDER_CONF_OPTS += -DHIDE_NON_EXTERNAL_SYMBOLS=OFF
 ifeq ($(BR2_CMAKE_HOST_DEPENDENCY),)
 THUNDER_CONF_OPTS += \
        -DCMAKE_MODULE_PATH=$(HOST_DIR)/share/cmake/Modules
+endif
+
+ifeq ($(BR2_PACKAGE_HAS_SDK),y)
+	THUNDER_DEPENDENCIES += $(call qstrip,$(BR2_PACKAGE_SDK_INSTALL))
 endif
 
 ifeq ($(BR2_PACKAGE_THUNDER_EXCEPTIONS_ENABLE),y)
