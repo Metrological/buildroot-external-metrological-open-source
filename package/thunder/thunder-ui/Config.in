@@ -1,6 +1,0 @@
-config BR2_PACKAGE_THUNDER_UI
-    bool "UI"
-    default y
-    depends on BR2_PACKAGE_THUNDER
-    help
-        WPE Framework User Interface for development and testing

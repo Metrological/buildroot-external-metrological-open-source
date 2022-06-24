@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-for d in `find -maxdepth 3 -type f`
-do
-    sed -i -e 's/BR2_EXTERNAL_ML_OSS_PATH/BR2_EXTERNAL_ML_OSS_PATH/g' $d
-done 

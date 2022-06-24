@@ -6,13 +6,13 @@
 
 WESTEROS_SOC_VERSION = 23a65d1fa48f6d82d51c3cb6cd08bf403f95187d
 WESTEROS_SOC_SITE_METHOD = git
-WESTEROS_SOC_SITE = git://github.com/rdkcmf/westeros
+WESTEROS_SOC_SITE = https://github.com/rdkcmf/westeros
 WESTEROS_SOC_INSTALL_STAGING = YES
 
 WESTEROS_SOC_DEPENDENCIES = host-pkgconf host-autoconf wayland libegl
 
-ifeq ($(BR2_PACKAGE_THUNDER_PLATFORM),y)
-	WESTEROS_SOC_DEPENDENCIES += thunder-platform
+ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_PLATFORM),y)
+	WESTEROS_SOC_DEPENDENCIES += wpeframework-platform
 endif
 
 WESTEROS_SOC_CONF_OPTS += \

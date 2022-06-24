@@ -1,5 +1,0 @@
-config BR2_PACKAGE_THUNDER_AVNCLIENT
-	bool "AVNClient"
-	depends on BR2_PACKAGE_AVN_CLIENT
-	help
-	   WPE Platform AVNClient plugin

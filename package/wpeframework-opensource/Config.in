@@ -1,0 +1,11 @@
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-clientlibraries/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-devtools/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-interfaces/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-launcher/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-libraries/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-plugins/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-rdkservices/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-tools/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-ui/Config.in"
+

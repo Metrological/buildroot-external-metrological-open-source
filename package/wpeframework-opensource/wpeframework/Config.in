@@ -1,0 +1,383 @@
+config BR2_PACKAGE_WPEFRAMEWORK
+    bool "wpeframework"
+    help
+      WPE Framework
+
+if BR2_PACKAGE_WPEFRAMEWORK
+
+menu "Options"
+
+choice BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE
+    prompt "Build type"
+    default BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE_RELEASE
+    help
+      Select the type of build you want to use.
+
+config BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE_DEBUG
+    bool "Debug"
+    help
+     This build type is with: traces, callstacks, symbols, asserts; without: optimizations.
+
+config BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE_DEBUG_OPTIMIZED
+    bool "Debug optimized"
+    help
+     This build type is with: traces, callstacks, symbols, asserts.
+
+config BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE_RELEASE_WITH_SYMBOLS
+    bool "Release with symbols"
+    help
+      This build type is with: callstacks, symbols; without: asserts, traces.
+
+config BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE_RELEASE
+    bool "Release"
+    help
+      This build type is with: callstacks; without: asserts, traces, symbols.
+
+config BR2_PACKAGE_WPEFRAMEWORK_BUILD_TYPE_PRODUCTION
+    bool "Production"
+    help
+      This build type is without: traces, callstacks, symbols, asserts.
+
+endchoice
+
+config BR2_PACKAGE_WPEFRAMEWORK_CREATE_IPKG_TARGETS
+    bool "create ipkg targets"
+    select BR2_PACKAGE_HOST_OPKG_UTILS
+    depends on BR2_PACKAGE_WPEFRAMEWORK_PACKAGER
+    help
+        Creates from configured targets, a DEBIAN 2.0 (ipk, opk, deb) packages. Configured packages will install theirs
+        staging file, but not target files on the root filesystem
+
+config BR2_PACKAGE_WPEFRAMEWORK_PORT
+    string "port"
+    default "80"
+
+config BR2_PACKAGE_WPEFRAMEWORK_BIND
+    string "bind"
+    default "0.0.0.0"
+
+config BR2_PACKAGE_WPEFRAMEWORK_INTERFACE
+    string "interface"
+    default ""
+
+config BR2_PACKAGE_WPEFRAMEWORK_ETHERNETCARD_NAME
+    string "ethernet card name"
+    default "eth0"
+
+config BR2_PACKAGE_WPEFRAMEWORK_IDLE_TIME
+    string "idle-time"
+    default "180"
+
+config BR2_PACKAGE_WPEFRAMEWORK_SOFT_KILL_CHECK_WAIT
+    string "soft-kill-chek-waittime"
+    default "10"
+
+config BR2_PACKAGE_WPEFRAMEWORK_HARD_KILL_CHECK_WAIT
+    string "hard-kill-chek-waittime"
+    default "4"
+
+config BR2_PACKAGE_WPEFRAMEWORK_PERSISTENT_PATH
+    string "persistent path"
+    default "/root"
+
+config BR2_PACKAGE_WPEFRAMEWORK_VOLATILE_PATH
+    string "volatile path"
+    default "/tmp"
+
+config BR2_PACKAGE_WPEFRAMEWORK_DATA_PATH
+    string "data path"
+    default "/usr/share/WPEFramework"
+
+config BR2_PACKAGE_WPEFRAMEWORK_SYSTEM_PATH
+    string "system path"
+    default "/usr/lib/wpeframework/plugins"
+
+config BR2_PACKAGE_WPEFRAMEWORK_PROXYSTUB_PATH
+    string "proxystub path"
+    default "/usr/lib/wpeframework/proxystubs"
+
+config BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
+    bool "Use new messaging"
+    default n
+    help
+      Use a new version of messaging - tracing + logging
+
+config BR2_PACKAGE_WPEFRAMEWORK_MESSAGE_SETTINGS
+    depends on BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
+    string "message settings"
+    default ""
+
+config BR2_PACKAGE_WPEFRAMEWORK_TRACE_SETTINGS
+    depends on !BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
+    string "trace settings"
+    default ""
+
+config BR2_PACKAGE_WPEFRAMEWORK_OOM_ADJUST
+    string "oom-adjust"
+    default ""
+
+config BR2_PACKAGE_WPEFRAMEWORK_UMASK
+    string "umask"
+    default ""
+    help
+      Set the umask for new files created by Thunder
+      e.g. 0022 will not set the write permission for group and others
+
+config BR2_PACKAGE_WPEFRAMEWORK_GROUP
+    string "group"
+    default ""
+    help
+      Set a system group that need to the used by Thunder
+
+config BR2_PACKAGE_WPEFRAMEWORK_SYSTEM_PREFIX
+    string "system prefix"
+    default ""
+
+config BR2_PACKAGE_WPEFRAMEWORK_HIDE_NON_EXTERNAL_SYMBOLS
+    bool "hide non external symbols"
+    default y
+
+config BR2_PACKAGE_WPEFRAMEWORK_ENABLE_STRICT_COMPILER
+    bool "enable strict compiler settings"
+    default y
+
+config BR2_PACKAGE_WPEFRAMEWORK_EXCEPTIONS_ENABLE
+    bool "exceptions on"
+    default n
+
+config BR2_PACKAGE_WPEFRAMEWORK_PERFORMANCE_MONITOR
+    bool "performance monitor on"
+    default n
+
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-devtools/Config.in"
+
+endmenu
+
+menu "Extensions"
+
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_BROADCAST
+    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES
+    bool "Broadcast"
+        default n
+    help
+      Abstraction on QAM tuner and PSI/SI parser functionality.
+
+if BR2_PACKAGE_WPEFRAMEWORK_BROADCAST
+config BR2_PACKAGE_WPEFRAMEWORK_BROADCAST_SI_PARSING
+    bool "SI Parsing"
+        default n
+    help
+      Enable functionality to automatically parse SI information on the
+          tuned streams.
+endif
+
+config BR2_PACKAGE_WPEFRAMEWORK_CDM
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "CDM"
+    help
+      CDM client support compatible with OpenCDM
+
+config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITORCLIENT
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "CompositorClient"
+        default y
+    help
+      A graphical/input abstraction. This library is included in micro services that requires user
+          interaction (Graphics/input). The implementation hides all the compositor specific details.
+      allows for relaying keys to plugins
+
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIOSINK
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "BluetoothAudioSink"
+        default n
+    help
+      C-interface towards BluetoothAudioSink plugin for controlling the Bluetooth sink and supplying audio data samples
+
+if BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIOSINK
+
+if BR2_PACKAGE_GSTREAMER1
+config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIOSINK_GSTREAMERSINK
+    select BR2_PACKAGE_GST1_BLUETOOTHAUDIOSINK
+    bool "GStreamer audio sink"
+    default n
+endif
+
+config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIOSINK_EXAMPLEPLAYER
+    bool "Example .wav player"
+    default y
+endif
+
+config BR2_PACKAGE_WPEFRAMEWORK_GSTREAMERCLIENT
+        select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+        bool "GstreamerClient"
+        default n
+        help
+          Gstreamer client provides custom APIs to manipulate underneath stream sinks which will be linked with created pipeline.
+          This implementation will vary based on custom platforms and sink backends.
+
+config BR2_PACKAGE_WPEFRAMEWORK_DISPLAYINFO
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "DisplayInfo"
+        default y
+    help
+        A helpful C-interface to easily get information from the DisplayInfo plugin.
+
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "Cryptography"
+        default n
+    help
+      Abstraction on generic cryptography functionality.
+
+if BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY
+choice BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION
+	prompt "Implementation"
+	default BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_OPENSSL
+	help
+	  Choose implementation
+
+config BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_THUNDER
+	bool "Thunder"
+	help
+	  Use Thunder as cryptography backend.
+
+config BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_OPENSSL
+	bool "OpenSSL"
+	depends on BR2_PACKAGE_OPENSSL
+	help
+	  Use OpenSSL as cryptography backend.
+
+config BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_NEXUS
+	bool "Nexus"
+	depends on BR2_PACKAGE_HAS_NEXUS
+	help
+	  Use Nexus as cryptography backend.
+endchoice
+
+if BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_NEXUS
+menu "Nexus Implemention Options"
+choice BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_NEXUS_IMPLEMENTATION
+	prompt "Implementation"
+	default BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_NEXUS_DRM_BASED
+	help
+	  Choose Nexus implementation type
+
+config BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_NEXUS_DRM_BASED
+	bool "DRM based"
+	help
+	  Use DRM based implementation.
+
+config BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_NEXUS_COMMAND_BASED
+	bool "TEE Command based"
+	help
+	  Use TEE Command based implementation
+endchoice
+endmenu
+endif
+endif
+
+config BR2_PACKAGE_WPEFRAMEWORK_WARNING_REPORTING
+    bool "DefensiveWarnings"
+    default n
+    help
+      Add a defensive warning system to the Thunder. It increases the footprint
+      of the Thunder application but it allows for profiling and early warning
+      on misbahving plugins. This feature should be used at least once before
+      creating a production build to get a feeling on the behaviour of new
+      plugins. They should not raise any warnings here !!!
+
+config BR2_PACKAGE_WPEFRAMEWORK_EXCEPTION_CATCHING
+    bool "ExceptionCatching"
+    default n
+    help
+      Some plugins are developed with Exception handling turned on. If an exception
+      is not caught in the plugin it ends up in the framework. This feature tries 
+      to recover from these uncaught execptions. If it happens on a workerpool thread
+      the framework will catch it, report it and continue. If the exception is thrown
+      from a thread not under control of the framework it reports and shutsdown the
+      framework. There is no possibility to recover from it.
+
+config BR2_PACKAGE_WPEFRAMEWORK_PROVISIONPROXY
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "ProvisionProxy"
+    select BR2_PACKAGE_LIBPROVISION
+    help
+      Allows provisioning of modules from the cloud.
+
+config BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS
+    bool "Process Containers"
+        default n
+    help
+      Enable ability to start a containerized nanoservices
+
+if BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS
+
+choice BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS_BE
+    prompt "Containers backend"
+    default BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS_BE_LXC
+    help
+        Select which container framework to use as a backend
+
+config BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS_BE_LXC
+    bool "LXC"
+    select BR2_PACKAGE_LXC
+    select BR2_PACKAGE_CGROUPFS_MOUNT
+
+config BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS_BE_RUNC
+    bool "RunC"
+    select BR2_PACKAGE_RUNC
+    select BR2_PACKAGE_CGROUPFS_MOUNT
+
+config BR2_PACKAGE_WPEFRAMEWORK_PROCESSCONTAINERS_BE_CRUN
+    bool "CRun"
+    select BR2_PACKAGE_CRUN
+    select BR2_PACKAGE_CGROUPFS_MOUNT
+
+endchoice
+
+endif
+
+config BR2_PACKAGE_WPEFRAMEWORK_SECURE_SOCKET
+    bool "SecureSocket"
+    select BR2_PACKAGE_OPENSSL
+    help
+      Adds a Secure Socket implementation (dependency OpenSSL)
+
+
+config BR2_PACKAGE_WPEFRAMEWORK_SECURITYAGENT_ACCESSOR
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "SecurityAgent"
+    help
+      Allows external access to the Security Agent, through a C interface.
+
+config BR2_PACKAGE_WPEFRAMEWORK_VIRTUALINPUT
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "VirtualInput"
+    help
+      If the dynamic uinput system can not be used for security reasons, this
+      allows for relaying keys to plugins
+
+config BR2_PACKAGE_WPEFRAMEWORK_INSTALL_INITD_DEPRECATED
+    bool "Init.d script from package config (deprecated)"
+    help
+      Install thunder config file from buildroot package config folder"
+endmenu
+
+menu "Plugins"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-plugins/Config.in"
+source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-amazon/Config.in"
+source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-avnclient/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-launcher/Config.in"
+source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-netflix/Config.in"
+source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-playgiga/Config.in"
+source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-provisioning/Config.in"
+source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-spotify/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-ui/Config.in"
+endmenu
+
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-interfaces/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-clientlibraries/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-libraries/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-rdkservices/Config.in"
+
+endif

@@ -4,11 +4,11 @@
 #
 ################################################################################
 
-COBALT_VERSION = 2a5904e00679b00c62cb9966b6f199a5be4983ed
+COBALT_VERSION = 1ce72e8929579921868c9d87a0ba4128cc88d9e9
 COBALT_SITE_METHOD = git
 COBALT_SITE = git@github.com:Metrological/cobalt
 COBALT_INSTALL_STAGING = YES
-COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja thunder-clientlibraries
+COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja wpeframework-clientlibraries
 
 export COBALT_STAGING_DIR=$(STAGING_DIR)
 export COBALT_TOOLCHAIN_PREFIX=$(TARGET_CROSS)
@@ -24,13 +24,13 @@ else
 COBALT_PLATFORM = wpe-rpi
 endif
 
-ifeq ($(BR2_PACKAGE_THUNDER_CDM),y)
+ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_CDM),y)
 export COBALT_HAS_OCDM=1
 else
 export COBALT_HAS_OCDM=0
 endif
 
-ifeq ($(BR2_PACKAGE_THUNDER_PROVISIONPROXY),y)
+ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_PROVISIONPROXY),y)
 export COBALT_HAS_PROVISION=1
 else
 export COBALT_HAS_PROVISION=0
