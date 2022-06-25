@@ -149,7 +149,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_PERFORMANCE_MONITOR
     bool "performance monitor on"
     default n
 
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-devtools/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-devtools/Config.in"
 
 endmenu
 
@@ -362,22 +362,5 @@ config BR2_PACKAGE_WPEFRAMEWORK_INSTALL_INITD_DEPRECATED
     help
       Install thunder config file from buildroot package config folder"
 endmenu
-
-menu "Plugins"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-plugins/Config.in"
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-amazon/Config.in"
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-avnclient/Config.in"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-launcher/Config.in"
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-netflix/Config.in"
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-playgiga/Config.in"
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-provisioning/Config.in"
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-spotify/Config.in"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-ui/Config.in"
-endmenu
-
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-interfaces/Config.in"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-clientlibraries/Config.in"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-libraries/Config.in"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework/wpeframework-rdkservices/Config.in"
 
 endif

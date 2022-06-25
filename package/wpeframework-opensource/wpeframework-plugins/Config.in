@@ -254,7 +254,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_CDMI_GROUP
         run OpenCDM as this group, leave empty to use the same as
         WPEframework
 
-source "$BR2_EXTERNAL_ML_CSS_PATH/package/wpeframework/wpeframework-cdmi/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-cdmi/Config.in"
 endif
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_COBALT
