@@ -1,5 +1,7 @@
 config BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     bool
+    select BR2_PACKAGE_WPEFRAMEWORK
+    select BR2_PACKAGE_WPEFRAMEWORK_INTERFACES
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_AVS
   bool "AVS"
@@ -235,7 +237,7 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_CDMI
     bool "CDMi"
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     select BR2_PACKAGE_WPEFRAMEWORK_CDM
-    default y
+    default y if BR2_PACKAGE_WPEFRAMEWORK
     help
      A CDM server plugin to interact with CDMi plugins.
 
@@ -504,7 +506,7 @@ endif
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_DEVICEINFO
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "DeviceInfo"
-    default y
+    default y if BR2_PACKAGE_WPEFRAMEWORK 
     help
       DeviceInfo Plugin
 
@@ -535,7 +537,7 @@ endif
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_DEVICEIDENTIFICATION
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "DeviceIdentification"
-    default y if BR2_PACKAGE_HAS_NEXUS
+    default y if BR2_PACKAGE_WPEFRAMEWORK && BR2_PACKAGE_HAS_NEXUS
     help
       DeviceIdentification Plugin
 
@@ -553,7 +555,7 @@ endif
 config BR2_PACKAGE_WPEFRAMEWORK_DISPLAYINFO
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     bool "DisplayInfo"
-    default y
+    default y if BR2_PACKAGE_WPEFRAMEWORK
     help
       DisplayInfo Plugin
 
@@ -834,7 +836,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_PERFORMANCE_MONITOR
 config BR2_PACKAGE_WPEFRAMEWORK_PLAYERINFO
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     bool "PlayerInfo"
-    default y
+    default y if BR2_PACKAGE_WPEFRAMEWORK
     help
       PlayerInfo Plugin provide the information about the platform codec supports
 
@@ -1228,17 +1230,26 @@ config BR2_PACKAGE_WPEFRAMEWORK_TUNER
 
 config BR2_PACKAGE_WPEFRAMEWORK_TRACECONTROL
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
+    depends on !BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
     bool "TraceControl"
+    default y if BR2_PACKAGE_WPEFRAMEWORK && !BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
     help
       TraceControl Plugin
+
+comment "TraceControl will not work with new Messaging" 
+    depends on BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
 
 config BR2_PACKAGE_WPEFRAMEWORK_MESSAGECONTROL
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     depends on BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
     bool "MessageControl"
+    default y if BR2_PACKAGE_WPEFRAMEWORK && BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
     help
         MessageControl Plugin
-    
+
+comment "MessageControl needs Messaging" 
+    depends on !BR2_PACKAGE_WPEFRAMEWORK_MESSAGING 
+
 config BR2_PACKAGE_WPEFRAMEWORK_WARNINGREPORTINGCONTROL
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     depends on BR2_PACKAGE_WPEFRAMEWORK_WARNING_REPORTING

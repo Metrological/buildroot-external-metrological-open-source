@@ -1,6 +1,9 @@
 config BR2_PACKAGE_WPEFRAMEWORK_UI
-	bool "UI"
-	default y
-
+	bool "WPEFramework WebUI"
+    depends on BR2_PACKAGE_WPEFRAMEWORK
+    default y if BR2_PACKAGE_WPEFRAMEWORK
 	help
 	   WPE Framework User Interface for development and testing
+
+comment "WPEFramework WebUI needs wpeframework"
+	depends on !BR2_PACKAGE_WPEFRAMEWORK

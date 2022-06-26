@@ -1,3 +1,4 @@
 config BR2_PACKAGE_WPEFRAMEWORK_INTERFACES
     bool
-    default y
+    depends on BR2_PACKAGE_WPEFRAMEWORK
+    default y if BR2_PACKAGE_WPEFRAMEWORK
