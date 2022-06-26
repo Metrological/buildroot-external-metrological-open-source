@@ -30,7 +30,6 @@ comment "wpewebkit needs OpenGL ES and EGL"
 
 config BR2_PACKAGE_WPEWEBKIT_ML
 	bool "wpewebkit"
-	default y
 	depends on !BR2_STATIC_LIBS # wayland
 	depends on !BR2_BINFMT_FLAT # icu
 	depends on BR2_INSTALL_LIBSTDCPP # harfbuzz, icu
