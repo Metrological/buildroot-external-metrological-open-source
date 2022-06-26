@@ -5,7 +5,7 @@
 ################################################################################
 WPEFRAMEWORK_UI_VERSION = R3.2
 WPEFRAMEWORK_UI_SITE = $(call github,rdkcentral,ThunderUI,$(WPEFRAMEWORK_UI_VERSION))
-WPEFRAMEWORK_UI_DEPENDENCIES = wpeframework wpeframework-plugins
+WPEFRAMEWORK_UI_DEPENDENCIES = wpeframework
 
 WPEFRAMEWORK_UI_INSTALL_STAGING = NO
 WPEFRAMEWORK_UI_INSTALL_TARGET = YES
