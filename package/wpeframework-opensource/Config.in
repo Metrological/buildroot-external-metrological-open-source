@@ -1,9 +1,13 @@
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework/Config.in"
 
 menu "WPEFramework Plugins"
+depends on BR2_PACKAGE_WPEFRAMEWORK
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-plugins/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-launcher/Config.in"
 endmenu
+
+comment "WPEFramework Plugins needs wpeframework"
+depends on !BR2_PACKAGE_WPEFRAMEWORK
 
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-ui/Config.in"
 
