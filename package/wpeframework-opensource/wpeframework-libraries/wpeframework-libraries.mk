@@ -3,7 +3,7 @@
 # wpeframework-libraries
 #
 ################################################################################
-WPEFRAMEWORK_LIBRARIES_VERSION = 67949569a152aaed46d2b67bfe3a49d1d9854d2e
+WPEFRAMEWORK_LIBRARIES_VERSION = 094ff18ab630232b3dc7906e3fdce4a1ba6f7b47
 WPEFRAMEWORK_LIBRARIES_SITE_METHOD = git
 WPEFRAMEWORK_LIBRARIES_SITE = git@github.com:WebPlatformForEmbedded/ThunderLibraries.git
 WPEFRAMEWORK_LIBRARIES_INSTALL_STAGING = YES
@@ -18,7 +18,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH),y)
 WPEFRAMEWORK_LIBRARIES_CONF_OPTS += -DBLUETOOTH=ON
-WPEFRAMEWORK_LIBRARIES_DEPENDENCIES += bluez5_utils
+WPEFRAMEWORK_LIBRARIES_DEPENDENCIES += bluez5_utils-headers
 endif
 
 $(eval $(cmake-package))

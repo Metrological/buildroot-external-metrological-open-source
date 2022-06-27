@@ -129,7 +129,7 @@ endif
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
     bool "BluetoothControl"
     select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES
-    select BR2_PACKAGE_BLUEZ5_UTILS
+    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
     default n
     help
       A Bluetooth plugin to interact with Bluetooth devices.
@@ -1264,7 +1264,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_VOLUMECONTROL
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "WebKitBrowser"
-    depends on BR2_PACKAGE_WPEWEBKIT
+    depends on BR2_PACKAGE_WPEWEBKIT || BR2_PACKAGE_WPEWEBKIT_ML 
     help
       WebKitBrowser Plugin
 
