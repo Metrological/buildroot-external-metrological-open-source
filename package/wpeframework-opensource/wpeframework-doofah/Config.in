@@ -1,0 +1,50 @@
+comment "WPEFramework Doofah plugin needs wpeframework"
+	depends on !BR2_PACKAGE_WPEFRAMEWORK
+
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_DOOFAH
+    bool "Doofah"
+    depends on BR2_PACKAGE_WPEFRAMEWORK
+    help
+    	Plugin to act as a remote control on your test
+    	workbench
+
+if BR2_PACKAGE_WPEFRAMEWORK_DOOFAH 
+config BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_AUTOSTART
+    bool "Start Automatically"
+    default y
+    help
+      Select this to start the plugin automatically when starting WPEFramework
+
+config BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_ENDPOINT
+    string "Specific end-point"
+    help
+      Set a specific device address to do 
+
+config BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_CONNECTOR_CONFIG
+    string "Connector config"
+    help
+      Set a custom connector configutarion 
+
+choice BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_PERIPHERAL
+    default BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_PERIPHERAL_ROOT
+    prompt "peripheral"
+    help
+      Select the peripheral you want to use as an endpoint
+
+config BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_PERIPHERAL_BLE
+    bool "BLE"
+    help
+      Set the bluetooth low energy as the the endpoint
+
+config BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_PERIPHERAL_IR
+    bool "IR"
+    help
+      Set the infrared as the the endpoint
+
+config BR2_PACKAGE_WPEFRAMEWORK_DOOFAH_PERIPHERAL_ROOT
+    bool "root"
+    help
+      Set the root device as the the endpoint
+
+endchoice
+endif
