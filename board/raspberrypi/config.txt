@@ -1,0 +1,51 @@
+# Please note that this is only a sample, we recommend you to change it to fit
+# your needs.
+# You should override this file using BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE.
+# See http://buildroot.org/manual.html#rootfs-custom
+# and http://elinux.org/RPiconfig for a description of config.txt syntax
+
+### BOOT ######################################################################
+start_file=start4.elf
+fixup_file=fixup4.dat
+
+kernel=Image
+
+# Silent
+disable_splash=1
+boot_delay=0
+
+# enable 64bits support
+arm_64bit=1
+
+### DISPLAY ###################################################################
+# Disable overscan assuming the display supports displaying the full resolution
+# If the text shown on the screen disappears off the edge, comment this out
+disable_overscan=1
+
+# How much memory in MB to assign to the GPU on Pi models having
+# 256, 512 or 1024 MB total memory
+gpu_mem_256=128
+gpu_mem_512=384
+gpu_mem_1024=512
+
+# Force 1080p
+hdmi_group=1
+hdmi_mode=16
+
+# Automatically load overlays for detected DSI displays
+display_auto_detect=1
+
+# Enable DRM VC4 V3D driver
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
+
+### HARDWARE ##################################################################
+# Enable audio (loads snd_bcm2835)
+dtparam=audio=on
+
+# Automatically load overlays for detected cameras
+camera_auto_detect=1
+
+[pi4]
+# Run as fast as firmware / board allows
+arm_boost=1
