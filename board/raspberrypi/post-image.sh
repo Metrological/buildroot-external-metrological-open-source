@@ -129,7 +129,7 @@ __EOF__
 		cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
 # Add VC4 GPU support
-dtoverlay=vc4-kms-v3d-pi4
+dtoverlay=vc4-kms-v3d
 __EOF__
 		;;
                 --silent)
