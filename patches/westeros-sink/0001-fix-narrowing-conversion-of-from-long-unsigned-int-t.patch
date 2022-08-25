@@ -1,0 +1,30 @@
+From b3b828a4093b28966e56737f25f44220a24be774 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <mail@bybram.com>
+Date: Thu, 25 Aug 2022 00:07:01 +0200
+Subject: [PATCH] =?UTF-8?q?fix:=20narrowing=20conversion=20of=20from=20?=
+ =?UTF-8?q?=E2=80=98long=20unsigned=20int=E2=80=99=20to=20=E2=80=98int?=
+ =?UTF-8?q?=E2=80=99?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ westeros-sink/v4l2/westeros-sink-soc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/westeros-sink/v4l2/westeros-sink-soc.c b/westeros-sink/v4l2/westeros-sink-soc.c
+index e417993..5812432 100644
+--- a/westeros-sink/v4l2/westeros-sink-soc.c
++++ b/westeros-sink/v4l2/westeros-sink-soc.c
+@@ -6517,7 +6517,7 @@ static int ioctl_wrapper( int fd, int request, void* arg )
+    level= gst_debug_category_get_threshold( gst_westeros_sink_debug );
+    if ( level >= GST_LEVEL_LOG )
+    {
+-      switch( request )
++      switch( static_cast<long unsigned int>(request) )
+       {
+          case VIDIOC_QUERYCAP: req= "VIDIOC_QUERYCAP"; break;
+          case VIDIOC_ENUM_FMT: req= "VIDIOC_ENUM_FMT"; break;
+-- 
+2.34.1
+
