@@ -1,0 +1,29 @@
+From f1dd5b33ad4910fec92962ca12bf050c4a7188cd Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <bram.oosterhuis.nl@gmail.com>
+Date: Wed, 7 Sep 2022 18:38:31 +0200
+Subject: [PATCH] =?UTF-8?q?fix=20error:=20expected=20unqualified-id=20befo?=
+ =?UTF-8?q?re=20=E2=80=98[=E2=80=99=20token?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ MediaSession.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/MediaSession.h b/MediaSession.h
+index ee23667..2239e2c 100644
+--- a/MediaSession.h
++++ b/MediaSession.h
+@@ -39,6 +39,8 @@
+ #undef __in
+ #undef __out
+ 
++#undef __reserved
++
+ #include <string.h>
+ #include <memory>
+ #include <interfaces/IDRM.h>
+-- 
+2.34.1
+
