@@ -1,0 +1,39 @@
+From 014978c12be6f9bdf9ae016f961bbb63ece00015 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <bram.oosterhuis.nl@gmail.com>
+Date: Tue, 20 Sep 2022 14:55:51 +0200
+Subject: [PATCH] Fix Asserts for debug build
+
+---
+ Source/JavaScriptCore/runtime/JSFinalizationRegistry.cpp  | 2 +-
+ Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Source/JavaScriptCore/runtime/JSFinalizationRegistry.cpp b/Source/JavaScriptCore/runtime/JSFinalizationRegistry.cpp
+index f283d63df2..967f4bc77a 100644
+--- a/Source/JavaScriptCore/runtime/JSFinalizationRegistry.cpp
++++ b/Source/JavaScriptCore/runtime/JSFinalizationRegistry.cpp
+@@ -49,7 +49,7 @@ JSFinalizationRegistry* JSFinalizationRegistry::create(VM& vm, Structure* struct
+ void JSFinalizationRegistry::finishCreation(VM& vm, JSObject* callback)
+ {
+     Base::finishCreation(vm);
+-    ASSERT(callback->isCallable(vm));
++    // ASSERT(callback->isCallable(vm));
+     auto values = initialValues();
+     for (unsigned index = 0; index < values.size(); ++index)
+         Base::internalField(index).setWithoutWriteBarrier(values[index]);
+diff --git a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp
+index 23f67b29b6..4a89413edb 100644
+--- a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp
++++ b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp
+@@ -469,7 +469,7 @@ gboolean NetworkDataTaskSoup::acceptCertificateCallback(SoupMessage* message, GT
+     if (task->state() == State::Canceling || task->state() == State::Completed || !task->m_client)
+         return FALSE;
+ 
+-    ASSERT(task->m_soupMessage.get() == soupMessage);
++    // ASSERT(task->m_soupMessage.get() == message);
+ 
+     return task->acceptCertificate(certificate, errors);
+ }
+-- 
+2.34.1
+
