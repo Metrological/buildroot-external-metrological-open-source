@@ -1,0 +1,6 @@
+menu "amazon alexa"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/amazon-alexa-opensource/alexa-smart-screen-sdk/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/amazon-alexa-opensource/apl-client-library/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/amazon-alexa-opensource/apl-core-library/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/amazon-alexa-opensource/avs-device-sdk/Config.in"
+endmenu
