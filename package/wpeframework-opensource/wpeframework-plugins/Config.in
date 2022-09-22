@@ -305,7 +305,7 @@ if BR2_PACKAGE_WPEFRAMEWORK_CDMI
 
     config BR2_PACKAGE_WPEFRAMEWORK_CDMI_GROUP
         string "group"
-        default ""
+        default BR2_PACKAGE_WPEFRAMEWORK_GROUP
         help
             run OpenCDM as this group, leave empty to use the same as
             WPEframework
@@ -373,7 +373,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_COBALT_USER
 
 config BR2_PACKAGE_WPEFRAMEWORK_COBALT_GROUP
     string "group"
-    default ""
+    default BR2_PACKAGE_WPEFRAMEWORK_GROUP
     help
         run Cobalt under this group, leave empty to use the same as
         WPEframework
@@ -560,6 +560,7 @@ endif
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_DEVICEINFO
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "DeviceInfo"   
+    default y
     help
       DeviceInfo Plugin
 
@@ -590,6 +591,7 @@ endif
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_DEVICEIDENTIFICATION
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "DeviceIdentification"
+    default y if BR2_PACKAGE_HAS_NEXUS
     help
       DeviceIdentification Plugin
 
@@ -607,6 +609,7 @@ endif
 config BR2_PACKAGE_WPEFRAMEWORK_DISPLAYINFO
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     bool "DisplayInfo"
+    default y
     help
       DisplayInfo Plugin
 
@@ -1390,7 +1393,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_USER
 
 config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_GROUP
     string "group"
-    default ""
+    default BR2_PACKAGE_WPEFRAMEWORK_GROUP
     help
         run WebKitBrowser as this group, leave empty to use the same as
         WPEframework

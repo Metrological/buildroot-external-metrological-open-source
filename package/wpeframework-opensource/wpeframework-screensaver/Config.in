@@ -1,0 +1,17 @@
+comment "WPEFramework ScreenSaver plugin needs compositorclient"
+	depends on !BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_COMPOSITORCLIENT
+
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_SCREENSAVER
+    bool "Screensaver"
+    depends on BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_COMPOSITORCLIENT
+    help
+    	Plugin to test EGL using compositorclients
+
+if BR2_PACKAGE_WPEFRAMEWORK_SCREENSAVER
+config BR2_PACKAGE_WPEFRAMEWORK_SCREENSAVER_AUTOSTART
+    bool "Start Automatically"
+    default y
+    help
+      Select this to start the plugin automatically when starting WPEFramework
+
+endif

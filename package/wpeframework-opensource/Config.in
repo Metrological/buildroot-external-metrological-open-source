@@ -4,6 +4,7 @@ menu "WPEFramework Plugins"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-plugins/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-launcher/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-doofah/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-screensaver/Config.in"
 endmenu
 
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-ui/Config.in"
