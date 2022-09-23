@@ -9,19 +9,6 @@ Subject: [PATCH 1/2] 64bit gcc10 fixes
  .../wpe/shared/audio_sink/gstreamer_audio_sink_type.cc        | 4 ++--
  3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/src/cobalt/browser/memory_settings/auto_mem.cc b/src/cobalt/browser/memory_settings/auto_mem.cc
-index 02e7140fec..566332181c 100644
---- a/src/cobalt/browser/memory_settings/auto_mem.cc
-+++ b/src/cobalt/browser/memory_settings/auto_mem.cc
-@@ -100,7 +100,7 @@ std::unique_ptr<MemorySettingType> CreateMemorySetting(
-       new MemorySettingType(setting_name));
-   SetMemorySetting(command_line_setting, build_setting, autoset_value,
-                    output.get());
--  return std::move(output);
-+  return output;
- }
- 
- std::unique_ptr<IntSetting> CreateSystemMemorySetting(
 diff --git a/src/starboard/shared/linux/cpu_features_get.cc b/src/starboard/shared/linux/cpu_features_get.cc
 index 3f5b98b081..6dd2c5963c 100644
 --- a/src/starboard/shared/linux/cpu_features_get.cc
