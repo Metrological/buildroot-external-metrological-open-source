@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-COBALT_VERSION = 1ce72e8929579921868c9d87a0ba4128cc88d9e9
+COBALT_VERSION = 3ba98a48be9cc4d6a8cc04d74e85ca9f830e13ee
 COBALT_SITE_METHOD = git
 COBALT_SITE = git@github.com:Metrological/cobalt
 COBALT_INSTALL_STAGING = YES
@@ -21,7 +21,12 @@ ifeq ($(BR2_PACKAGE_HAS_NEXUS),y)
 COBALT_PLATFORM = wpe-brcm-arm
 COBALT_DEPENDENCIES += gst1-bcm
 else
+ifeq ($(BR2_ARCH_IS_64),y)
+COBALT_PLATFORM = wpe-rpi64
+else
 COBALT_PLATFORM = wpe-rpi
+endif
+
 endif
 
 ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_CDM),y)
