@@ -3,7 +3,7 @@
 # wpeframework-screensaver
 #
 ################################################################################
-WPEFRAMEWORK_SCREENSAVER_VERSION = 0b1f5ad9412ab5b7ab19d91059b01b7677547da9
+WPEFRAMEWORK_SCREENSAVER_VERSION = 04ae0fa60ddd1dcf5ed91496490322c2cc63264a
 WPEFRAMEWORK_SCREENSAVER_SITE = $(call github,Metrological,ThunderScreensaver,$(WPEFRAMEWORK_SCREENSAVER_VERSION))
 WPEFRAMEWORK_SCREENSAVER_INSTALL_STAGING = NO
 WPEFRAMEWORK_SCREENSAVER_DEPENDENCIES = wpeframework-clientlibraries
