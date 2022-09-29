@@ -162,11 +162,11 @@ config BR2_PACKAGE_WPEFRAMEWORK_EXCEPTIONS_ENABLE
     help
         Enable the use of exceptions.
 
-config BR2_PACKAGE_WPEFRAMEWORK_PERFORMANCE_MONITOR
-    bool "performance monitor"
+config BR2_PACKAGE_WPEFRAMEWORK_PERFORMANCE_MONITORING
+    bool "performance monitoring"
     default n
     help
-        Enable the performance monitor
+        Enable the performance monitoring.
 
 menu "Platform Device Groups"
 
