@@ -1,0 +1,26 @@
+config BR2_PACKAGE_SSL_KEY
+	bool "ssl key"
+        depends on BR2_PACKAGE_DROPBEAR
+	help
+	  Prepare target with a SSL key for passwordless ssh connections.
+
+comment "ssl key needs dropbear"
+	depends on !BR2_PACKAGE_DROPBEAR
+
+choice
+	prompt "SSL key source"
+	default BR2_PACKAGE_SSL_KEY_GENERATE
+	depends on BR2_PACKAGE_SSL_KEY
+
+config BR2_PACKAGE_SSL_KEY_CUSTOM
+	bool "Custom public key"
+
+config BR2_PACKAGE_SSL_KEY_GENERATE
+	bool "Generate key pair"
+endchoice
+
+config BR2_PACKAGE_SSL_KEY_CUSTOM_PUBLIC_KEY
+	string "Location of custom private key"
+	depends on BR2_PACKAGE_SSL_KEY_CUSTOM
+	help
+	  Enter the path to the custom pulic key you want to copy.
