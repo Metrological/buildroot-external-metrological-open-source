@@ -51,8 +51,8 @@ endef
 
 define SSL_KEY_INSTALL_TARGET_CMDS
     @if [ -L ${TARGET_DIR}/etc/dropbear ]; then \
-	    @echo "It's a link, remove it"; \
-		@rm ${TARGET_DIR}/etc/dropbear; \
+	    echo "It's a link, remove it"; \
+		rm ${TARGET_DIR}/etc/dropbear; \
     fi
 
 	@mkdir -p ${TARGET_DIR}/etc/dropbear
@@ -63,9 +63,9 @@ define SSL_KEY_INSTALL_TARGET_CMDS
 	@mv -v ${TARGET_DIR}/etc/dropbear/authorized_keys.tmp ${TARGET_DIR}/etc/dropbear/authorized_keys
 
     @if [ ! -L ${TARGET_DIR}/root/.ssh/authorized_keys ]; then \
-	    @echo "Create Link for ${TARGET_DIR}/root/.ssh/authorized_keys"; \
-	    @mkdir -p ${TARGET_DIR}/root/.ssh; \
-	    @ln -vsf /etc/dropbear/authorized_keys ${TARGET_DIR}/root/.ssh/authorized_keys; \
+	    echo "Create Link for ${TARGET_DIR}/root/.ssh/authorized_keys"; \
+	    mkdir -p ${TARGET_DIR}/root/.ssh; \
+	    ln -vsf /etc/dropbear/authorized_keys ${TARGET_DIR}/root/.ssh/authorized_keys; \
 	fi
 endef
 
