@@ -1,4 +1,4 @@
-menu "development tools"
+menu "Development tools"
 
 config BR2_PACKAGE_WPEFRAMEWORK_VERBOSE_BUILD
 	bool "Verbose build"
@@ -16,7 +16,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_DISABLE_INITD
 	help
 		If enabled the init.d script will NOT be installed.
 		
-menu "test applications"
+menu "Test applications"
 
 config BR2_PACKAGE_WPEFRAMEWORK_TEST_CYCLICINSPECTOR
 	bool "CyclicBuffer inspector"
@@ -63,8 +63,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_LINUX_ONEWIRE
 
 config BR2_PACKAGE_WPEFRAMEWORK_EXAMPLEJSONRPC
 	select BR2_PACKAGE_WPEFRAMEWORK_COMMON
-	bool "jsonrpc example"
-        default n
+	bool "JSON-RPC example"
 	help
 	   Test application for the JSONRPC functionality.
 
@@ -73,6 +72,32 @@ config BR2_PACKAGE_WPEFRAMEWORK_TEST_UNITTESTS
 	bool "Unit Tests"
 	help
 	   Builds Unit Tests
+
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING
+	select BR2_PACKAGE_WPEFRAMEWORK_COMMON
+	bool "Dynamic plugin loading examples"
+	help
+	   Test plugins for dynamic plugin loading functionality.
+
+if BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_YIN
+	bool "Yin plugin"
+if BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_YIN
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_YIN_OOP
+	bool "Out of process"
+	default y
+endif
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_YANG
+	bool "Yang plugin"
+if BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_YANG
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_YANG_OOP
+	bool "Out of process"
+	default y
+endif
+config BR2_PACKAGE_WPEFRAMEWORK_EXAMPLE_DYNAMIC_LOADING_TARGET
+    string "Target folder"
+    default "/tmp/dynamic"
+endif
 
 endmenu
 

@@ -291,26 +291,25 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_CDMI
     bool "CDMi"
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_CDM
-     
     help
      A CDM server plugin to interact with CDMi plugins.
 
 if BR2_PACKAGE_WPEFRAMEWORK_CDMI
     config BR2_PACKAGE_WPEFRAMEWORK_CDMI_USER
-        string "user"
-        default ""
-        help
-            run OpenCDM as this user, leave empty to use the same as
-            WPEframework
+    string "user"
+    default ""
+    help
+        run OpenCDM as this user, leave empty to use the same as
+        WPEframework
 
-    config BR2_PACKAGE_WPEFRAMEWORK_CDMI_GROUP
-        string "group"
-        default BR2_PACKAGE_WPEFRAMEWORK_GROUP
-        help
-            run OpenCDM as this group, leave empty to use the same as
-            WPEframework
+config BR2_PACKAGE_WPEFRAMEWORK_CDMI_GROUP
+    string "group"
+    default BR2_PACKAGE_WPEFRAMEWORK_CDMI_USER
+    help
+        run OpenCDM as this group, leave empty to use the same as
+        WPEframework
 
-    source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-cdmi/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpeframework-opensource/wpeframework-cdmi/Config.in"
 endif
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_COBALT
@@ -373,7 +372,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_COBALT_USER
 
 config BR2_PACKAGE_WPEFRAMEWORK_COBALT_GROUP
     string "group"
-    default BR2_PACKAGE_WPEFRAMEWORK_GROUP
+    default BR2_PACKAGE_WPEFRAMEWORK_COBALT_USER
     help
         run Cobalt under this group, leave empty to use the same as
         WPEframework
