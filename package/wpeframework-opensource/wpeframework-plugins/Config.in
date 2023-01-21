@@ -401,6 +401,8 @@ config BR2_PACKAGE_WPEFRAMEWORK_COMMANDER
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR
     select BR2_PACKAGE_WPEFRAMEWORK_VIRTUALINPUT
     select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_COMPOSITORCLIENT
+    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_COMPOSITOR_BUFFER if BR2_PACKAGE_MESA3D
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_LOCALTRACER if BR2_PACKAGE_MESA3D
     bool "Compositor"
     help
        WPE Platform Compositor plugin
@@ -1701,6 +1703,19 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBSERVER_PORT
     string "port"
     default "8080"
 
+config BR2_PACKAGE_WPEFRAMEWORK_WEBSERVER_USER
+    string "user"
+    default ""
+    help
+        run WebServer as this user, leave empty to use the same as
+        WPEframework
+
+config BR2_PACKAGE_WPEFRAMEWORK_WEBSERVER_GROUP
+    string "group"
+    default BR2_PACKAGE_WPEFRAMEWORK_GROUP
+    help
+        run WebServer as this group, leave empty to use the same as
+        WPEframework
 endif
 
 config BR2_PACKAGE_WPEFRAMEWORK_WEBSHELL
