@@ -9,7 +9,7 @@ WESTEROS_SITE = https://github.com/rdkcmf/westeros
 WESTEROS_INSTALL_STAGING = YES
 
 WESTEROS_DEPENDENCIES = host-pkgconf host-autoconf wayland \
-	libxkbcommon westeros-simpleshell westeros-simplebuffer westeros-soc gstreamer1
+	libxkbcommon westeros-simpleshell westeros-simplebuffer westeros-soc
 
 WESTEROS_CONF_OPTS = \
 	--prefix=/usr/ \

@@ -2,7 +2,10 @@ config BR2_PACKAGE_WESTEROS_SIMPLEBUFFER
 	bool "westeros-simplebuffer"
 	select BR2_PACKAGE_WAYLAND
 	select BR2_PACKAGE_WAYLAND_PROTOCOLS
+	select BR2_PACKAGE_LIBGLIB2
 	help
-          http://wayland.freedesktop.org/
+		Buffer allocator based on shared memory.
+
+        https://github.com/rdkcmf/westeros
 
 

@@ -3,5 +3,8 @@ config BR2_PACKAGE_WESTEROS_SIMPLESHELL
 	select BR2_PACKAGE_WAYLAND
 	select BR2_PACKAGE_WAYLAND_PROTOCOLS
 	select BR2_PACKAGE_LIBXKBCOMMON
+	select BR2_PACKAGE_LIBGLIB2
 	help
-          http://wayland.freedesktop.org/
+		wayland shell based on shared memory buffers.
+        
+		https://github.com/rdkcmf/westeros
