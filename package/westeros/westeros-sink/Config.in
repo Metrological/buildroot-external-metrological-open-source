@@ -7,7 +7,7 @@ config BR2_PACKAGE_WESTEROS_SINK
 
 	help
 	  GStreamer sink for westeros.
-      
-      https://github.com/rdkcmf/westeros
+
+	  https://github.com/rdkcmf/westeros
 
 

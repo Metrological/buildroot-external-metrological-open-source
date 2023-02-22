@@ -4,8 +4,8 @@ config BR2_PACKAGE_WESTEROS_SIMPLEBUFFER
 	select BR2_PACKAGE_WAYLAND_PROTOCOLS
 	select BR2_PACKAGE_LIBGLIB2
 	help
-		Buffer allocator based on shared memory.
+	  Buffer allocator based on shared memory.
 
-        https://github.com/rdkcmf/westeros
+	  https://github.com/rdkcmf/westeros
 
 

@@ -11,10 +11,10 @@ config BR2_PACKAGE_WESTEROS
 	select BR2_PACKAGE_WESTEROS_ESSOS
 	help
 	  Westeros is an open source Wayland compositor library that allows
-      applications to create Wayland displays including embedded
-      Wayland displays
-      
-      https://github.com/rdkcmf/westeros
+	  applications to create Wayland displays including embedded
+	  Wayland displays
+
+	  https://github.com/rdkcmf/westeros
 
 if BR2_PACKAGE_WESTEROS
 	config BR2_PACKAGE_WESTEROS_ESSOS
