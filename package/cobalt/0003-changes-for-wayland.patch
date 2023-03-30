@@ -1,7 +1,7 @@
-diff -Naur cobalt.orig/src/cobalt/renderer/backend/egl/graphics_context.cc cobalt/src/cobalt/renderer/backend/egl/graphics_context.cc
---- cobalt.orig/src/cobalt/renderer/backend/egl/graphics_context.cc	2021-11-29 22:54:13.197646530 +0530
-+++ cobalt/src/cobalt/renderer/backend/egl/graphics_context.cc	2021-11-30 01:32:19.702689365 +0530
-@@ -76,7 +76,7 @@
+diff -Naur cobalt.orig/cobalt/renderer/backend/egl/graphics_context.cc cobalt/cobalt/renderer/backend/egl/graphics_context.cc
+--- cobalt.orig/cobalt/renderer/backend/egl/graphics_context.cc	2022-07-05 18:58:11.866558086 +0530
++++ cobalt/cobalt/renderer/backend/egl/graphics_context.cc	2022-07-05 19:00:05.482773021 +0530
+@@ -71,7 +71,7 @@
    // when we need to make OpenGL calls that do not depend on a surface (e.g.
    // creating a texture).
    null_surface_ = new PBufferRenderTargetEGL(display, config, math::Size(0, 0));
@@ -10,10 +10,10 @@ diff -Naur cobalt.orig/src/cobalt/renderer/backend/egl/graphics_context.cc cobal
  
    ScopedMakeCurrent scoped_current_context(this);
  
-diff -Naur cobalt.orig/src/cobalt/renderer/backend/egl/graphics_system.cc cobalt/src/cobalt/renderer/backend/egl/graphics_system.cc
---- cobalt.orig/src/cobalt/renderer/backend/egl/graphics_system.cc	2021-11-29 22:54:13.197646530 +0530
-+++ cobalt/src/cobalt/renderer/backend/egl/graphics_system.cc	2021-11-30 01:32:19.702689365 +0530
-@@ -105,7 +105,10 @@
+diff -Naur cobalt.orig/cobalt/renderer/backend/egl/graphics_system.cc cobalt/cobalt/renderer/backend/egl/graphics_system.cc
+--- cobalt.orig/cobalt/renderer/backend/egl/graphics_system.cc	2022-07-05 18:58:11.866558086 +0530
++++ cobalt/cobalt/renderer/backend/egl/graphics_system.cc	2022-07-05 19:00:05.482773021 +0530
+@@ -102,7 +102,10 @@
    // Return the first config that succeeds the above test.
    EGLint num_configs = 0;
    EGL_CALL(eglChooseConfig(display, attribute_list, NULL, 0, &num_configs));
@@ -25,7 +25,7 @@ diff -Naur cobalt.orig/src/cobalt/renderer/backend/egl/graphics_system.cc cobalt
  
    std::unique_ptr<EGLConfig[]> configs(new EGLConfig[num_configs]);
    EGL_CALL_SIMPLE(eglChooseConfig(display, attribute_list, configs.get(),
-@@ -201,6 +204,15 @@
+@@ -192,6 +195,15 @@
      }
    }
  

@@ -1,6 +1,18 @@
-diff -Naur cobalt.orig/src/cobalt/browser/memory_settings/auto_mem.cc cobalt/src/cobalt/browser/memory_settings/auto_mem.cc
---- cobalt.orig/src/cobalt/browser/memory_settings/auto_mem.cc	2021-11-29 22:54:12.685641240 +0530
-+++ cobalt/src/cobalt/browser/memory_settings/auto_mem.cc	2021-11-30 01:27:03.573123050 +0530
+diff -Naur cobalt.orig/build/config/compiler/BUILD.gn cobalt/build/config/compiler/BUILD.gn
+--- cobalt.orig/build/config/compiler/BUILD.gn	2022-07-04 15:54:27.817403294 +0530
++++ cobalt/build/config/compiler/BUILD.gn	2022-07-04 15:58:06.869089006 +0530
+@@ -1659,7 +1659,7 @@
+       "__STDC_CONSTANT_MACROS",
+       "__STDC_FORMAT_MACROS",
+     ]
+-    cflags = [ "-Werror" ]
++    # cflags = [ "-Werror" ]
+   } else {
+     cflags = [ "-Wall" ]
+     if (treat_warnings_as_errors) {
+diff -Naur cobalt.orig/cobalt/browser/memory_settings/auto_mem.cc cobalt/cobalt/browser/memory_settings/auto_mem.cc
+--- cobalt.orig/cobalt/browser/memory_settings/auto_mem.cc	2022-07-04 15:54:27.853403940 +0530
++++ cobalt/cobalt/browser/memory_settings/auto_mem.cc	2022-07-04 15:58:06.869089006 +0530
 @@ -100,7 +100,7 @@
        new MemorySettingType(setting_name));
    SetMemorySetting(command_line_setting, build_setting, autoset_value,
@@ -10,9 +22,9 @@ diff -Naur cobalt.orig/src/cobalt/browser/memory_settings/auto_mem.cc cobalt/src
  }
  
  std::unique_ptr<IntSetting> CreateSystemMemorySetting(
-diff -Naur cobalt.orig/src/cobalt/browser/memory_settings/texture_dimensions.h cobalt/src/cobalt/browser/memory_settings/texture_dimensions.h
---- cobalt.orig/src/cobalt/browser/memory_settings/texture_dimensions.h	2021-11-29 22:54:12.685641240 +0530
-+++ cobalt/src/cobalt/browser/memory_settings/texture_dimensions.h	2021-11-30 01:27:03.573123050 +0530
+diff -Naur cobalt.orig/cobalt/browser/memory_settings/texture_dimensions.h cobalt/cobalt/browser/memory_settings/texture_dimensions.h
+--- cobalt.orig/cobalt/browser/memory_settings/texture_dimensions.h	2022-07-04 15:54:27.853403940 +0530
++++ cobalt/cobalt/browser/memory_settings/texture_dimensions.h	2022-07-04 15:58:06.869089006 +0530
 @@ -35,6 +35,13 @@
          height_(other.height_),
          bytes_per_pixel_(other.bytes_per_pixel_) {}
@@ -27,9 +39,9 @@ diff -Naur cobalt.orig/src/cobalt/browser/memory_settings/texture_dimensions.h c
    bool operator==(const TextureDimensions& other) const {
      return width_ == other.width_ && height_ == other.height_ &&
             bytes_per_pixel_ == other.bytes_per_pixel_;
-diff -Naur cobalt.orig/src/cobalt/layout/layout_unit.h cobalt/src/cobalt/layout/layout_unit.h
---- cobalt.orig/src/cobalt/layout/layout_unit.h	2021-11-29 22:54:12.885643324 +0530
-+++ cobalt/src/cobalt/layout/layout_unit.h	2021-11-30 01:27:03.573123050 +0530
+diff -Naur cobalt.orig/cobalt/layout/layout_unit.h cobalt/cobalt/layout/layout_unit.h
+--- cobalt.orig/cobalt/layout/layout_unit.h	2022-07-04 15:54:28.057407600 +0530
++++ cobalt/cobalt/layout/layout_unit.h	2022-07-04 15:58:06.869089006 +0530
 @@ -57,6 +57,11 @@
  #endif
    }
@@ -51,9 +63,9 @@ diff -Naur cobalt.orig/src/cobalt/layout/layout_unit.h cobalt/src/cobalt/layout/
      value_ = value.value_;
  #ifdef _DEBUG
      is_nan_ = is_nan_ || value.is_nan_;
-diff -Naur cobalt.orig/src/cobalt/render_tree/color_rgba.h cobalt/src/cobalt/render_tree/color_rgba.h
---- cobalt.orig/src/cobalt/render_tree/color_rgba.h	2021-11-29 22:54:13.197646530 +0530
-+++ cobalt/src/cobalt/render_tree/color_rgba.h	2021-11-30 01:27:03.573123050 +0530
+diff -Naur cobalt.orig/cobalt/render_tree/color_rgba.h cobalt/cobalt/render_tree/color_rgba.h
+--- cobalt.orig/cobalt/render_tree/color_rgba.h	2022-07-04 15:54:28.149409251 +0530
++++ cobalt/cobalt/render_tree/color_rgba.h	2022-07-04 15:58:06.869089006 +0530
 @@ -39,6 +39,8 @@
   public:
    ColorRGBA() : r_(0), g_(0), b_(0), a_(0) {}
@@ -63,9 +75,9 @@ diff -Naur cobalt.orig/src/cobalt/render_tree/color_rgba.h cobalt/src/cobalt/ren
    ColorRGBA(float red, float green, float blue) {
      CheckRange(red);
      r_ = red;
-diff -Naur cobalt.orig/src/cobalt/render_tree/composition_node.h cobalt/src/cobalt/render_tree/composition_node.h
---- cobalt.orig/src/cobalt/render_tree/composition_node.h	2021-11-29 22:54:13.197646530 +0530
-+++ cobalt/src/cobalt/render_tree/composition_node.h	2021-11-30 01:27:03.573123050 +0530
+diff -Naur cobalt.orig/cobalt/render_tree/composition_node.h cobalt/cobalt/render_tree/composition_node.h
+--- cobalt.orig/cobalt/render_tree/composition_node.h	2022-07-04 15:54:28.149409251 +0530
++++ cobalt/cobalt/render_tree/composition_node.h	2022-07-04 15:58:06.869089006 +0530
 @@ -74,6 +74,12 @@
        children_.swap(moved->children_);
      }
@@ -79,9 +91,9 @@ diff -Naur cobalt.orig/src/cobalt/render_tree/composition_node.h cobalt/src/coba
      bool operator==(const Builder& other) const {
        return offset_ == other.offset_ && children_ == other.children_;
      }
-diff -Naur cobalt.orig/src/cobalt/render_tree/rounded_corners.h cobalt/src/cobalt/render_tree/rounded_corners.h
---- cobalt.orig/src/cobalt/render_tree/rounded_corners.h	2021-11-29 22:54:13.197646530 +0530
-+++ cobalt/src/cobalt/render_tree/rounded_corners.h	2021-11-30 01:27:03.577123029 +0530
+diff -Naur cobalt.orig/cobalt/render_tree/rounded_corners.h cobalt/cobalt/render_tree/rounded_corners.h
+--- cobalt.orig/cobalt/render_tree/rounded_corners.h	2022-07-04 15:54:28.149409251 +0530
++++ cobalt/cobalt/render_tree/rounded_corners.h	2022-07-04 15:58:06.869089006 +0530
 @@ -81,6 +81,14 @@
          bottom_right(bottom_right),
          bottom_left(bottom_left) {}
@@ -97,9 +109,9 @@ diff -Naur cobalt.orig/src/cobalt/render_tree/rounded_corners.h cobalt/src/cobal
    bool operator==(const RoundedCorners& other) const {
      return top_left == other.top_left && top_right == other.top_right &&
             bottom_right == other.bottom_right &&
-diff -Naur cobalt.orig/src/net/spdy/spdy_session_key.cc cobalt/src/net/spdy/spdy_session_key.cc
---- cobalt.orig/src/net/spdy/spdy_session_key.cc	2021-11-29 22:54:13.533649953 +0530
-+++ cobalt/src/net/spdy/spdy_session_key.cc	2021-11-30 01:27:03.577123029 +0530
+diff -Naur cobalt.orig/net/spdy/spdy_session_key.cc cobalt/net/spdy/spdy_session_key.cc
+--- cobalt.orig/net/spdy/spdy_session_key.cc	2022-07-04 15:54:28.497415495 +0530
++++ cobalt/net/spdy/spdy_session_key.cc	2022-07-04 15:58:06.869089006 +0530
 @@ -28,6 +28,13 @@
  
  SpdySessionKey::SpdySessionKey(const SpdySessionKey& other) = default;
@@ -114,9 +126,9 @@ diff -Naur cobalt.orig/src/net/spdy/spdy_session_key.cc cobalt/src/net/spdy/spdy
  SpdySessionKey::~SpdySessionKey() = default;
  
  bool SpdySessionKey::operator<(const SpdySessionKey& other) const {
-diff -Naur cobalt.orig/src/net/spdy/spdy_session_key.h cobalt/src/net/spdy/spdy_session_key.h
---- cobalt.orig/src/net/spdy/spdy_session_key.h	2021-11-29 22:54:13.533649953 +0530
-+++ cobalt/src/net/spdy/spdy_session_key.h	2021-11-30 01:27:03.577123029 +0530
+diff -Naur cobalt.orig/net/spdy/spdy_session_key.h cobalt/net/spdy/spdy_session_key.h
+--- cobalt.orig/net/spdy/spdy_session_key.h	2022-07-04 15:54:28.497415495 +0530
++++ cobalt/net/spdy/spdy_session_key.h	2022-07-04 15:58:06.869089006 +0530
 @@ -22,6 +22,7 @@
                   const SocketTag& socket_tag);
  
@@ -125,9 +137,9 @@ diff -Naur cobalt.orig/src/net/spdy/spdy_session_key.h cobalt/src/net/spdy/spdy_
  
    ~SpdySessionKey();
  
-diff -Naur cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h cobalt/src/net/third_party/quic/core/frames/quic_frame.h
---- cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h	2021-11-29 22:54:13.565650280 +0530
-+++ cobalt/src/net/third_party/quic/core/frames/quic_frame.h	2021-11-30 01:27:03.577123029 +0530
+diff -Naur cobalt.orig/net/third_party/quic/core/frames/quic_frame.h cobalt/net/third_party/quic/core/frames/quic_frame.h
+--- cobalt.orig/net/third_party/quic/core/frames/quic_frame.h	2022-07-04 15:54:28.529416070 +0530
++++ cobalt/net/third_party/quic/core/frames/quic_frame.h	2022-07-04 15:58:06.869089006 +0530
 @@ -110,12 +110,6 @@
  
  static_assert(sizeof(QuicFrame) <= 24,
@@ -141,9 +153,9 @@ diff -Naur cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h cobalt/
  
  // A inline size of 1 is chosen to optimize the typical use case of
  // 1-stream-frame in QuicTransmissionInfo.retransmittable_frames.
-diff -Naur cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h cobalt/src/net/third_party/quic/core/frames/quic_inlined_frame.h
---- cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h	2021-11-29 22:54:13.565650280 +0530
-+++ cobalt/src/net/third_party/quic/core/frames/quic_inlined_frame.h	2021-11-30 01:27:03.581123009 +0530
+diff -Naur cobalt.orig/net/third_party/quic/core/frames/quic_inlined_frame.h cobalt/net/third_party/quic/core/frames/quic_inlined_frame.h
+--- cobalt.orig/net/third_party/quic/core/frames/quic_inlined_frame.h	2022-07-04 15:54:28.529416070 +0530
++++ cobalt/net/third_party/quic/core/frames/quic_inlined_frame.h	2022-07-04 15:58:06.869089006 +0530
 @@ -17,13 +17,6 @@
  template <typename DerivedT>
  struct QUIC_EXPORT_PRIVATE QuicInlinedFrame {
@@ -158,3 +170,18 @@ diff -Naur cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h
      static_assert(sizeof(DerivedT) <= 24,
                    "Frames larger than 24 bytes should not be inlined.");
    }
+diff -Naur cobalt.orig/starboard/build/config/BUILD.gn cobalt/starboard/build/config/BUILD.gn
+--- cobalt.orig/starboard/build/config/BUILD.gn	2022-07-04 15:54:28.625417792 +0530
++++ cobalt/starboard/build/config/BUILD.gn	2022-07-04 15:59:23.858316415 +0530
+@@ -70,10 +70,7 @@
+         ldflags += [ "-latomic" ]
+ 
+         if (is_clang) {
+-          ldflags += [
+-            "-target",
+-            "i386-unknown-linux-gnu",
+-          ]
++          ldflags += []
+         } else {
+           ldflags += [ "-m32" ]
+         }
