@@ -1,0 +1,5 @@
+config BR2_PACKAGE_GN
+	bool "GN-build-system"
+	help
+	  GN build system
+
