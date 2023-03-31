@@ -1,5 +1,9 @@
 config BR2_PACKAGE_GN
-	bool "GN-build-system"
+	bool "ng"
 	help
-	  GN build system
+	  GN is a meta-build system that generates build files for 
+	  Ninja. GN is currently used as the build system for 
+	  Chromium, Fuchsia, and related projects.
+
+	  https://gn.googlesource.com/gn
 
