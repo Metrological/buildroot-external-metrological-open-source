@@ -48,7 +48,7 @@ else ifeq ($(BR2_PACKAGE_MESA3D),y)
 WPEFRAMEWORK_CLIENTLIBRARIES_CONF_OPTS += -DPLUGIN_COMPOSITOR_IMPLEMENTATION=Mesa
 WPEFRAMEWORK_CLIENTLIBRARIES_DEPENDENCIES += libdrm mesa3d wpeframework-libraries
 else
-$(error Missing a compositor implemtation, please provide one or disable PLUGIN_COMPOSITOR)
+$(error Missing a compositor implemtation, please provide one or disable BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_COMPOSITORCLIENT)
 endif
 endif
 
