@@ -3,7 +3,7 @@
 # WPEFramework UI
 #
 ################################################################################
-WPEFRAMEWORK_UI_VERSION = aa8c9287cc34753d66eb9a2fd4c114d7dda78a19
+WPEFRAMEWORK_UI_VERSION = R4.4.1
 WPEFRAMEWORK_UI_SITE = $(call github,rdkcentral,ThunderUI,$(WPEFRAMEWORK_UI_VERSION))
 WPEFRAMEWORK_UI_DEPENDENCIES = wpeframework
 

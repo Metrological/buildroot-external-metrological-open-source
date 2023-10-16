@@ -3,7 +3,7 @@
 # wpeframework-clientlibraries
 #
 ################################################################################
-WPEFRAMEWORK_CLIENTLIBRARIES_VERSION = c8d7197ed10c7cc61f6044f840a079b65e8cc00b
+WPEFRAMEWORK_CLIENTLIBRARIES_VERSION = R4.4.1
 WPEFRAMEWORK_CLIENTLIBRARIES_SITE = $(call github,rdkcentral,ThunderClientLibraries,$(WPEFRAMEWORK_CLIENTLIBRARIES_VERSION))
 WPEFRAMEWORK_CLIENTLIBRARIES_INSTALL_STAGING = YES
 WPEFRAMEWORK_CLIENTLIBRARIES_DEPENDENCIES = wpeframework wpeframework-interfaces
