@@ -121,8 +121,4 @@ $(error Missing a cryptography implementation)
 endif
 endif
 
-ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_LOCALTRACER),y)
-WPEFRAMEWORK_CLIENTLIBRARIES_CONF_OPTS += -DLOCALTRACER=ON
-endif
-
 $(eval $(cmake-package))

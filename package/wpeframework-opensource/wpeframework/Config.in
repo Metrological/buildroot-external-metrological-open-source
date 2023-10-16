@@ -215,7 +215,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_BROADCAST_SI_PARSING
           tuned streams.
 endif
 
-config BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_PRIVILEDGED_REQUEST
+config BR2_PACKAGE_WPEFRAMEWORK_EXTENSION_PRIVILEDGED_REQUEST
     select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES
     bool "Priviledged Request"
     help
@@ -223,7 +223,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_PRIVILEDGED_REQUEST
 
 config BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_COMPOSITOR_BUFFER
     select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES
-    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_PRIVILEDGED_REQUEST
+    select BR2_PACKAGE_WPEFRAMEWORK_EXTENSION_PRIVILEDGED_REQUEST
     bool "Compositor Buffer"
     help
       Library to share graphical buffers between processes.
@@ -243,8 +243,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_COMPOSITORCLIENT
           interaction (Graphics/input). The implementation hides all the compositor specific details.
       allows for relaying keys to plugins
 
-config BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_LOCALTRACER
-    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+config BR2_PACKAGE_WPEFRAMEWORK_EXTENSION_LOCALTRACER
     bool "Local Tracer"
         default n
     help
