@@ -563,7 +563,6 @@ endif
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_DEVICEINFO
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "DeviceInfo"   
-    default y
     help
       DeviceInfo Plugin
 
@@ -612,7 +611,7 @@ endif
 config BR2_PACKAGE_WPEFRAMEWORK_DISPLAYINFO
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     bool "DisplayInfo"
-    default y
+    default n
     help
       DisplayInfo Plugin
 
