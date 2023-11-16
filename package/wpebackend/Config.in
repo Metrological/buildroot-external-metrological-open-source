@@ -1,5 +1,19 @@
+comment "libwpe needs a toolchain w/ C++, dynamic library and an OpenEGL-capable backend"
+	depends on !BR2_PACKAGE_HAS_LIBEGL || !BR2_INSTALL_LIBSTDCPP || BR2_STATIC_LIBS
+
+config BR2_PACKAGE_WPEBACKEND_LIBWPE_VERSION
+	string
+	default "1.6.0" if BR2_PACKAGE_WPEWEBKIT_ML2_28
+	default "1.14.0" if BR2_PACKAGE_WPEWEBKIT_ML2_38
+	default "1.14.0" if BR2_PACKAGE_WPEWEBKIT_ML2_42
+
 config BR2_PACKAGE_WPEBACKEND
 	bool "wpebackend"
-        select BR2_PACKAGE_LIBXKBCOMMON
+	depends on !BR2_STATIC_LIBS # dlfcn.h
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_LIBXKBCOMMON
 	help
 	  Base library for the WPE port of WebKit.
+
+	  https://wpewebkit.org/
