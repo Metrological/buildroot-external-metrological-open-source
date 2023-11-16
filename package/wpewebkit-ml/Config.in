@@ -75,6 +75,17 @@ config BR2_PACKAGE_WPEWEBKIT_ML2_28
         bool "2.28"
         help
           Build WPEWEBKIT 2.28
+
+config BR2_PACKAGE_WPEWEBKIT_ML2_38
+        bool "2.38"
+        help
+          Build WPEWEBKIT 2.38
+
+config BR2_PACKAGE_WPEWEBKIT_ML2_42
+        bool "2.42"
+        help
+          Build WPEWEBKIT 2.42
+
 endchoice
 
 menu "Extra options"
