@@ -1,5 +1,0 @@
-# From https://ftp.gnome.org/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.0.sha256sum
-sha256  b45d59f840b9acf9bb45fd45854e3ef672f57e3ab957401c3ad8d7502ac23da6  libsoup-3.0.6.tar.xz
-sha256	753587733a52fc164311bbd1cbb52c2578baa78aceb94ed43d4fd6ca41a2d8dd  libsoup3-3.0.6-br1.tar.gz
-# Locally calculated
-sha256  b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c  COPYING
