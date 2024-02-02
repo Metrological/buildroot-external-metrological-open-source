@@ -13,7 +13,7 @@ work on any Linux OS. The following system build dependencies are required.
     sudo apt-get install subversion build-essential bison flex gettext \
     libncurses5-dev texinfo autoconf automake libtool mercurial git-core \
     gperf gawk expat curl cvs libexpat-dev bzr unzip bc python3-dev \
-    wget cpio rsync xxd libmpc-dev libgmp3-dev
+    wget cpio rsync xxd libmpc-dev libgmp3-dev gcc-multilib g++-multilib
 
 In some cases, buildroot will notify that additional host dependencies are
 required. It will let you know what those are.
