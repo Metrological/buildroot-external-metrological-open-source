@@ -183,7 +183,6 @@ endif
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
     bool "BluetoothControl"
-    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES
     select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
     default n
     help
@@ -217,14 +216,14 @@ endif
 
 config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHREMOTECONTROL
     bool "BluetoothRemoteControl"
-    select BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
+    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_BLUETOOTH_GATT
     default n
     help
      A Bluetooth Low Energy HID over GATT remote control
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_BLUETOOTHAUDIOSINK
     bool "BluetoothAudioSink"
-    select BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
+    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_BLUETOOTH_AUDIO
     select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_BLUETOOTHAUDIOSINK_CODECSBC
     default n
     help
@@ -1028,7 +1027,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_SICONTROL
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_STREAMER
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
-    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_BROADCAST
+    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES_BROADCAST
     bool "Streamer"
     default n
     help
@@ -1383,7 +1382,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_USER
 
 config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_GROUP
     string "group"
-    default BR2_PACKAGE_WPEFRAMEWORK_GROUP
+    default BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_USER
     help
         run WebKitBrowser as this group, leave empty to use the same as
         WPEframework
@@ -1624,10 +1623,16 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CERTPATH
     default "/etc/ssl/certs/ca-certificates.crt"
 endif
 
-config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP
-        bool "webpa ccsp client"
+choice BR2_PACKAGE_WPEFRAMEWORK_WEBPA_PLATFORM
+    bool "Client"
+    default BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
+    config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
+        bool "Generic adapter client"
+    config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP
         select BR2_PACKAGE_PARODUS2CCSP
-        default n
+        select BR2_PACKAGE_CCSPCR
+        bool "CCSP client"
+endchoice
 
 if BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP
 config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSPCLIENTURL
@@ -1638,12 +1643,9 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP_DATAFILE
     default ""
 config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP_CONFIGFILE
     string "Config File for CCSP Client"
-    default "/etc/webpa_cfg.json"
+    default "/usr/ccsp/ccsp_msg.cfg"
 endif
 
-config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
-        bool "webpa generic adapter client"
-        default y
 
 if BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
 config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERICCLIENTURL
@@ -1664,6 +1666,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_DEVICE_INFO
         bool "device info"
 	select BR2_PACKAGE_NCURSES
 	select BR2_PACKAGE_PROCPS_NG
+	select BR2_PACKAGE_BUSYBOX_SHOW_OTHERS
         default y
 endif
 endif

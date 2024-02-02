@@ -193,14 +193,14 @@ endmenu
 
 menu "Extensions"
 
-menuconfig BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_BROADCAST
+menuconfig BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES_BROADCAST
     select BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES
     bool "Broadcast"
         default n
     help
       Abstraction on QAM tuner and PSI/SI parser functionality.
 
-if BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_BROADCAST
+if BR2_PACKAGE_WPEFRAMEWORK_LIBRARIES_BROADCAST
 config BR2_PACKAGE_WPEFRAMEWORK_BROADCAST_SI_PARSING
     bool "SI Parsing"
         default n
@@ -264,12 +264,26 @@ config BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_BLUETOOTHAUDIOSINK_EXAMPLEPLAYER
     default y
 endif
 
+config BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_DEVICEINFO
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "DeviceInfo"
+        default y if BR2_PACKAGE_WPEFRAMEWORK_DEVICEINFO
+    help
+        A helpful C-interface to easily get information from the DeviceInfo plugin.
+
 config BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_DISPLAYINFO
     select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
     bool "DisplayInfo"
-        default y
+        default y if BR2_PACKAGE_WPEFRAMEWORK_DISPLAYINFO
     help
         A helpful C-interface to easily get information from the DisplayInfo plugin.
+
+config BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_PLAYERINFO
+    select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
+    bool "PlayerInfo"
+    default y if BR2_PACKAGE_WPEFRAMEWORK_PLAYERINFO
+    help
+        A helpful C-interface to easily get information from the PlayerInfo plugin.
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_CRYPTOGRAPHY
     select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARIES
