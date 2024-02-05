@@ -1,0 +1,43 @@
+From b7c10b69202579589d6b11fbea24d8f96952a961 Mon Sep 17 00:00:00 2001
+From: Kert <kaidokert@google.com>
+Date: Thu, 4 May 2023 09:21:52 -0700
+Subject: [PATCH] Fix python `six` imports issue in pre-commit (#261)
+
+The checks are failing internally due to missing six. Rather than pull six in again, we can switch this to Python3
+
+b/277761376
+---
+ cobalt/build/build_number.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/cobalt/build/build_number.py b/cobalt/build/build_number.py
+index 7ec534e9f31..577ec0e2b8a 100644
+--- a/cobalt/build/build_number.py
++++ b/cobalt/build/build_number.py
+@@ -17,7 +17,7 @@
+ import logging
+ import os
+ import subprocess
+-from six.moves import urllib
++import urllib
+ from cobalt.tools import paths
+ 
+ _SUBREPO_PATHS = ['starboard/keyboxes']
+@@ -39,7 +39,7 @@ def CheckRevInfo(key, cwd=None):
+   git_get_revision_args = ['git', 'rev-parse', 'HEAD']
+   revision = subprocess.check_output(
+       git_get_revision_args, cwd=cwd).strip().decode('utf-8')
+-  return {key: '{}@{}'.format(remote, revision)}
++  return {key: f'{remote}@{revision}'}
+ 
+ 
+ def GetRevinfo():
+@@ -76,7 +76,7 @@ def GetOrGenerateNewBuildNumber(version_server=_VERSION_SERVER_URL):
+   """Send a request to the build version server for a build number."""
+ 
+   if os.path.isfile(BUILD_ID_PATH):
+-    with open(BUILD_ID_PATH, 'r') as build_id_file:
++    with open(BUILD_ID_PATH, 'r', encoding='utf-8') as build_id_file:
+       build_number = int(build_id_file.read().replace('\n', ''))
+       logging.info('Retrieving build number from %s', BUILD_ID_PATH)
+       return build_number

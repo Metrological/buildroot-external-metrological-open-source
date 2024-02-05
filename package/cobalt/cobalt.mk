@@ -7,7 +7,7 @@
 COBALT_VERSION = cc9bac9d547a0a9dda8aa8726e0e0ddd4b9b3ef1
 COBALT_SITE = $(call github,Metrological,cobalt,$(COBALT_VERSION))
 COBALT_INSTALL_STAGING = YES
-COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja wpeframework-clientlibraries host-python3 host-python-six host-gn
+COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja wpeframework-clientlibraries host-python3 host-gn
 
 export COBALT_STAGING_DIR=$(STAGING_DIR)
 export COBALT_TOOLCHAIN_PREFIX=$(TARGET_CROSS)
