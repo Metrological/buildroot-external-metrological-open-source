@@ -98,14 +98,10 @@ choice
 	help
 	  Choose the debug flavor.
 
-if !BR2_ENABLE_DEBUG
-
 config BR2_PACKAGE_WPEWEBKIT_ML_RELEASE
 	bool "release"
 	help
 	  Release build
-
-endif
 
 config BR2_PACKAGE_WPEWEBKIT_ML_DEBUG
 	bool "debug"
