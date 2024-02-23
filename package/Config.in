@@ -12,3 +12,8 @@ source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpebackend/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpebackend-rdk/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/wpewebkit-ml/Config.in"
 
+if BR2_PACKAGE_GSTREAMER1
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/gst1-bluetoothaudiosink/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/gst1-bluetoothaudiosource/Config.in"
+endif
+
