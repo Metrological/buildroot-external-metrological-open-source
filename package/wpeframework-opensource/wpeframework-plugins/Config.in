@@ -418,6 +418,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_AUTOSTART
 
 config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_OUTOFPROCESS
     bool "Out of process"
+    default y if BR2_PACKAGE_MESA3D
     help
       Select this to run this plugin in its own process.
 
@@ -1580,6 +1581,19 @@ config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_LOCALSTORAGE
 config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_COOKIESTORAGE
     string "Cookie storage path"
     default ""
+
+config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_INDEXEDDB
+    bool "Enable indexeddb"
+    help 
+        Enable IndexedDB (HTML5) database.
+
+if BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_INDEXEDDB
+config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_INDEXEDDB_PATH
+    string "indexedp storage path"
+    default ""
+    help
+        The directory where IndexedDB databases will be stored
+endif
 
 endif
 
