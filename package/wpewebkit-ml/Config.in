@@ -63,7 +63,7 @@ config BR2_PACKAGE_WPEWEBKIT_ML
 if BR2_PACKAGE_WPEWEBKIT_ML
 choice
         bool "version"
-        default BR2_PACKAGE_WPEWEBKIT_ML2_28
+        default BR2_PACKAGE_WPEWEBKIT_ML2_38
         help
           Choose the WPEWEBKIT version to be built.
 
