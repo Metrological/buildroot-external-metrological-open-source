@@ -464,11 +464,8 @@ config BR2_PACKAGE_WPEFRAMEWORK_COMMANDER
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR
     select BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_COMPOSITORCLIENT
-    select BR2_PACKAGE_WPEFRAMEWORK_EXTENSION_LOCALTRACER if BR2_PACKAGE_MESA3D
-    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_COMPOSITOR_BUFFER if BR2_PACKAGE_MESA3D
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     select BR2_PACKAGE_WPEFRAMEWORK_VIRTUALINPUT
-    select BR2_PACKAGE_LIBPNG if BR2_PACKAGE_MESA3D
     bool "Compositor"
     help
        WPE Platform Compositor plugin
@@ -483,7 +480,6 @@ config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_AUTOSTART
 
 config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_OUTOFPROCESS
     bool "Out of process"
-    default y if BR2_PACKAGE_MESA3D
     help
       Select this to run this plugin in its own process.
 
@@ -621,8 +617,17 @@ if BR2_PACKAGE_WESTON
     help
       Set details of weston output configs in the format "Name,Mode,Trandform".
       Example "HDMI-A-1,1280x720@60.0 16:9,normal;"
-
 endif
+
+config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_EXPERIMENTAL
+    bool "Experimental Mesa"
+    select BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_OUTOFPROCESS
+    select BR2_PACKAGE_WPEFRAMEWORK_EXTENSION_LOCALTRACER
+    select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_COMPOSITOR_BUFFER
+    select BR2_PACKAGE_LIBPNG
+    help
+      Select this to build the linux generic compositor implementation based on libGBM/libDRM/Mesa
+
 endif
 
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_DEVICEINFO
