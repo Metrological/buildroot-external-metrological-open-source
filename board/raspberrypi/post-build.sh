@@ -21,3 +21,14 @@ grep -q '^/dev/mmcblk0p2' "${TARGET_DIR}/etc/fstab" || \
     echo '/dev/mmcblk0p2 /root ext4 defaults 0 0' >> "${TARGET_DIR}/etc/fstab"
 
 fi
+
+# libepoxy expects libGLESv2.so.2 and libEGL.so.1 to be present  
+if grep -q "^BR2_PACKAGE_LIBEPOXY=y$" "${BR2_CONFIG}"; then
+if ! [ -f ${TARGET_DIR}/usr/lib/libGLESv2.so.2 ]; then
+    ln -sf libGLESv2.so ${TARGET_DIR}/usr/lib/libGLESv2.so.2 
+fi
+
+if ! [ -f ${TARGET_DIR}/usr/lib/libEGL.so.1 ]; then
+    ln -sf libEGL.so ${TARGET_DIR}/usr/lib/libEGL.so.1 
+fi
+fi
