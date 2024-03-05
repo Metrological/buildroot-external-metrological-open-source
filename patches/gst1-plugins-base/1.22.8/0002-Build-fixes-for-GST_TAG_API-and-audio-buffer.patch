@@ -1,0 +1,42 @@
+From d699d231e6091c05ac77e3c046dfcc80f860bc1e Mon Sep 17 00:00:00 2001
+From: Xabier Rodriguez Calvar <calvaris@igalia.com>
+Date: Wed, 27 Jan 2021 17:03:58 +0100
+Subject: [PATCH 2/3] Build fixes for GST_TAG_API and audio-buffer
+
+---
+ gst-libs/gst/audio/audio-buffer.c | 2 +-
+ gst-libs/gst/tag/tag.h            | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/gst-libs/gst/audio/audio-buffer.c b/gst-libs/gst/audio/audio-buffer.c
+index 7d139f0..9d65c9a 100644
+--- a/gst-libs/gst/audio/audio-buffer.c
++++ b/gst-libs/gst/audio/audio-buffer.c
+@@ -23,7 +23,7 @@
+ #endif
+ 
+ #include "audio-buffer.h"
+-
++#include <string.h>
+ 
+ static void
+ gst_audio_buffer_unmap_internal (GstAudioBuffer * buffer, guint n_unmap)
+diff --git a/gst-libs/gst/tag/tag.h b/gst-libs/gst/tag/tag.h
+index f19b4c6..69bb2c7 100644
+--- a/gst-libs/gst/tag/tag.h
++++ b/gst-libs/gst/tag/tag.h
+@@ -29,6 +29,11 @@
+ #include <gst/tag/xmpwriter.h>
+ #include <gst/tag/tag-enumtypes.h>
+ 
++#ifdef GST_TAG_API
++#undef GST_TAG_API
++#define GST_TAG_API extern __attribute__ ((visibility ("default")))
++#endif
++
+ G_BEGIN_DECLS
+ 
+ /* Tag names */
+-- 
+2.34.1
+

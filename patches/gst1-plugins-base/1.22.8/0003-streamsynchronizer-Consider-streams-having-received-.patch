@@ -1,0 +1,86 @@
+From 6f5cb948c04e42557c11d426d57beadf3e9d8ae2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
+Date: Mon, 29 May 2023 20:55:43 +0200
+Subject: [PATCH 3/3] streamsynchronizer: Consider streams having received
+ stream-start as waiting
+
+When using the custom WebKitMediaSrc element (used by WebKit and able to
+perform an initial seek in playbin), a stall caused by streamsynchronizer
+was detected during an initial seek. The flow of events revealed that the
+intertwining of the initial configuration of the streams with the reset
+caused by the flush events from the seek left streamsynchronizer in an
+inconsistent state:
+
+ streamsynchronizer0:sink_0 (video) events, starting before the seek:
+  stream-start --> Sets the stream to wait
+  flush-stop --> Clears the stream wait flag
+  caps
+  tag
+  segment
+  stream-collection
+  (buffers start to come and flow properly)
+
+ streamsynchronizer0:sink_1 (audio) events, happening after seek:
+  (no flush events, because the stream hadn't been initialized when the seek happened)
+  stream-start --> Sets the stream to wait
+  caps
+  segment
+  (stalled because the stream is in wait mode!)
+
+The code in streamsynchronizer expects that all the streams are in wait
+state before releasing all of them at once. The flush on the video stream
+broke that assumption and that's why the audio stream is never released in
+that scenario.
+
+Avoiding the clearing of the wait flag on flush-stop isn't an actual solution
+to the problem, as it creates other side effects and at least makes the
+gst-editing-services/seek_with_stop test to timeout. The alternate solution
+implemented in this patch consists on recording when the stream-start event is
+received and then consider those started streams equally valid as those in
+waiting state when evaluating if all the streams should be unblocked.
+
+See: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/4544
+---
+ gst/playback/gststreamsynchronizer.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/gst/playback/gststreamsynchronizer.c b/gst/playback/gststreamsynchronizer.c
+index 08e5cc2..ad5897b 100644
+--- a/gst/playback/gststreamsynchronizer.c
++++ b/gst/playback/gststreamsynchronizer.c
+@@ -75,6 +75,7 @@ typedef struct
+   gboolean flushing;            /* set after flush-start and before flush-stop */
+   gboolean seen_data;
+   gboolean send_gap_event;
++  gboolean seen_stream_start;
+   GstClockTime gap_duration;
+ 
+   GstStreamFlags flags;
+@@ -435,13 +436,14 @@ gst_stream_synchronizer_sink_event (GstPad * pad, GstObject * parent,
+         GST_DEBUG_OBJECT (pad, "Stream %d changed", stream->stream_number);
+ 
+         stream->wait = TRUE;
++        stream->seen_stream_start = TRUE;
+ 
+         for (l = self->streams; l; l = l->next) {
+           GstSyncStream *ostream = l->data;
+ 
+           all_wait = all_wait && ((ostream->flags & GST_STREAM_FLAG_SPARSE)
+-              || (ostream->wait && (!have_group_id
+-                      || ostream->group_id == group_id)));
++              || ((ostream->wait || ostream->seen_stream_start)
++                  && (!have_group_id || ostream->group_id == group_id)));
+           if (!all_wait)
+             break;
+         }
+@@ -1129,6 +1131,7 @@ gst_stream_synchronizer_change_state (GstElement * element,
+         gst_segment_init (&stream->segment, GST_FORMAT_UNDEFINED);
+         stream->gap_duration = GST_CLOCK_TIME_NONE;
+         stream->wait = FALSE;
++        stream->seen_stream_start = FALSE;
+         stream->is_eos = FALSE;
+         stream->eos_sent = FALSE;
+         stream->flushing = FALSE;
+-- 
+2.34.1
+
