@@ -1592,7 +1592,7 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER
 
         config BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_INDEXEDDB_PATH
             string "indexedp storage path"
-            depends BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_INDEXEDDB
+            depends on BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER_INDEXEDDB
             default ""
             help
                 The directory where IndexedDB databases will be stored
