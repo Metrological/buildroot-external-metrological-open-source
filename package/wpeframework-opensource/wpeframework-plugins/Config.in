@@ -847,6 +847,13 @@ config BR2_PACKAGE_WPEFRAMEWORK_MESSENGER
     help
       Messenger Plugin
 
+config BR2_PACKAGE_WPEFRAMEWORK_MESSAGECONTROL
+    select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
+    depends on BR2_PACKAGE_WPEFRAMEWORK_MESSAGING
+    bool "MessageControl"
+    help
+        MessageControl Plugin
+
 menuconfig BR2_PACKAGE_WPEFRAMEWORK_MONITOR
     select BR2_PACKAGE_WPEFRAMEWORK_RDKSERVICES
     bool "Monitor"
