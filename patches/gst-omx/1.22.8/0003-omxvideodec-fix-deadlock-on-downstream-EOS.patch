@@ -1,0 +1,31 @@
+From a593d142dba26c12530765badb78db28c82a5801 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
+Date: Tue, 4 Dec 2018 11:59:17 +0000
+Subject: [PATCH 3/9] omxvideodec: fix deadlock on downstream EOS
+
+Wake the _drain condition when downstream signals GST_FLOW_EOS to
+prevent the upstream streaming thread to keep waiting forever.
+
+This scenario can be triggered when seeking near EOS.
+---
+ omx/gstomxvideodec.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/omx/gstomxvideodec.c b/omx/gstomxvideodec.c
+index 1b488d0..0d2bda8 100644
+--- a/omx/gstomxvideodec.c
++++ b/omx/gstomxvideodec.c
+@@ -2070,6 +2070,10 @@ flow_error:
+ 
+       gst_pad_push_event (GST_VIDEO_DECODER_SRC_PAD (self),
+           gst_event_new_eos ());
++      if (self->draining) {
++        self->draining = FALSE;
++        g_cond_broadcast (&self->drain_cond);
++      }
+     } else if (flow_ret < GST_FLOW_EOS) {
+       GST_ELEMENT_ERROR (self, STREAM, FAILED,
+           ("Internal data stream error."), ("stream stopped, reason %s",
+-- 
+2.34.1
+

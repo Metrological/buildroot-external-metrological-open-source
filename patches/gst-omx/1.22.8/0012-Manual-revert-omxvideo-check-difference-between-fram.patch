@@ -1,0 +1,40 @@
+From bcdd608079647c97f8536a8f4061ce8cbc02daf0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
+Date: Thu, 29 Dec 2022 15:08:33 +0100
+Subject: [PATCH] Manual revert "omxvideo: check difference between frame and
+ requested ts"
+
+That commit added an annoying warning that wasn't present before.
+---
+ omx/gstomxvideo.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/omx/gstomxvideo.c b/omx/gstomxvideo.c
+index e08ff4c..757292a 100644
+--- a/omx/gstomxvideo.c
++++ b/omx/gstomxvideo.c
+@@ -213,19 +213,9 @@ gst_omx_video_find_nearest_frame (GstElement * element, GstOMXBuffer * buf,
+     }
+   }
+ 
+-  if (best) {
++  if (best)
+     gst_video_codec_frame_ref (best);
+-
+-    /* OMX timestamps are in microseconds while gst ones are in nanoseconds.
+-     * So if the difference between them is higher than 1 microsecond we likely
+-     * picked the wrong frame. */
+-    if (best_diff >= GST_USECOND)
+-      GST_WARNING_OBJECT (element,
+-          "Difference between ts (%" GST_TIME_FORMAT ") and frame %u (%"
+-          GST_TIME_FORMAT ") seems too high (%" GST_TIME_FORMAT ")",
+-          GST_TIME_ARGS (timestamp), best->system_frame_number,
+-          GST_TIME_ARGS (best->pts), GST_TIME_ARGS (best_diff));
+-  } else
++  else
+     GST_WARNING_OBJECT (element, "No best frame has been found");
+ 
+   g_list_foreach (frames, (GFunc) gst_video_codec_frame_unref, NULL);
+-- 
+2.34.1
+
