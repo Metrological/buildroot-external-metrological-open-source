@@ -18,6 +18,15 @@ if [ ! "x${BLUETOOTH}" = "x" ]; then
 enable_uart=1
 __EOF__
    fi
+   
+   if ! grep -qE '^dtparam=krnbt=off' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+        echo "Adding dtparam=krnbt=off to config.txt."
+        cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
+
+# Manually control the bluetooth chip via serialport
+dtparam=krnbt=off
+__EOF__
+   fi
 fi
 
 for arg in "$@"
