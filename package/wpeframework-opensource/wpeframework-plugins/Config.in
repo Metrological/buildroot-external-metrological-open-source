@@ -26,11 +26,11 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_AVS
             bool "Platform"
             default BR2_PACKAGE_WPEFRAMEWORK_AVS_PLATFORM_RPI3
 
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_PLATFORM_RPI3
-                bool "rpi3"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_PLATFORM_RPI3
+            bool "rpi3"
 
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_PLATFORM_CUSTOM
-                bool "Custom"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_PLATFORM_CUSTOM
+            bool "Custom"
         endchoice
 
         if BR2_PACKAGE_WPEFRAMEWORK_AVS_PLATFORM_CUSTOM
@@ -60,30 +60,30 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_AVS
             bool "Log level"
             default BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_CRITICAL
 
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_NONE
-                bool "None"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_CRITICAL
-                bool "Critical"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_ERROR
-                bool "Error"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_WARN
-                bool "Warning"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_DEBUG0
-                bool "Debug0"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_DEBUG9
-                bool "Debug9"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_NONE
+            bool "None"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_CRITICAL
+            bool "Critical"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_ERROR
+            bool "Error"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_WARN
+            bool "Warning"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_DEBUG0
+            bool "Debug0"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_LOG_LEVEL_DEBUG9
+            bool "Debug9"
         endchoice
 
         choice BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE
             bool "Audiosource"
             default BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_PORTAUDIO
 
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_PORTAUDIO
-                bool "Portaudio"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_BLRC
-                bool "BluetoothRemoteControl"
-            config BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_CUSTOM
-                bool "Custom"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_PORTAUDIO
+            bool "Portaudio"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_BLRC
+            bool "BluetoothRemoteControl"
+        config BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_CUSTOM
+            bool "Custom"
         endchoice
 
         if BR2_PACKAGE_WPEFRAMEWORK_AVS_AUDIOSOURCE_CUSTOM
@@ -207,11 +207,11 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
             prompt "Baud rate"
             default BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE_NORMAL
 
-            config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE_NORMAL
-                bool "115200"
+        config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE_NORMAL
+            bool "115200"
 
-            config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE_HIGH
-                bool "921600"
+        config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE_HIGH
+            bool "921600"
         endchoice
     endif
 
@@ -283,17 +283,17 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO
                 prompt "SBC quality"
                 default BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
 
-                config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_LQ
-                    bool "LQ - Low Quality"
+            config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_LQ
+                bool "LQ - Low Quality"
 
-                config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_MQ
-                    bool "MQ - Medium Quality"
+            config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_MQ
+                bool "MQ - Medium Quality"
 
-                config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
-                    bool "HQ - High Quality"
+            config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
+                bool "HQ - High Quality"
 
-                config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_XQ
-                    bool "XQ - Extreme Quality"
+            config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_XQ
+                bool "XQ - Extreme Quality"
             endchoice
             endif
     endif
@@ -384,20 +384,20 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_COBALT
             help
             Select cobalt output resolution
 
-            config BR2_PACKAGE_WPEFRAMEWORK_COBALT_RESOLUTION_720P
-                bool "720p"
-                help
-                    Set the resolution to 720p (HD Ready)
+        config BR2_PACKAGE_WPEFRAMEWORK_COBALT_RESOLUTION_720P
+            bool "720p"
+            help
+                Set the resolution to 720p (HD Ready)
 
-            config BR2_PACKAGE_WPEFRAMEWORK_COBALT_RESOLUTION_1080P
-                bool "1080p"
-                help
-                    Set the resolution to 1080p (Full HD)
+        config BR2_PACKAGE_WPEFRAMEWORK_COBALT_RESOLUTION_1080P
+            bool "1080p"
+            help
+                Set the resolution to 1080p (Full HD)
 
-            config BR2_PACKAGE_WPEFRAMEWORK_COBALT_RESOLUTION_2160P
-                bool "2160p"
-                help
-                    Set the resolution to 2160p (4k)
+        config BR2_PACKAGE_WPEFRAMEWORK_COBALT_RESOLUTION_2160P
+            bool "2160p"
+            help
+                Set the resolution to 2160p (4k)
         endchoice
 
         config BR2_PACKAGE_WPEFRAMEWORK_COBALT_SINGLE_PLAYBACKRATE
@@ -492,7 +492,6 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR
             bool "2160p"
             help
             Set the resolution to 2160p (4k)
-
         endchoice
 
         config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_NEXUS_SERVER_EXTERNAL
@@ -525,14 +524,14 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR
                 default BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_ALL if BR2_PACKAGE_BCM_REFSW_SAGE
                 default BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_NONE if !BR2_PACKAGE_BCM_REFSW_SAGE
 
-                config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_NONE
-                    bool "none"
-                config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_VIDEO
-                    depends on BR2_PACKAGE_BCM_REFSW_SAGE
-                    bool "video"
-                config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_ALL
-                    depends on BR2_PACKAGE_BCM_REFSW_SAGE
-                    bool "all"
+            config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_NONE
+                bool "none"
+            config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_VIDEO
+                depends on BR2_PACKAGE_BCM_REFSW_SAGE
+                bool "video"
+            config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_SVP_ALL
+                depends on BR2_PACKAGE_BCM_REFSW_SAGE
+                bool "all"
             endchoice
 
             config BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_MEMORIES
@@ -703,10 +702,10 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER
                 help
                 The DIALServer mode for the YouTube plugin
 
-                config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_YOUTUBE_MODE_PASSIVE
-                    bool "passive"
-                config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_YOUTUBE_MODE_ACTIVE
-                    bool "active"
+            config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_YOUTUBE_MODE_PASSIVE
+                bool "passive"
+            config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_YOUTUBE_MODE_ACTIVE
+                bool "active"
             endchoice
 
             menuconfig  BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_YOUTUBE_RUNTIMECHANGE
@@ -726,10 +725,10 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER
                 help
                 The DIALServer mode for the Netflix plugin
 
-                config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_NETFLIX_MODE_PASSIVE
-                    bool "passive"
-                config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_NETFLIX_MODE_ACTIVE
-                    bool "active"
+            config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_NETFLIX_MODE_PASSIVE
+                bool "passive"
+            config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_NETFLIX_MODE_ACTIVE
+                bool "active"
             endchoice
 
             if BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_NETFLIX_MODE_ACTIVE
@@ -1101,23 +1100,23 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_STREAMER
                 choice BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TYPE
                     prompt "Broadcast modus"
                     default BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_CABLE
-                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_CABLE
-                        bool "Cable"
-                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE
-                        bool "Satellite"
-                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL
-                        bool "Terrestrial"
+                config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_CABLE
+                    bool "Cable"
+                config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE
+                    bool "Satellite"
+                config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL
+                    bool "Terrestrial"
                 endchoice
 
                 choice BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD
                     prompt "Broadcast standard"
                     default BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_ATSC
-                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_DVB
-                        bool "DVB"
-                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_ATSC
-                        bool "ATSC"
-                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_ISDB
-                        bool "ISDB"
+                config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_DVB
+                    bool "DVB"
+                config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_ATSC
+                    bool "ATSC"
+                config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_STANDARD_ISDB
+                    bool "ISDB"
                 endchoice
 
                 if BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_CABLE
@@ -1148,10 +1147,10 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_STREAMER
                     choice BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE_ANNEX_DVB_TYPE
                         prompt "Broadcast standard annex"
                         default BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE_ANNEX_A
-                        config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE_ANNEX_NO_ANNNEX
-                            bool "No annex"
-                        config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE_ANNEX_A
-                            bool "A"
+                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE_ANNEX_NO_ANNNEX
+                        bool "No annex"
+                    config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_SATELLITE_ANNEX_A
+                        bool "A"
                     endchoice
                     endif
 
@@ -1167,10 +1166,10 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_STREAMER
                         choice BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL_TYPE
                             prompt "Broadcast standard annex"
                             default BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL_ANNEX_A
-                            config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL_ANNEX_NO_ANNNEX
-                                bool "No annex"
-                            config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL_ANNEX_A
-                                bool "A"
+                        config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL_ANNEX_NO_ANNNEX
+                            bool "No annex"
+                        config BR2_PACKAGE_WPEFRAMEWORK_STREAMER_BROADCAST_TERRESTRIAL_ANNEX_A
+                            bool "A"
                         endchoice
                     endif
 
@@ -1310,7 +1309,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_VAULTPROVISIONING
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     bool "Vault Provisioning"
     help
-      VolumeControl Plugin
+      Vault Provisioning Plugin
 
 config BR2_PACKAGE_WPEFRAMEWORK_VOLUMECONTROL
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
@@ -1409,20 +1408,20 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_WEBKITBROWSER
             default BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_720P
             prompt "resolution"
             help
-            Select browser output resolution
+                Select browser output resolution
 
-            config BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_720P
-                bool "720p"
-                help
-                    Set the resolution to 720p (HD Ready)
-            config BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_1080P
-                bool "1080p"
-                help
-                    Set the resolution to 1080p (Full HD)
-            config BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_2160P
-                bool "2160p"
-                help
-                    Set the resolution to 2160p (4k)
+        config BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_720P
+            bool "720p"
+            help
+                Set the resolution to 720p (HD Ready)
+        config BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_1080P
+            bool "1080p"
+            help
+                Set the resolution to 1080p (Full HD)
+        config BR2_PACKAGE_WPEFRAMEWORK_BROWSER_RESOLUTION_2160P
+            bool "2160p"
+            help
+                Set the resolution to 2160p (4k)
         endchoice
 
         menuconfig BR2_PACKAGE_WPEFRAMEWORK_YOUTUBE
@@ -1641,12 +1640,12 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_WEBPA
         choice BR2_PACKAGE_WPEFRAMEWORK_WEBPA_PLATFORM
             bool "Client"
             default BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
-            config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
-                bool "Generic adapter client"
-            config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP
-                select BR2_PACKAGE_PARODUS2CCSP
-                select BR2_PACKAGE_CCSPCR
-                bool "CCSP client"
+        config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_GENERIC_ADAPTER
+            bool "Generic adapter client"
+        config BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP
+            select BR2_PACKAGE_PARODUS2CCSP
+            select BR2_PACKAGE_CCSPCR
+            bool "CCSP client"
         endchoice
 
         if BR2_PACKAGE_WPEFRAMEWORK_WEBPA_CCSP
