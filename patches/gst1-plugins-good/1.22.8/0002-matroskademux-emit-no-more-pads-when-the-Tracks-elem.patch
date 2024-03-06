@@ -1,0 +1,226 @@
+From 7da5ad792849566aaf6273a03b332818273ccd97 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Wed, 6 Mar 2024 12:22:50 +0100
+Subject: [PATCH 2/7] matroskademux: emit no-more-pads when the Tracks element
+ is completely read
+
+---
+ gst/matroska/matroska-demux.c | 188 +++++++++++++++++++++++-----------
+ 1 file changed, 127 insertions(+), 61 deletions(-)
+
+diff --git a/gst/matroska/matroska-demux.c b/gst/matroska/matroska-demux.c
+index 4521a61..4e4e4b5 100644
+--- a/gst/matroska/matroska-demux.c
++++ b/gst/matroska/matroska-demux.c
+@@ -3454,6 +3454,68 @@ gst_matroska_demux_parse_tracks (GstMatroskaDemux * demux, GstEbmlRead * ebml)
+   }
+   DEBUG_ELEMENT_STOP (demux, ebml, "Tracks", ret);
+ 
++  if (demux->common.state == GST_MATROSKA_READ_STATE_HEADER) {
++    demux->common.state = GST_MATROSKA_READ_STATE_DATA;
++    demux->first_cluster_offset = demux->common.offset;
++
++    if (!demux->streaming &&
++        !GST_CLOCK_TIME_IS_VALID (demux->common.segment.duration)) {
++      GstMatroskaIndex *last = NULL;
++
++      GST_DEBUG_OBJECT (demux,
++          "estimating duration using last cluster");
++      if ((last = gst_matroska_demux_search_pos (demux,
++                  GST_CLOCK_TIME_NONE)) != NULL) {
++        demux->last_cluster_offset =
++            last->pos + demux->common.ebml_segment_start;
++        demux->stream_last_time = last->time;
++        demux->common.segment.duration =
++            demux->stream_last_time - demux->stream_start_time;
++        /* above estimate should not be taken all too strongly */
++        demux->invalid_duration = TRUE;
++        GST_DEBUG_OBJECT (demux,
++            "estimated duration as %" GST_TIME_FORMAT,
++            GST_TIME_ARGS (demux->common.segment.duration));
++
++        g_free (last);
++      }
++    }
++
++    /* Peek at second cluster in order to figure out if we have cluster
++     * prev_size or not (which is never set on the first cluster for
++     * obvious reasons). This is useful in case someone initiates a
++     * seek or direction change before we reach the second cluster. */
++    if (!demux->streaming) {
++      ClusterInfo cluster = { 0, };
++
++      if (gst_matroska_demux_peek_cluster_info (demux, &cluster,
++              demux->first_cluster_offset) && cluster.size > 0) {
++        gst_matroska_demux_peek_cluster_info (demux, &cluster,
++            demux->first_cluster_offset + cluster.size);
++      }
++      demux->common.offset = demux->first_cluster_offset;
++    }
++
++    if (demux->deferred_seek_event) {
++      GstEvent *seek_event;
++      GstPad *seek_pad;
++      seek_event = demux->deferred_seek_event;
++      seek_pad = demux->deferred_seek_pad;
++      demux->deferred_seek_event = NULL;
++      demux->deferred_seek_pad = NULL;
++      GST_DEBUG_OBJECT (demux,
++          "Handling deferred seek event: %" GST_PTR_FORMAT, seek_event);
++      gst_matroska_demux_handle_seek_event (demux, seek_pad,
++          seek_event);
++      gst_event_unref (seek_event);
++    }
++
++    /* send initial segment - we wait till we know the first
++       incoming timestamp, so we can properly set the start of
++       the segment. */
++    demux->need_segment = TRUE;
++  }
++
+   demux->tracks_ebml_offset = ebml_offset;
+   GST_DEBUG_OBJECT (demux, "signaling no more pads");
+   gst_element_no_more_pads (GST_ELEMENT (demux));
+@@ -3572,6 +3634,71 @@ gst_matroska_demux_update_tracks (GstMatroskaDemux * demux, GstEbmlRead * ebml)
+     ret = GST_FLOW_ERROR;
+   }
+ 
++  if (demux->common.state == GST_MATROSKA_READ_STATE_HEADER) {
++    demux->common.state = GST_MATROSKA_READ_STATE_DATA;
++    demux->first_cluster_offset = demux->common.offset;
++
++    if (!demux->streaming &&
++        !GST_CLOCK_TIME_IS_VALID (demux->common.segment.duration)) {
++      GstMatroskaIndex *last = NULL;
++
++      GST_DEBUG_OBJECT (demux,
++          "estimating duration using last cluster");
++      if ((last = gst_matroska_demux_search_pos (demux,
++                  GST_CLOCK_TIME_NONE)) != NULL) {
++        demux->last_cluster_offset =
++            last->pos + demux->common.ebml_segment_start;
++        demux->stream_last_time = last->time;
++        demux->common.segment.duration =
++            demux->stream_last_time - demux->stream_start_time;
++        /* above estimate should not be taken all too strongly */
++        demux->invalid_duration = TRUE;
++        GST_DEBUG_OBJECT (demux,
++            "estimated duration as %" GST_TIME_FORMAT,
++            GST_TIME_ARGS (demux->common.segment.duration));
++
++        g_free (last);
++      }
++    }
++
++    /* Peek at second cluster in order to figure out if we have cluster
++     * prev_size or not (which is never set on the first cluster for
++     * obvious reasons). This is useful in case someone initiates a
++     * seek or direction change before we reach the second cluster. */
++    if (!demux->streaming) {
++      ClusterInfo cluster = { 0, };
++
++      if (gst_matroska_demux_peek_cluster_info (demux, &cluster,
++              demux->first_cluster_offset) && cluster.size > 0) {
++        gst_matroska_demux_peek_cluster_info (demux, &cluster,
++            demux->first_cluster_offset + cluster.size);
++      }
++      demux->common.offset = demux->first_cluster_offset;
++    }
++
++    if (demux->deferred_seek_event) {
++      GstEvent *seek_event;
++      GstPad *seek_pad;
++      seek_event = demux->deferred_seek_event;
++      seek_pad = demux->deferred_seek_pad;
++      demux->deferred_seek_event = NULL;
++      demux->deferred_seek_pad = NULL;
++      GST_DEBUG_OBJECT (demux,
++          "Handling deferred seek event: %" GST_PTR_FORMAT, seek_event);
++      gst_matroska_demux_handle_seek_event (demux, seek_pad,
++          seek_event);
++      gst_event_unref (seek_event);
++    }
++
++    GST_DEBUG_OBJECT (demux, "signaling no more pads");
++    gst_element_no_more_pads (GST_ELEMENT (demux));
++
++    /* send initial segment - we wait till we know the first
++       incoming timestamp, so we can properly set the start of
++       the segment. */
++    demux->need_segment = TRUE;
++  }
++
+   return ret;
+ }
+ 
+@@ -5678,67 +5805,6 @@ gst_matroska_demux_parse_id (GstMatroskaDemux * demux, guint32 id,
+                 goto no_tracks;
+             }
+           }
+-          if (demux->common.state == GST_MATROSKA_READ_STATE_HEADER) {
+-            demux->common.state = GST_MATROSKA_READ_STATE_DATA;
+-            demux->first_cluster_offset = demux->common.offset;
+-
+-            if (!demux->streaming &&
+-                !GST_CLOCK_TIME_IS_VALID (demux->common.segment.duration)) {
+-              GstMatroskaIndex *last = NULL;
+-
+-              GST_DEBUG_OBJECT (demux,
+-                  "estimating duration using last cluster");
+-              if ((last = gst_matroska_demux_search_pos (demux,
+-                          GST_CLOCK_TIME_NONE)) != NULL) {
+-                demux->last_cluster_offset =
+-                    last->pos + demux->common.ebml_segment_start;
+-                demux->stream_last_time = last->time;
+-                demux->common.segment.duration =
+-                    demux->stream_last_time - demux->stream_start_time;
+-                /* above estimate should not be taken all too strongly */
+-                demux->invalid_duration = TRUE;
+-                GST_DEBUG_OBJECT (demux,
+-                    "estimated duration as %" GST_TIME_FORMAT,
+-                    GST_TIME_ARGS (demux->common.segment.duration));
+-
+-                g_free (last);
+-              }
+-            }
+-
+-            /* Peek at second cluster in order to figure out if we have cluster
+-             * prev_size or not (which is never set on the first cluster for
+-             * obvious reasons). This is useful in case someone initiates a
+-             * seek or direction change before we reach the second cluster. */
+-            if (!demux->streaming) {
+-              ClusterInfo cluster = { 0, };
+-
+-              if (gst_matroska_demux_peek_cluster_info (demux, &cluster,
+-                      demux->first_cluster_offset) && cluster.size > 0) {
+-                gst_matroska_demux_peek_cluster_info (demux, &cluster,
+-                    demux->first_cluster_offset + cluster.size);
+-              }
+-              demux->common.offset = demux->first_cluster_offset;
+-            }
+-
+-            if (demux->deferred_seek_event) {
+-              GstEvent *seek_event;
+-              GstPad *seek_pad;
+-              seek_event = demux->deferred_seek_event;
+-              seek_pad = demux->deferred_seek_pad;
+-              demux->deferred_seek_event = NULL;
+-              demux->deferred_seek_pad = NULL;
+-              GST_DEBUG_OBJECT (demux,
+-                  "Handling deferred seek event: %" GST_PTR_FORMAT, seek_event);
+-              gst_matroska_demux_handle_seek_event (demux, seek_pad,
+-                  seek_event);
+-              gst_event_unref (seek_event);
+-            }
+-
+-            /* send initial segment - we wait till we know the first
+-               incoming timestamp, so we can properly set the start of
+-               the segment. */
+-            demux->need_segment = TRUE;
+-          }
+           demux->cluster_time = GST_CLOCK_TIME_NONE;
+           demux->cluster_offset = demux->common.offset;
+           demux->cluster_prevsize = 0;
+-- 
+2.34.1
+

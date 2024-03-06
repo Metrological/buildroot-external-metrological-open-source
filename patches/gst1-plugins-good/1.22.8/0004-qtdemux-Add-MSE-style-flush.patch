@@ -1,0 +1,50 @@
+From 0f776cfd3f14ff92ecd4ed2f11e8c9868dd7ff0a Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Wed, 6 Mar 2024 12:26:30 +0100
+Subject: [PATCH 4/7] qtdemux: Add MSE-style flush
+
+The abort() method of SourceBuffer in Media Source Extensions is
+expected to flush the demuxer and discard the current fragment,
+if any. The configuration of tracks, if any, should be preserved.
+
+qtdemux has different behavior for flush events depending on the
+context.
+
+This patch activates the intended behaviour only for streams of the
+VARIANT_MSE_BYTESTREAM type, conformant to the ISO BMFF Bytestream
+specification[1]. This flush behaviour is the same as the one
+already in use for adaptivedemux sources.
+
+[1] https://www.w3.org/TR/mse-byte-stream-format-isobmff/
+
+https://bugzilla.gnome.org/show_bug.cgi?id=795424
+---
+ gst/isomp4/qtdemux.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
+index 6fdc5e7..28baf6b 100644
+--- a/gst/isomp4/qtdemux.c
++++ b/gst/isomp4/qtdemux.c
+@@ -1997,7 +1997,8 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+ 
+   GST_DEBUG_OBJECT (qtdemux, "Resetting demux");
+ 
+-  if (hard || qtdemux->upstream_format_is_time) {
++  if (hard || qtdemux->upstream_format_is_time
++      || qtdemux->variant == VARIANT_MSE_BYTESTREAM) {
+     qtdemux->state = QTDEMUX_STATE_INITIAL;
+     qtdemux->neededbytes = 16;
+     qtdemux->todrop = 0;
+@@ -2097,6 +2098,8 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+     gst_flow_combiner_reset (qtdemux->flowcombiner);
+     g_ptr_array_foreach (qtdemux->active_streams,
+         (GFunc) gst_qtdemux_stream_clear, NULL);
++  } else if (qtdemux->variant == VARIANT_MSE_BYTESTREAM) {
++    /* Do nothing */
+   } else {
+     gst_flow_combiner_reset (qtdemux->flowcombiner);
+     for (i = 0; i < QTDEMUX_N_STREAMS (qtdemux); i++) {
+-- 
+2.34.1
+

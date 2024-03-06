@@ -1,0 +1,92 @@
+From 4d53fb5807ac3c83fb8bf01ab0c0e0f81ce49172 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Wed, 6 Mar 2024 12:24:23 +0100
+Subject: [PATCH 3/7] audioparsers: add back segment clipping to parsers that
+ have lost it
+
+---
+ gst/audioparsers/gstaacparse.c     | 2 --
+ gst/audioparsers/gstac3parse.c     | 2 --
+ gst/audioparsers/gstamrparse.c     | 2 --
+ gst/audioparsers/gstdcaparse.c     | 2 --
+ gst/audioparsers/gstsbcparse.c     | 2 --
+ gst/audioparsers/gstwavpackparse.c | 2 --
+ 6 files changed, 12 deletions(-)
+
+diff --git a/gst/audioparsers/gstaacparse.c b/gst/audioparsers/gstaacparse.c
+index 28e953e..0e6b47f 100644
+--- a/gst/audioparsers/gstaacparse.c
++++ b/gst/audioparsers/gstaacparse.c
+@@ -1484,8 +1484,6 @@ gst_aac_parse_pre_push_frame (GstBaseParse * parse, GstBaseParseFrame * frame)
+         gst_buffer_get_size (frame->out_buffer) - header_size);
+   }
+ 
+-  frame->flags |= GST_BASE_PARSE_FRAME_FLAG_CLIP;
+-
+   return GST_FLOW_OK;
+ }
+ 
+diff --git a/gst/audioparsers/gstac3parse.c b/gst/audioparsers/gstac3parse.c
+index 64b3ca3..411fd15 100644
+--- a/gst/audioparsers/gstac3parse.c
++++ b/gst/audioparsers/gstac3parse.c
+@@ -811,8 +811,6 @@ gst_ac3_parse_pre_push_frame (GstBaseParse * parse, GstBaseParseFrame * frame)
+     ac3parse->sent_codec_tag = TRUE;
+   }
+ 
+-  frame->flags |= GST_BASE_PARSE_FRAME_FLAG_CLIP;
+-
+   return GST_FLOW_OK;
+ }
+ 
+diff --git a/gst/audioparsers/gstamrparse.c b/gst/audioparsers/gstamrparse.c
+index 0ef612e..364c237 100644
+--- a/gst/audioparsers/gstamrparse.c
++++ b/gst/audioparsers/gstamrparse.c
+@@ -451,7 +451,5 @@ gst_amr_parse_pre_push_frame (GstBaseParse * parse, GstBaseParseFrame * frame)
+     amrparse->sent_codec_tag = TRUE;
+   }
+ 
+-  frame->flags |= GST_BASE_PARSE_FRAME_FLAG_CLIP;
+-
+   return GST_FLOW_OK;
+ }
+diff --git a/gst/audioparsers/gstdcaparse.c b/gst/audioparsers/gstdcaparse.c
+index ef2dec5..cb6b4a2 100644
+--- a/gst/audioparsers/gstdcaparse.c
++++ b/gst/audioparsers/gstdcaparse.c
+@@ -617,7 +617,5 @@ gst_dca_parse_pre_push_frame (GstBaseParse * parse, GstBaseParseFrame * frame)
+     dcaparse->sent_codec_tag = TRUE;
+   }
+ 
+-  frame->flags |= GST_BASE_PARSE_FRAME_FLAG_CLIP;
+-
+   return GST_FLOW_OK;
+ }
+diff --git a/gst/audioparsers/gstsbcparse.c b/gst/audioparsers/gstsbcparse.c
+index 3fa8bb4..f981630 100644
+--- a/gst/audioparsers/gstsbcparse.c
++++ b/gst/audioparsers/gstsbcparse.c
+@@ -533,7 +533,5 @@ gst_sbc_parse_pre_push_frame (GstBaseParse * parse, GstBaseParseFrame * frame)
+     sbcparse->sent_codec_tag = TRUE;
+   }
+ 
+-  frame->flags |= GST_BASE_PARSE_FRAME_FLAG_CLIP;
+-
+   return GST_FLOW_OK;
+ }
+diff --git a/gst/audioparsers/gstwavpackparse.c b/gst/audioparsers/gstwavpackparse.c
+index 16b9b4e..b89d5ad 100644
+--- a/gst/audioparsers/gstwavpackparse.c
++++ b/gst/audioparsers/gstwavpackparse.c
+@@ -707,7 +707,5 @@ gst_wavpack_parse_pre_push_frame (GstBaseParse * parse,
+     wavpackparse->sent_codec_tag = TRUE;
+   }
+ 
+-  frame->flags |= GST_BASE_PARSE_FRAME_FLAG_CLIP;
+-
+   return GST_FLOW_OK;
+ }
+-- 
+2.34.1
+
