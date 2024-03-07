@@ -197,6 +197,24 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
             help
             Select this to start the plugin automatically when starting WPEFramework
 
+        choice BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL
+            depends on BR2_PACKAGE_RPI_FIRMWARE
+            default BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE
+            prompt "chip controller"
+            help
+                Select who should control the bluetooth chip
+
+        config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_KERNEL
+            bool "kernel"
+            help
+                Let the kernel take control of the bluetooth chip.  
+
+        config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE
+            bool "plugin"
+            help
+                Let the userspace take control of the bluetooth chip.  
+        endchoice
+
         config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_PERSISTMAC
             bool "Persist MAC Address"
             default n

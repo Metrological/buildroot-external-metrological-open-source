@@ -1,12 +1,14 @@
 #!/bin/bash
 
 set -e
+set -x
 
 BOARD_DIR="$(dirname $0)"
 BOARD_NAME="$(basename ${BOARD_DIR})"
 GENIMAGE_CFG="${BOARD_DIR}/genimage-${BOARD_NAME}.cfg"
 GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 BLUETOOTH=$(eval grep ^BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH=y ${BR2_CONFIG} | wc -l)
+BT_USERSPACE=$(eval grep ^BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE=y ${BR2_CONFIG} | wc -l)
 
 if [ ! "x${BLUETOOTH}" = "x" ]; then
    if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
@@ -18,12 +20,14 @@ if [ ! "x${BLUETOOTH}" = "x" ]; then
 enable_uart=1
 __EOF__
    fi
-   
+fi
+
+if [ ! "x${BT_USERSPACE}" = "x" ]; then
    if ! grep -qE '^dtparam=krnbt=off' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
         echo "Adding dtparam=krnbt=off to config.txt."
         cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
-# Manually control the bluetooth chip via serialport
+# Control the bluetooth chip in userspace
 dtparam=krnbt=off
 __EOF__
    fi
@@ -222,6 +226,16 @@ __EOF__
 
 # Enable onboard ALSA audio
 dtparam=audio=on
+__EOF__
+                fi
+                ;;
+                --add-dtparam-krnbt-off)
+                if ! grep -qE '^dtparam=krnbt=off' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+                        echo "Adding 'dtparam=audio=on' to config.txt."
+                        cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
+
+# Control the bluetooth chip via the BluetoothControl
+dtparam=krnbt=off
 __EOF__
                 fi
                 ;;
