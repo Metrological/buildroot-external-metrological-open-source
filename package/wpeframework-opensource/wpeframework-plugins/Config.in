@@ -711,7 +711,16 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER
 
     if BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER
         config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_NAME
-            string "DIALServer name"
+            string "Name"
+            default "Thunder"
+            help
+                The human readable name of the DIAL server.  
+        
+        config BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_INTERFACE
+            string "Interface"
+            default "0.0.0.0"
+            help
+                Specifiy the listening interface of the DIAL server.
 
         if BR2_PACKAGE_WPEFRAMEWORK_HAS_YOUTUBE
             choice BR2_PACKAGE_WPEFRAMEWORK_DIALSERVER_YOUTUBE_MODE
