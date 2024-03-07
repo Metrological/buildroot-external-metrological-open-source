@@ -218,8 +218,9 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
         config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_PERSISTMAC
             bool "Persist MAC Address"
             default n
+            depends on BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE
             help
-            Maintains the MAC address of the BT adapter after the first startup.
+                Maintains the MAC address of the BT adapter after the first startup.
 
         choice BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE
             prompt "Baud rate"
@@ -231,6 +232,13 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
         config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_BAUDRATE_HIGH
             bool "921600"
         endchoice
+
+        config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_DEVICE
+            string "device"
+            default "/dev/ttyAMA0"
+            depends on BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE
+            help
+                Define which device is exposed to control the bluetooth chip. 
     endif
 
 config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTHREMOTECONTROL
