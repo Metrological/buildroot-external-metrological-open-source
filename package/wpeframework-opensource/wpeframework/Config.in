@@ -151,6 +151,13 @@ config BR2_PACKAGE_WPEFRAMEWORK_SYSTEM_PREFIX
     string "system prefix"
     default ""
 
+config BR2_PACKAGE_WPEFRAMEWORK_TRACING_MODULES
+    string "tracing modules"
+    default ""
+    help
+      A space separated list of specific tracing modules to be enabled at start.
+      If empty all modules will be enabled.
+
 config BR2_PACKAGE_WPEFRAMEWORK_DISABLE_LEGACY_CONFIG_GENERATOR
     bool "disable legacy config generator"
     default n
@@ -169,7 +176,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_ENABLE_STRICT_COMPILER
     bool "strict compiler settings"
     default y
     help
-        Enabling this will trigger more warings and turn them into compile errors.
+        Enabling this will trigger more warnings and turn them into compile errors.
 
 
 config BR2_PACKAGE_WPEFRAMEWORK_EXCEPTIONS_ENABLE
@@ -186,7 +193,7 @@ config BR2_PACKAGE_WPEFRAMEWORK_PERFORMANCE_MONITORING
 
 menu "Platform Device Groups"
 
-comment "This should match the groups applied to the respective platforms device resourses."
+comment "This should match the groups applied to the respective platforms device recourses."
 
 config BR2_PACKAGE_WPEFRAMEWORK_PLATFORM_VIDEO_DEVICE_GROUP
     string "video"
