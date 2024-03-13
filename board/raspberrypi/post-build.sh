@@ -2,6 +2,7 @@
 
 set -u
 set -e
+set -x
 
 for arg in "$@"
 do
@@ -23,6 +24,35 @@ tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/ini
                     mkdir -p "${TARGET_DIR}/boot"
                     grep -q '^/dev/mmcblk0p1' "${TARGET_DIR}/etc/fstab" || \
                         echo '/dev/mmcblk0p1 /boot vfat defaults 0 0' >> "${TARGET_DIR}/etc/fstab"
+                fi
+                ;;                
+                --install-ssh-id)
+                if [ ! -e ${BINARIES_DIR}/debug-access ]; then
+                        echo "Generated Debug SSH ID"
+                        ssh-keygen -q -t ed25519 -C "thunder@debug.access" -N "" -f "${BINARIES_DIR}/debug-access" 
+                fi
+
+                if [ ! -d ${TARGET_DIR}/etc/dropbear ]; then
+                        echo "Fix dropbear folder"
+                        rm -rf ${TARGET_DIR}/etc/dropbear 
+                        mkdir -p ${TARGET_DIR}/etc/dropbear 
+                fi
+
+                if [ ! -e ${TARGET_DIR}/root/.ssh ]; then
+                        echo "Fix .ssh folder"
+                        ln -sf ../etc/dropbear ${TARGET_DIR}/root/.ssh 
+                fi
+
+                if [ -d ${TARGET_DIR}/etc/dropbear ] && [ -e ${BINARIES_DIR}/debug-access.pub ]; then
+                        echo "Installing SSH debug key"
+                        pubkey="$(cat ${BINARIES_DIR}/debug-access.pub)"
+
+                        touch "${TARGET_DIR}/etc/dropbear/authorized_keys"
+                        
+                        if ! grep -q "${pubkey}" "${TARGET_DIR}/etc/dropbear/authorized_keys"; then
+                                echo "Adding public key ${pubkey}"
+                                echo ${pubkey} >> ${TARGET_DIR}/etc/dropbear/authorized_keys
+                        fi
                 fi
                 ;;
         esac
