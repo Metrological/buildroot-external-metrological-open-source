@@ -1,0 +1,29 @@
+From 7e5ee8de53f6ad7b11ddfdc451ff5a53520cc001 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Sat, 6 Apr 2024 00:19:24 +0200
+Subject: [PATCH] Fix mmc numbering
+
+---
+ arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi
+index d1d48cf6e..6af49ae94 100644
+--- a/arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi
++++ b/arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi
+@@ -54,6 +54,12 @@ / {
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+ 
++	aliases {
++		mmc0 = &mmc0;
++		mmc1 = &mmc1;
++		mmc2 = &mmc2;
++	};
++
+ 	chosen {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+-- 
+2.34.1
+
