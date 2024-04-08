@@ -9,6 +9,7 @@ GENIMAGE_CFG="${BOARD_DIR}/genimage-${BOARD_NAME}.cfg"
 GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 BLUETOOTH=$(eval grep ^BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH=y ${BR2_CONFIG} | wc -l)
 BT_USERSPACE=$(eval grep ^BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE=y ${BR2_CONFIG} | wc -l)
+ARCH64=$(eval grep ^BR2_ARCH_IS_64=y ${BR2_CONFIG} | wc -l)
 
 if [ ! "x${BLUETOOTH}" = "x" ]; then
    if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
@@ -33,20 +34,21 @@ __EOF__
    fi
 fi
 
-for arg in "$@"
-do
-        case "${arg}" in
-                --aarch64)
-                # Run a 64bits kernel (armv8)
-                sed -e '/^kernel=/s,=.*,=Image,' -i "${BINARIES_DIR}/rpi-firmware/config.txt"
-                if ! grep -qE '^arm_64bit=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
-                        cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
+if [ ! "x${ARCH64}" = "x" ]; then
+   if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+      echo "Enable 64 bits kernel"
+      sed -i 's/ttyAMA0/ttyS0/g' "${BINARIES_DIR}/rpi-firmware/cmdline.txt"
+      cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
 # enable 64bits support
 arm_64bit=1
 __EOF__
-                fi
-                ;;
+   fi
+fi
+
+for arg in "$@"
+do
+        case "${arg}" in
                 --gpu_mem_256=*|--gpu_mem_512=*|--gpu_mem_1024=*)
                 # Set GPU memory
                 gpu_mem="${arg:2}"
