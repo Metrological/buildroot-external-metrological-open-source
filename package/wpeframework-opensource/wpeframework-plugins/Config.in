@@ -242,7 +242,7 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH
 
         config BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_FIRMWARE_DIRECTORY
             string "firmware directory"
-            default "/lib/firmware/brcm/
+            default "/lib/firmware/brcm/"
             depends on BR2_PACKAGE_WPEFRAMEWORK_BLUETOOTH_CHIP_CONTROL_USERSPACE
             help
                 The directory where the bluetooth firmware binaries are stored. 
