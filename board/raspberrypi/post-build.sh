@@ -16,6 +16,16 @@ do
 tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/inittab
                 fi
                 ;;
+                
+                --ttyS0-console)
+                # Enable a console on ttyS0 (serialport)
+                if [ -e ${TARGET_DIR}/etc/inittab ]; then
+                    echo "Enable Serial S0 console"
+                    grep -qE '^ttyS0::' ${TARGET_DIR}/etc/inittab || \
+                    sed -i '/GENERIC_SERIAL/a\
+ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100 # ttyS0 console' ${TARGET_DIR}/etc/inittab
+                fi
+                ;;
 
                 --mount-boot)
                 # Enable mounting of the first partion to /boot
