@@ -1,0 +1,26 @@
+From c3ccb450c48861a15d22ca46a86e33b71a5fc3e0 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Wed, 10 Apr 2024 12:30:50 +0200
+Subject: [PATCH] build with a relative base path
+
+Signed-off-by: Bram Oosterhuis <dev@bybram.com>
+---
+ package.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 3ac07ff..b0645ad 100644
+--- a/package.json
++++ b/package.json
+@@ -9,7 +9,7 @@
+     "start:test": "NODE_ENV=testing npm run dev",
+     "lint": "eslint '**/*.js'",
+     "lint:fix": "eslint '**/*.js' --fix",
+-    "build": "vite build",
++    "build": "vite build --base ./",
+     "dev": "vite dev --host",
+     "test": "NODE_ENV=testing backstop --config=backstop.cjs test",
+     "test:reference": "NODE_ENV=testing backstop --config=backstop.cjs reference"
+-- 
+2.34.1
+
