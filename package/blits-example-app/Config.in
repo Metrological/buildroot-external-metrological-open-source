@@ -4,4 +4,4 @@ config BR2_PACKAGE_BLITS_EXAMPLE_APP
     help
         Example Blits Lightning 3 App
 
-
+        https://github.com/lightning-js/blits-example-app
