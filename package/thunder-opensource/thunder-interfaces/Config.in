@@ -1,0 +1,4 @@
+config BR2_PACKAGE_THUNDER_INTERFACES
+    bool
+    depends on BR2_PACKAGE_THUNDER
+    default y if BR2_PACKAGE_THUNDER

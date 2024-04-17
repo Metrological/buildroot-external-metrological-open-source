@@ -1,0 +1,23 @@
+comment "Thunder Doofah plugin needs thunder"
+	depends on !BR2_PACKAGE_THUNDER
+
+menuconfig BR2_PACKAGE_THUNDER_DOOFAH
+    bool "Doofah"
+    depends on BR2_PACKAGE_THUNDER
+    help
+    	Plugin to act as a remote control on your test
+    	workbench
+
+if BR2_PACKAGE_THUNDER_DOOFAH 
+config BR2_PACKAGE_THUNDER_DOOFAH_AUTOSTART
+    bool "Start Automatically"
+    default y
+    help
+      Select this to start the plugin automatically when starting Thunder
+
+config BR2_PACKAGE_THUNDER_DOOFAH_CONNECTOR_CONFIG
+    string "Connector config"
+    help
+      Set a custom connector configutarion 
+
+endif
