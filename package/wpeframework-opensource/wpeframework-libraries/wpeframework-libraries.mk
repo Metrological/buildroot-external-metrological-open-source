@@ -3,7 +3,7 @@
 # wpeframework-libraries
 #
 ################################################################################
-WPEFRAMEWORK_LIBRARIES_VERSION = R4.4.1
+WPEFRAMEWORK_LIBRARIES_VERSION = a5851bbe2e86a41d3b2a91e68f2b587477d984ab
 WPEFRAMEWORK_LIBRARIES_SITE = $(call github,WebPlatformForEmbedded,ThunderLibraries,$(WPEFRAMEWORK_LIBRARIES_VERSION))
 WPEFRAMEWORK_LIBRARIES_INSTALL_STAGING = YES
 WPEFRAMEWORK_LIBRARIES_DEPENDENCIES = wpeframework 
