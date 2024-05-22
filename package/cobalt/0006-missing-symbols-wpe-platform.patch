@@ -1,0 +1,78 @@
+--- a//dev/null
++++ b/third_party/starboard/wpe/shared/decode_target.cc
+@@ -0,0 +1,14 @@
++#include "starboard/decode_target.h"
++#include<cassert>
++
++ // Missing (required) defintions corresponding to declarations in decode_target.h
++void SbDecodeTargetRelease(SbDecodeTarget target) {
++    SB_UNREFERENCED_PARAMETER(target);
++    assert(false);
++}
++bool SbDecodeTargetGetInfo(SbDecodeTarget decode_target, SbDecodeTargetInfo* out_info) {
++    SB_UNREFERENCED_PARAMETER(decode_target);
++    SB_UNREFERENCED_PARAMETER(out_info);
++    assert(false);
++    return false;
++}
+--- a//dev/null
++++ b/third_party/starboard/wpe/shared/system.cc
+@@ -0,0 +1,7 @@
++#include "starboard/system.h"
++#include<cassert>
++
++ // Missing (required) defintions corresponding to declarations in system.h
++void SbSystemRequestFocus() {
++    assert(false);
++}
+--- a//dev/null
++++ b/third_party/starboard/wpe/shared/image.cc
+@@ -0,0 +1,20 @@
++#include "starboard/image.h"
++#include<cassert>
++
++ // Missing (required) defintions corresponding to declarations in image.h
++bool SbImageIsDecodeSupported(const char* mime_type, SbDecodeTargetFormat format) {
++    SB_UNREFERENCED_PARAMETER(mime_type);
++    SB_UNREFERENCED_PARAMETER(format);
++    assert(false);
++    return false;
++}
++
++SbDecodeTarget SbImageDecode(SbDecodeTargetGraphicsContextProvider* context_provider, void* data, int data_size, const char* mime_type, SbDecodeTargetFormat format) {
++    SB_UNREFERENCED_PARAMETER(context_provider);
++    SB_UNREFERENCED_PARAMETER(data);
++    SB_UNREFERENCED_PARAMETER(data_size);
++    SB_UNREFERENCED_PARAMETER(mime_type);
++    SB_UNREFERENCED_PARAMETER(format);
++    assert(false);
++    return kSbDecodeTargetInvalid;
++}
+--- a/third_party/starboard/wpe/shared/BUILD.gn
++++ b/third_party/starboard/wpe/shared/BUILD.gn
+@@ -419,10 +419,10 @@
+   sources += window_sources
+   sources += event_sources
+   sources += [
+-    "//starboard/shared/libjpeg/image_decode.cc",
+-    "//starboard/shared/libjpeg/image_is_decode_supported.cc",
+-    "//starboard/shared/libjpeg/jpeg_image_decoder.cc",
+-    "//starboard/shared/libjpeg/jpeg_image_decoder.h",
++#    "//starboard/shared/libjpeg/image_decode.cc",
++#    "//starboard/shared/libjpeg/image_is_decode_supported.cc",
++#    "//starboard/shared/libjpeg/jpeg_image_decoder.cc",
++#    "//starboard/shared/libjpeg/jpeg_image_decoder.h",
+     "//starboard/shared/linux/byte_swap.cc",
+     "//starboard/shared/linux/cpu_features_get.cc",
+     "//starboard/shared/signal/crash_signals.cc",
+@@ -455,6 +455,9 @@
+     "//third_party/starboard/wpe/shared/get_home_directory.cc",
+     "//third_party/starboard/wpe/shared/main_wpe.cc",
+     "//third_party/starboard/wpe/shared/configuration_constants.cc",
++    "//third_party/starboard/wpe/shared/decode_target.cc",
++    "//third_party/starboard/wpe/shared/system.cc",
++    "//third_party/starboard/wpe/shared/image.cc",
+   ]
+   public_deps = [ 
+     "//third_party/starboard/wpe/shared/platform_configuration:pkg_libs_grp"
+
