@@ -3,7 +3,7 @@
 # wpeframework-cdmi-widevine
 #
 ################################################################################
-WPEFRAMEWORK_CDMI_WIDEVINE_VERSION = R4.4.1
+WPEFRAMEWORK_CDMI_WIDEVINE_VERSION = 3a25f35ce108601257313e09ffb4ea2d07e7bdaa
 WPEFRAMEWORK_CDMI_WIDEVINE_SITE = $(call github,rdkcentral,OCDM-Widevine,$(WPEFRAMEWORK_CDMI_WIDEVINE_VERSION))
 WPEFRAMEWORK_CDMI_WIDEVINE_INSTALL_STAGING = NO
 WPEFRAMEWORK_CDMI_WIDEVINE_DEPENDENCIES = wpeframework-clientlibraries widevine

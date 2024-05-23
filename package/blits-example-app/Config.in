@@ -1,0 +1,7 @@
+config BR2_PACKAGE_BLITS_EXAMPLE_APP
+    bool "blits-example-app"
+    select BR2_PACKAGE_HOST_NODEJS
+    help
+        Example Blits Lightning 3 App
+
+        https://github.com/lightning-js/blits-example-app
