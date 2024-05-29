@@ -640,7 +640,7 @@ menuconfig BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR
             bool "Experimental Mesa"
             select BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_OUTOFPROCESS
             select BR2_PACKAGE_WPEFRAMEWORK_EXTENSION_LOCALTRACER
-            select BR2_PACKAGE_WPEFRAMEWORK_LIBRARY_COMPOSITOR_BUFFER
+            select BR2_PACKAGE_WPEFRAMEWORK_COMPOSITOR_BUFFER
             select BR2_PACKAGE_LIBPNG
             help
                 Select this to build the linux generic compositor implementation based on libGBM/libDRM/Mesa
