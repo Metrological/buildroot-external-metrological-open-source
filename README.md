@@ -26,7 +26,7 @@ for your platform. Feel free to add defconfig if you are missing one.
 
 1. Clone the required buildroot sources.
    ``` shell
-   git clone https://git.buildroot.net/buildroot
+   git clone -b 2024.02.2 https://git.buildroot.net/buildroot
    git clone git@github.com:Metrological/buildroot-external-metrological-open-source.git
    ```
 2. Enter the buildroot directory and prepare the environment. Usually the export is
