@@ -11,8 +11,8 @@ WESTEROS_SOC_INSTALL_STAGING = YES
 
 WESTEROS_SOC_DEPENDENCIES = host-pkgconf host-autoconf wayland libegl
 
-ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_PLATFORM),y)
-	WESTEROS_SOC_DEPENDENCIES += wpeframework-platform
+ifeq ($(BR2_PACKAGE_THUNDER_PLATFORM),y)
+	WESTEROS_SOC_DEPENDENCIES += thunder-platform
 endif
 
 WESTEROS_SOC_CONF_OPTS += \

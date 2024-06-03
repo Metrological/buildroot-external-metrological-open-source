@@ -1,0 +1,16 @@
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder/Config.in"
+
+menu "Thunder Plugins"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-plugins/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-launcher/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-doofah/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-screensaver/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-packagemanager/Config.in"
+endmenu
+
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-ui/Config.in"
+
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-interfaces/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-clientlibraries/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-libraries/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-rdkservices/Config.in"

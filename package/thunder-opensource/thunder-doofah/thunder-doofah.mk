@@ -1,0 +1,28 @@
+################################################################################
+#
+# thunder-doofah
+#
+################################################################################
+THUNDER_DOOFAH_VERSION = 0b1f5ad9412ab5b7ab19d91059b01b7677547da9
+THUNDER_DOOFAH_SITE = $(call github,Metrological,ThunderDoofah,$(THUNDER_DOOFAH_VERSION))
+THUNDER_DOOFAH_INSTALL_STAGING = NO
+THUNDER_DOOFAH_DEPENDENCIES = thunder
+
+THUNDER_DOOFAH_CONF_OPTS += -DBUILD_REFERENCE=${THUNDER_DOOFAH_VERSION}
+
+THUNDER_DOOFAH_CONF_OPTS += -DLEGACY_CONFIG_GENERATOR=OFF
+
+ifeq ($(BR2_CMAKE_HOST_DEPENDENCY),)
+THUNDER_DOOFAH_CONF_OPTS += \
+       -DCMAKE_MODULE_PATH=$(HOST_DIR)/share/cmake/Modules
+endif
+
+ifeq ($(BR2_PACKAGE_THUNDER_DOOFAH_AUTOSTART),y)
+THUNDER_DOOFAH_CONF_OPTS += -DPLUGIN_DOOFAH_AUTOSTART=true
+endif
+
+ifneq ($(BR2_PACKAGE_THUNDER_DOOFAH_CONNECTOR_CONFIG),"")
+THUNDER_DOOFAH_CONF_OPTS += -DPLUGIN_DOOFAH_CONNECTOR_CONFIG=$(BR2_PACKAGE_THUNDER_DOOFAH_CONNECTOR_CONFIG)
+endif
+
+$(eval $(cmake-package))

@@ -1,0 +1,25 @@
+################################################################################
+#
+# thunder-screensaver
+#
+################################################################################
+THUNDER_SCREENSAVER_VERSION = 533899791ca232dccf52beed21ae822628b17602
+THUNDER_SCREENSAVER_SITE = $(call github,Metrological,ThunderScreensaver,$(THUNDER_SCREENSAVER_VERSION))
+THUNDER_SCREENSAVER_INSTALL_STAGING = NO
+THUNDER_SCREENSAVER_DEPENDENCIES = thunder-clientlibraries
+
+THUNDER_SCREENSAVER_CONF_OPTS += -DBUILD_REFERENCE=${THUNDER_SCREENSAVER_VERSION}
+THUNDER_SCREENSAVER_CONF_OPTS += -DLEGACY_CONFIG_GENERATOR=OFF
+
+ifeq ($(BR2_CMAKE_HOST_DEPENDENCY),)
+THUNDER_SCREENSAVER_CONF_OPTS += \
+       -DCMAKE_MODULE_PATH=$(HOST_DIR)/share/cmake/Modules
+endif
+
+ifeq ($(BR2_PACKAGE_THUNDER_SCREENSAVER_AUTOSTART),y)
+THUNDER_SCREENSAVER_CONF_OPTS += -DPLUGIN_SCREENSAVER_AUTOSTART=true
+else
+THUNDER_SCREENSAVER_CONF_OPTS += -DPLUGIN_SCREENSAVER_AUTOSTART=false
+endif
+
+$(eval $(cmake-package))

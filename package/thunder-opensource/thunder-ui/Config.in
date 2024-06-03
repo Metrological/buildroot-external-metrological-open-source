@@ -1,0 +1,9 @@
+config BR2_PACKAGE_THUNDER_UI
+    bool "Thunder WebUI"
+    depends on BR2_PACKAGE_THUNDER
+    default y if BR2_PACKAGE_THUNDER
+    help
+        WPE Framework User Interface for development and testing
+
+comment "Thunder WebUI needs thunder"
+	depends on !BR2_PACKAGE_THUNDER

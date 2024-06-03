@@ -7,7 +7,7 @@
 COBALT_VERSION = c0cf16cc7a2207ca51bbb3c6724eea530003c69a
 COBALT_SITE = $(call github,Metrological,cobalt,$(COBALT_VERSION))
 COBALT_INSTALL_STAGING = YES
-COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja wpeframework-clientlibraries host-python3 host-gn
+COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja thunder-clientlibraries host-python3 host-gn
 
 export COBALT_STAGING_DIR=$(STAGING_DIR)
 export COBALT_TOOLCHAIN_PREFIX=$(TARGET_CROSS)
@@ -30,13 +30,13 @@ else
 COBALT_VIDEO_OVERLAY=true
 endif
 
-ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_CLIENTLIBRARY_CDM),y)
+ifeq ($(BR2_PACKAGE_THUNDER_CLIENTLIBRARY_CDM),y)
 export COBALT_HAS_OCDM=1
 else
 export COBALT_HAS_OCDM=0
 endif
 
-ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_PROVISIONPROXY),y)
+ifeq ($(BR2_PACKAGE_THUNDER_PROVISIONPROXY),y)
 export COBALT_HAS_PROVISION=1
 else
 export COBALT_HAS_PROVISION=0
@@ -62,8 +62,8 @@ else
 export COBALT_EXECUTABLE_TYPE = executable
 endif
 
-ifeq ($(BR2_PACKAGE_COBALT_USE_WPEFRAMEWORK_DATA_PATH), y)
-export COBALT_DATA_PATH = $(subst ",,$(BR2_PACKAGE_WPEFRAMEWORK_DATA_PATH)")/Cobalt
+ifeq ($(BR2_PACKAGE_COBALT_USE_THUNDER_DATA_PATH), y)
+export COBALT_DATA_PATH = $(subst ",,$(BR2_PACKAGE_THUNDER_DATA_PATH)")/Cobalt
 COBALT_DATA_INSTALL_PATH = $(TARGET_DIR)/$(COBALT_DATA_PATH)
 COBALT_DATA_SRC_PATH = content/data/*
 else
