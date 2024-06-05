@@ -1,0 +1,39 @@
+From c479845688f4759ad5c310cd573b7a33a072a59d Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Wed, 5 Jun 2024 23:53:04 +0200
+Subject: [PATCH] HACK: correct include path
+
+---
+ gstbluetoothaudiosrc.c | 2 +-
+ gstbluetoothaudiosrc.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gstbluetoothaudiosrc.c b/gstbluetoothaudiosrc.c
+index bbd9fa7..55da7bb 100644
+--- a/gstbluetoothaudiosrc.c
++++ b/gstbluetoothaudiosrc.c
+@@ -21,7 +21,7 @@
+ #include <gst/audio/gstaudiosrc.h>
+ #include "gstbluetoothaudiosrc.h"
+ 
+-#include <WPEFramework/bluetoothaudiosource/bluetoothaudiosource.h>
++#include <Thunder/bluetoothaudiosource/bluetoothaudiosource.h>
+ 
+ 
+ #define RECEIVE_BUFFER_SIZE (64 * 1024)
+diff --git a/gstbluetoothaudiosrc.h b/gstbluetoothaudiosrc.h
+index 14781b8..c3f9763 100644
+--- a/gstbluetoothaudiosrc.h
++++ b/gstbluetoothaudiosrc.h
+@@ -21,7 +21,7 @@
+ #define _GST_BLUETOOTHAUDIOSRC_H_
+ 
+ #include <gst/audio/gstaudiosrc.h>
+-#include <WPEFramework/bluetoothaudiosource/bluetoothaudiosource.h>
++#include <Thunder/bluetoothaudiosource/bluetoothaudiosource.h>
+ 
+ G_BEGIN_DECLS
+ 
+-- 
+2.34.1
+
