@@ -3,7 +3,7 @@
 # thunder-doofah
 #
 ################################################################################
-THUNDER_DOOFAH_VERSION = 0b1f5ad9412ab5b7ab19d91059b01b7677547da9
+THUNDER_DOOFAH_VERSION = dca966dc07249bf410e03f779fa0e38e4ca8dbc0
 THUNDER_DOOFAH_SITE = $(call github,Metrological,ThunderDoofah,$(THUNDER_DOOFAH_VERSION))
 THUNDER_DOOFAH_INSTALL_STAGING = NO
 THUNDER_DOOFAH_DEPENDENCIES = thunder
