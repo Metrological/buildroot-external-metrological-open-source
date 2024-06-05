@@ -1,0 +1,25 @@
+From 327168091bff9f776e763cb89165b99def24256c Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Thu, 6 Jun 2024 00:07:45 +0200
+Subject: [PATCH] HACK: correct include path
+
+---
+ gstbluetoothaudiosink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gstbluetoothaudiosink.c b/gstbluetoothaudiosink.c
+index 4c4fe33..c577673 100644
+--- a/gstbluetoothaudiosink.c
++++ b/gstbluetoothaudiosink.c
+@@ -21,7 +21,7 @@
+ #include <gst/audio/gstaudiosink.h>
+ #include "gstbluetoothaudiosink.h"
+ 
+-#include <WPEFramework/bluetoothaudiosink/bluetoothaudiosink.h>
++#include <Thunder/bluetoothaudiosink/bluetoothaudiosink.h>
+ 
+ 
+ GST_DEBUG_CATEGORY_STATIC (gst_bluetoothaudiosink_debug_category);
+-- 
+2.34.1
+
