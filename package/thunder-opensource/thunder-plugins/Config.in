@@ -1751,7 +1751,7 @@ menuconfig BR2_PACKAGE_THUNDER_WEBSERVER
     if BR2_PACKAGE_THUNDER_WEBSERVER
         config BR2_PACKAGE_THUNDER_WEBSERVER_PATH
             string "path"
-            default "/www"
+            default "/var/www"
 
         config BR2_PACKAGE_THUNDER_WEBSERVER_PORT
             string "port"

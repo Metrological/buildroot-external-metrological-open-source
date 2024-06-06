@@ -30,12 +30,12 @@ start() {
 
 	# override index.html
 	if [ -f /boot/index.html ]; then
-		cp /boot/index.html /www/
+		cp /boot/index.html /var/www/
 	fi
 
 	# override config.json
 	if [ -f /boot/config.json ]; then
-		cp /boot/config.json /www/
+		cp /boot/config.json /var/www/
 	fi
 
 	# read proxy settings from /boot/proxy
