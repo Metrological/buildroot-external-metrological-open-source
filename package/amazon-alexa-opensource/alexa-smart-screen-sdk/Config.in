@@ -38,7 +38,7 @@ config BR2_PACKAGE_ALEXA_SMART_SCREEN_SDK_ENABLE_JS_GUICLIENT
 if BR2_PACKAGE_ALEXA_SMART_SCREEN_SDK_ENABLE_JS_GUICLIENT
     config BR2_PACKAGE_ALEXA_SMART_SCREEN_SDK_JS_GUICLIENT_INSTALL_PATH
         string "GUIClient install path"
-        default "/www/alexa"
+        default "/var/www/alexa"
         help
             The path on the target where GUIClient should be installed
 endif
