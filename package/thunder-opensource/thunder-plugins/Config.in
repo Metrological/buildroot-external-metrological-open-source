@@ -880,7 +880,7 @@ menuconfig BR2_PACKAGE_THUNDER_LOCATIONSYNC
     if BR2_PACKAGE_THUNDER_LOCATIONSYNC
         config BR2_PACKAGE_THUNDER_LOCATIONSYNC_URI
             string "location URI"
-            default "http://ip-api.com/json"
+            default "http://jsonip.metrological.com/?maf=true"
     endif
 
 config BR2_PACKAGE_THUNDER_MESSENGER
