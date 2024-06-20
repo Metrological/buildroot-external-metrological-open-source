@@ -15,22 +15,22 @@ RDKSPLASHSCREEN_CONFIGURE_CMDS = true
 RDKSPLASHSCREEN_BUILD_CMDS = true
 
 define RDKSPLASHSCREEN_INSTALL_TARGET_CMDS
-	if [ -d $(TARGET_DIR)/www ] ; then \
-		rm -rf $(TARGET_DIR)/www/*;\
+	if [ -d $(TARGET_DIR)/var/www ] ; then \
+		rm -rf $(TARGET_DIR)/var/www/*;\
 	else                               \
-		mkdir -p $(TARGET_DIR)/www;\
+		mkdir -p $(TARGET_DIR)/var/www;\
 	fi
-	cp -r $(@D)/dist/web/* $(TARGET_DIR)/www/
+	cp -r $(@D)/dist/web/* $(TARGET_DIR)/var/www/
 endef
 
 define RDKSPLASHSCREEN_WRITE_URL
-        cp -r $(@D)/dist/web/static/config/config.url.in $(TARGET_DIR)/www/config.json
-        sed -i -e s,%url%,$(BR2_PACKAGE_RDKSPLASHSCREEN_URL),g $(TARGET_DIR)/www/config.json
+        cp -r $(@D)/dist/web/static/config/config.url.in $(TARGET_DIR)/var/www/config.json
+        sed -i -e s,%url%,$(BR2_PACKAGE_RDKSPLASHSCREEN_URL),g $(TARGET_DIR)/var/www/config.json
 endef
 
 define RDKSPLASHSCREEN_WRITE_OPERATOR
-	cp -r $(@D)/dist/web/static/config/config.operator.in $(TARGET_DIR)/www/config.json
-	sed -i -e s,%operator%,$(BR2_PACKAGE_RDKSPLASHSCREEN_OPERATOR),g $(TARGET_DIR)/www/config.json
+	cp -r $(@D)/dist/web/static/config/config.operator.in $(TARGET_DIR)/var/www/config.json
+	sed -i -e s,%operator%,$(BR2_PACKAGE_RDKSPLASHSCREEN_OPERATOR),g $(TARGET_DIR)/var/www/config.json
 endef
 
 ifneq ($(BR2_PACKAGE_RDKSPLASHSCREEN_URL),"")

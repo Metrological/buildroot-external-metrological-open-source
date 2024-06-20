@@ -3,7 +3,7 @@
 # thunder-screensaver
 #
 ################################################################################
-THUNDER_SCREENSAVER_VERSION = 533899791ca232dccf52beed21ae822628b17602
+THUNDER_SCREENSAVER_VERSION = ddffaa7614cd4f0a7e3846bcd31e5265ad33cc07
 THUNDER_SCREENSAVER_SITE = $(call github,Metrological,ThunderScreensaver,$(THUNDER_SCREENSAVER_VERSION))
 THUNDER_SCREENSAVER_INSTALL_STAGING = NO
 THUNDER_SCREENSAVER_DEPENDENCIES = thunder-clientlibraries
