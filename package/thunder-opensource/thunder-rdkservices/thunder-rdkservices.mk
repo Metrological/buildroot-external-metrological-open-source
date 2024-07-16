@@ -3,7 +3,7 @@
 # thunder-rdkservices
 #
 ################################################################################
-THUNDER_RDKSERVICES_VERSION = 061002c90bf29478da31a8622e3492c67479612b
+THUNDER_RDKSERVICES_VERSION = 651218b9c213ec5c820c460c13ed4decd5adbc2f
 THUNDER_RDKSERVICES_SITE = $(call github,WebPlatformForEmbedded,ThunderNanoServicesRDK,$(THUNDER_RDKSERVICES_VERSION))
 THUNDER_RDKSERVICES_INSTALL_STAGING = YES
 THUNDER_RDKSERVICES_DEPENDENCIES = thunder-clientlibraries

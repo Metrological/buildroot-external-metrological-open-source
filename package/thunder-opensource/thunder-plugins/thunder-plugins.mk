@@ -3,7 +3,7 @@
 # thunder-plugins
 #
 ################################################################################
-THUNDER_PLUGINS_VERSION = cc0e4e9dc52a87c3a656053225795bf66b5f1af8
+THUNDER_PLUGINS_VERSION = 851dc4061f09be0743c6b0a9b0b2c71c3a4bf96a
 THUNDER_PLUGINS_SITE = $(call github,rdkcentral,ThunderNanoServices,$(THUNDER_PLUGINS_VERSION))
 THUNDER_PLUGINS_INSTALL_STAGING = YES
 THUNDER_PLUGINS_DEPENDENCIES = thunder thunder-interfaces
