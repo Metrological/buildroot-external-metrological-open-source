@@ -3,7 +3,7 @@
 # thunder-cdmi-widevine
 #
 ################################################################################
-THUNDER_CDMI_WIDEVINE_VERSION = ef1d098a4bfca2c5c1cc83b85bf1ba79a0a27edf
+THUNDER_CDMI_WIDEVINE_VERSION = R5.0.0
 THUNDER_CDMI_WIDEVINE_SITE = $(call github,rdkcentral,OCDM-Widevine,$(THUNDER_CDMI_WIDEVINE_VERSION))
 THUNDER_CDMI_WIDEVINE_INSTALL_STAGING = NO
 THUNDER_CDMI_WIDEVINE_DEPENDENCIES = thunder-clientlibraries widevine

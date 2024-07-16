@@ -5,7 +5,7 @@
 ################################################################################
 
 ifeq ($(BR2_PACKAGE_PLAYREADY4),y)
-THUNDER_CDMI_PLAYREADY_VERSION = 13fec4cbf940fa5df351996b479aba47e96b84a2
+THUNDER_CDMI_PLAYREADY_VERSION = R5.0.0
 else
 THUNDER_CDMI_PLAYREADY_VERSION = 59b3deba0710b9f372fd333fcc7aca2ebed483a6
 endif

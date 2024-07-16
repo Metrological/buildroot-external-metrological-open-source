@@ -3,7 +3,7 @@
 # thunder
 #
 ################################################################################
-THUNDER_VERSION = 899ba40ac2a49048820e89c291982c151b09f5b9
+THUNDER_VERSION = R5.0.0
 THUNDER_SITE = $(call github,rdkcentral,Thunder,$(THUNDER_VERSION))
 THUNDER_INSTALL_STAGING = YES
 THUNDER_DEPENDENCIES = zlib $(call qstrip,$(BR2_PACKAGE_SDK_INSTALL)) host-thunder-tools

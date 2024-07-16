@@ -3,7 +3,7 @@
 # thunder-libraries
 #
 ################################################################################
-THUNDER_LIBRARIES_VERSION = e3e21f0013a236ce9d378ec3ddc6ed3cf86d0e21
+THUNDER_LIBRARIES_VERSION = R5.0.0
 THUNDER_LIBRARIES_SITE = $(call github,WebPlatformForEmbedded,ThunderLibraries,$(THUNDER_LIBRARIES_VERSION))
 THUNDER_LIBRARIES_INSTALL_STAGING = YES
 THUNDER_LIBRARIES_DEPENDENCIES = thunder 
