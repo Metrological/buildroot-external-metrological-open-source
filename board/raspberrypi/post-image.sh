@@ -11,6 +11,10 @@ BLUETOOTH=$(eval grep ^BR2_PACKAGE_THUNDER_BLUETOOTH=y ${BR2_CONFIG} | wc -l)
 BT_USERSPACE=$(eval grep ^BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL_USERSPACE=y ${BR2_CONFIG} | wc -l)
 ARCH64=$(eval grep ^BR2_ARCH_IS_64=y ${BR2_CONFIG} | wc -l)
 
+LINUX_KERNEL_IMAGE=$(eval grep ^BR2_LINUX_KERNEL_IMAGE=y ${BR2_CONFIG} | wc -l)
+LINUX_KERNEL_ZIMAGE=$(eval grep ^BR2_LINUX_KERNEL_ZIMAGE=y ${BR2_CONFIG} | wc -l)
+ROOTFS_INITRAMFS=$(eval grep ^BR2_TARGET_ROOTFS_INITRAMFS=y ${BR2_CONFIG} | wc -l)
+
 if [ ${BLUETOOTH} -gt 0 ]; then
    if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
       echo "Adding serial console to /dev/ttyS0 to config.txt."
@@ -41,6 +45,28 @@ if [ ${ARCH64} -gt 0 ]; then
 
 # enable 64bits support
 arm_64bit=1
+__EOF__
+   fi
+fi
+
+if [ ${LINUX_KERNEL_ZIMAGE} -gt 0 ]; then
+   if ! grep -qE '^kernel=zImage' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+      echo "Enable 'zImage' kernel"
+      sed -i '/^kernel=.*/d' "${BINARIES_DIR}/rpi-firmware/config.txt"
+      cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
+
+kernel=zImage
+__EOF__
+   fi
+fi
+
+if [ ${LINUX_KERNEL_IMAGE} -gt 0 ]; then
+   if ! grep -qE '^kernel=Image' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+      echo "Enable 'Image' kernel"
+      sed -i '/^kernel=.*/d' "${BINARIES_DIR}/rpi-firmware/config.txt"
+      cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
+
+kernel=Image
 __EOF__
    fi
 fi
