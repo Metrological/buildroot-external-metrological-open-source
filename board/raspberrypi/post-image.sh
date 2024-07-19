@@ -11,7 +11,7 @@ BLUETOOTH=$(eval grep ^BR2_PACKAGE_THUNDER_BLUETOOTH=y ${BR2_CONFIG} | wc -l)
 BT_USERSPACE=$(eval grep ^BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL_USERSPACE=y ${BR2_CONFIG} | wc -l)
 ARCH64=$(eval grep ^BR2_ARCH_IS_64=y ${BR2_CONFIG} | wc -l)
 
-if [ ! "x${BLUETOOTH}" = "x" ]; then
+if [ ${BLUETOOTH} -gt 0 ]; then
    if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
       echo "Adding serial console to /dev/ttyS0 to config.txt."
       sed -i 's/ttyAMA0/ttyS0/g' "${BINARIES_DIR}/rpi-firmware/cmdline.txt"
@@ -23,7 +23,7 @@ __EOF__
    fi
 fi
 
-if [ ! "x${BT_USERSPACE}" = "x" ]; then
+if [ ${BT_USERSPACE} -gt 0 ]; then
    if ! grep -qE '^dtparam=krnbt=off' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
         echo "Adding dtparam=krnbt=off to config.txt."
         cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
@@ -34,10 +34,9 @@ __EOF__
    fi
 fi
 
-if [ ! "x${ARCH64}" = "x" ]; then
-   if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+if [ ${ARCH64} -gt 0 ]; then
+   if ! grep -qE '^arm_64bit=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
       echo "Enable 64 bits kernel"
-      sed -i 's/ttyAMA0/ttyS0/g' "${BINARIES_DIR}/rpi-firmware/cmdline.txt"
       cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
 # enable 64bits support
