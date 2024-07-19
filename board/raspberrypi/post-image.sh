@@ -79,6 +79,16 @@ do
                 gpu_mem="${arg:2}"
                 sed -e "/^${gpu_mem%=*}=/s,=.*,=${gpu_mem##*=}," -i "${BINARIES_DIR}/rpi-firmware/config.txt"
                 ;;
+                --start_file=*)
+                # Set GPU firmware file
+                start_file="${arg:2}"
+                sed -e "/^${start_file%=*}=/s,=.*,=${start_file##*=}," -i "${BINARIES_DIR}/rpi-firmware/config.txt"
+                ;;
+                --fixup_file=*)
+                # Set file to fix up GPU memory locations
+                fixup_file="${arg:2}"
+                sed -e "/^${fixup_file%=*}=/s,=.*,=${fixup_file##*=}," -i "${BINARIES_DIR}/rpi-firmware/config.txt"
+                ;;
                 --tvmode-720)
                 if ! grep -qE '^hdmi_mode=4' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
                     echo "Adding 'tvmode=720' to config.txt."
