@@ -21,7 +21,7 @@ if [ ${BLUETOOTH} -gt 0 ]; then
       sed -i 's/ttyAMA0/ttyS0/g' "${BINARIES_DIR}/rpi-firmware/cmdline.txt"
       cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
-# Fixes rpi3 ttyS0 serial console
+# Enable serial console on GPIOs 14 and 15 (pins 8 and 10 on the 40-pin header)
 enable_uart=1
 __EOF__
    fi
@@ -202,8 +202,8 @@ __EOF__
                                 echo "Adding 'dtoverlay=pi3-miniuart-bt' to config.txt (fixes ttyAMA0 serial console)."
                                 cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
-# Fixes rpi3 ttyAMA0 serial console
-dtoverlay=pi3-miniuart-bt
+# Enables (3B, 3B+, 3A+, 4B and Zero W) serial console on ttyAMA0 
+dtoverlay=miniuart-bt
 __EOF__
                         fi
                 fi
