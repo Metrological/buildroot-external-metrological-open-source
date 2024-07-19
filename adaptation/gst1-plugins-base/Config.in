@@ -27,7 +27,4 @@ comment "gst1-plugins-base-egl needs the egl platform"
 	depends on (!BR2_PACKAGE_GST1_PLUGINS_BASE_LIB_OPENGL_EGL || \
 		!BR2_PACKAGE_HAS_LIBGBM || BR2_PACKAGE_WAYLAND || BR2_PACKAGE_XORG7)
 
-
-
-
 endmenu
