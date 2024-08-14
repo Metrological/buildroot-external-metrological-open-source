@@ -421,7 +421,7 @@ config BR2_PACKAGE_THUNDER_PROVISIONPROXY
     help
       Allows provisioning of modules from the cloud.
 
-config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS
+menuconfig BR2_PACKAGE_THUNDER_PROCESSCONTAINERS
     bool "Process Containers"
         default n
     help
@@ -429,28 +429,20 @@ config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS
 
 if BR2_PACKAGE_THUNDER_PROCESSCONTAINERS
 
-choice BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BE
-    prompt "Containers backend"
-    default BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BE_LXC
-    help
-        Select which container framework to use as a backend
-
 config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BE_LXC
     bool "LXC"
     select BR2_PACKAGE_LXC
     select BR2_PACKAGE_CGROUPFS_MOUNT
 
 config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BE_RUNC
-    bool "RunC"
+    bool "runC"
     select BR2_PACKAGE_RUNC
     select BR2_PACKAGE_CGROUPFS_MOUNT
 
 config BR2_PACKAGE_THUNDER_PROCESSCONTAINERS_BE_CRUN
-    bool "CRun"
+    bool "crun"
     select BR2_PACKAGE_CRUN
     select BR2_PACKAGE_CGROUPFS_MOUNT
-
-endchoice
 
 endif
 
