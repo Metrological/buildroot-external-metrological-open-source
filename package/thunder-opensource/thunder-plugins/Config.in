@@ -184,8 +184,6 @@ menuconfig BR2_PACKAGE_THUNDER_BACKOFFICE
 
 menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
     bool "BluetoothControl"
-    select BR2_PACKAGE_THUNDER_BLUETOOTH
-    select BR2_PACKAGE_THUNDER_LIBRARIES
     select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
     default n
     help
@@ -251,7 +249,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
 
 config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
     bool "BluetoothRemoteControl"
-    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
+    select BR2_PACKAGE_THUNDER_BLUETOOTH
     select BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
     default n
     help
@@ -270,6 +268,15 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
             default "Thunder"
     endif
 
+menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
+    bool "BluetoothAudio"
+    select BR2_PACKAGE_THUNDER_BLUETOOTH
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
+    default n
+    help
+      Bluetooth audio plugin
+
+    if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
         menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
             bool "BluetoothAudioSink"
             select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC
@@ -1099,7 +1106,7 @@ config BR2_PACKAGE_THUNDER_SICONTROL
 
 menuconfig BR2_PACKAGE_THUNDER_STREAMER
     select BR2_PACKAGE_THUNDER_PLUGINS
-    select BR2_PACKAGE_THUNDER_LIBRARIES_BROADCAST
+    select BR2_PACKAGE_THUNDER_BROADCAST
     bool "Streamer"
     default n
     help
