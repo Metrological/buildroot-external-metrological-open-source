@@ -12,5 +12,4 @@ source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-ui/Config.i
 
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-interfaces/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-clientlibraries/Config.in"
-source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-libraries/Config.in"
 source "$BR2_EXTERNAL_ML_OSS_PATH/package/thunder-opensource/thunder-rdkservices/Config.in"

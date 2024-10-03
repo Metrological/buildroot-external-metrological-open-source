@@ -3,7 +3,7 @@ config BR2_PACKAGE_THUNDER
     select BR2_PACKAGE_ZLIB
     bool "thunder"
     help
-      WPE Framework
+      Thunder Framework
 
 if BR2_PACKAGE_THUNDER
 
@@ -272,10 +272,27 @@ config BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
     help
       Use tracing without the need of Thunder running. 
 
+config BR2_PACKAGE_THUNDER_BLUETOOTH
+    bool "Bluetooth"
+    help
+      Thunder Bluetooth User Space Stack
+      
+if BR2_PACKAGE_THUNDER_BLUETOOTH
+
+config BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
+    bool "Bluetooth Gatt"
+    help
+      Enable Generic Attribute Support on Bluetooth
+
+config BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
+    select BR2_PACKAGE_SBC
+    bool "Bluetooth Audio"
+    help
+      Enable Audio Support on Bluetooth
+
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_BLUETOOTHAUDIOSINK
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
-    select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
-    select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
+    depends on BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
     bool "BluetoothAudioSink"
         default n
     help
@@ -297,8 +314,7 @@ endif
 
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_BLUETOOTHAUDIOSOURCE
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
-    select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
-    select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
+    depends on BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
     bool "BluetoothAudioSource"
         default n
     help
@@ -316,6 +332,7 @@ endif
 config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_BLUETOOTHAUDIOSOURCE_EXAMPLERECORDER
     bool "Example .wav recorder"
     default y
+endif
 endif
 
 config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_DEVICEINFO
