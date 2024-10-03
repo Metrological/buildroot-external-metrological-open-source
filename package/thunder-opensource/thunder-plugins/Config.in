@@ -182,16 +182,16 @@ menuconfig BR2_PACKAGE_THUNDER_BACKOFFICE
             Example "Activated,load;Deactivated,unload;Resumed,open;Suspended,close"
     endif
 
-menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH
+menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
     bool "BluetoothControl"
-    select BR2_PACKAGE_THUNDER_LIBRARY_BLUETOOTH
+    select BR2_PACKAGE_THUNDER_BLUETOOTH
     select BR2_PACKAGE_THUNDER_LIBRARIES
     select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
     default n
     help
       A Bluetooth plugin to interact with Bluetooth devices.
 
-    if BR2_PACKAGE_THUNDER_BLUETOOTH
+    if BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
         config BR2_PACKAGE_THUNDER_BLUETOOTH_AUTOSTART
             bool "Start Automatically"
             default y
@@ -251,15 +251,15 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH
 
 config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
     bool "BluetoothRemoteControl"
-    select BR2_PACKAGE_THUNDER_BLUETOOTH
-    select BR2_PACKAGE_THUNDER_LIBRARY_BLUETOOTH
-    select BR2_PACKAGE_THUNDER_LIBRARY_BLUETOOTH_GATT
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
     default n
     help
      A Bluetooth Low Energy HID over GATT remote control
 
 menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
     bool "BluetoothSDPServer"
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
     default n
     help
      Bluetooth SDP server
@@ -270,19 +270,11 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
             default "Thunder"
     endif
 
-menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
-    bool "BluetoothAudio"
-    select BR2_PACKAGE_THUNDER_BLUETOOTH
-    select BR2_PACKAGE_THUNDER_LIBRARY_BLUETOOTH
-    select BR2_PACKAGE_THUNDER_LIBRARY_BLUETOOTH_AUDIO
-    default n
-    help
-      Bluetooth audio plugin
-
-    if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
         menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
-            bool "AudioSink"
+            bool "BluetoothAudioSink"
             select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC
+            select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
+    	    select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
             default n
             help
             Bluetooth audio sink
@@ -293,7 +285,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
             default "20"
 
             menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE
-            select BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
+            depends on BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
             bool "Enable SDP service"
             default y
 
@@ -333,16 +325,18 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
     endif
 
 menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
-    bool "AudioSource"
+    bool "BluetoothAudioSource"
     select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_CODECSBC
     select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_SDPSERVICE
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
     default n
     help
       Bluetooth audio source
 
     if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
         menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_SDPSERVICE
-            select BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
+            depends on BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
             bool "Enable SDP service"
             default y
 
@@ -364,12 +358,11 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
                 config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_CODECSBC_MAXBITPOOL
                     string "Max SBC bitpool value"
                     default "53"
-                endif
+            endif
 
-                config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_CONNECTOR
+            config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_CONNECTOR
                     string "Connector path"
                     default "/tmp/bluetoothaudiosource"
-            endif
     endif
 
 config BR2_PACKAGE_THUNDER_CECCONTROL
