@@ -274,7 +274,6 @@ config BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
 
 config BR2_PACKAGE_THUNDER_BLUETOOTH
     bool "Bluetooth"
-    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
     help
       Thunder Bluetooth User Space Stack
       
