@@ -251,6 +251,23 @@ config BR2_PACKAGE_WPEWEBKIT_ML_USE_PUNCH_HOLE_EXTERNAL
 	  Use an external player.
 
 endchoice
+endmenu
+
+menu "Compile options"
+config BR2_PACKAGE_WPEWEBKIT_ML_PARALLEL_BUILD_JOBS
+	string "Parallel build jobs"
+	default 0
+	help
+		If you experiencing killed compilers during building with <32Gb RAM, you can try to limit the
+		ammount of parallel jobs here.
+
+		Default is 0: using all cores.
+
+config BR2_PACKAGE_WPEWEBKIT_ML_CMAKE_VERBOSE
+	bool "verbose cmake"
+	default n
+	help
+		This option will reveal the full command for each file compiled. 
 
 endmenu
 
