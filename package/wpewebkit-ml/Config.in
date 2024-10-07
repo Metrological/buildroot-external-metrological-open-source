@@ -256,24 +256,25 @@ endmenu
 menu "Compile options"
 config BR2_PACKAGE_WPEWEBKIT_ML_PARALLEL_BUILD_JOBS
 	string "Parallel build jobs"
-	default 0
-	help
-		If you experiencing killed compilers during building with <32Gb RAM, you can try to limit the
-		ammount of parallel jobs here.
+	default ""
+    help
+	  If you are experiencing killed compilers during building with <32Gb RAM, you can try to limit the
+	  amount of parallel jobs here.
 
-		Default is 0: using all cores.
+	  An empty string means default behavior of the makefiles, 0 will set the maximum allowed by the system. Any
+	  number bigger than 0, sets the maximum count of parallel jobs manually.
 
 config BR2_PACKAGE_WPEWEBKIT_ML_CMAKE_VERBOSE
-	bool "verbose cmake"
+    bool "verbose cmake"
+    default n
+    help
+      This option will reveal the full command for each file compiled.
+
+config BR2_PACKAGE_WPEWEBKIT_ML_DISABLE_UNIFIED_BUILDS
+	bool "disable unified build"
 	default n
 	help
-		This option will reveal the full command for each file compiled. 
-config BR2_PACKAGE_WPEWEBKIT_ML_DISABLE_UNIFIED_BUILDS
-        bool "disable unified build"
-        default n
-        help
-                Disabling unified build will cause longer build times, but you can build
-		with <16Gb RAM. 
+	  Disable unified builds will cause longer build times, but could fix OOM issues while compiling. 
 endmenu
 
 endif
