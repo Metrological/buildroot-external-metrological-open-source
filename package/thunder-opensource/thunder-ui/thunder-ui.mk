@@ -3,7 +3,7 @@
 # Thunder UI
 #
 ################################################################################
-THUNDER_UI_VERSION = 7fd8bd29280cc9c2261d1b25f154386d2aae0091
+THUNDER_UI_VERSION = R5.1.0
 THUNDER_UI_SITE = $(call github,rdkcentral,ThunderUI,$(THUNDER_UI_VERSION))
 THUNDER_UI_DEPENDENCIES = thunder
 
