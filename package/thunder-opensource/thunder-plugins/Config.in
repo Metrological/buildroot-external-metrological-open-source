@@ -636,6 +636,7 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
             select BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
             select BR2_PACKAGE_THUNDER_COMPOSITOR_BUFFER
             select BR2_PACKAGE_LIBPNG
+            select BR2_PACKAGE_MESA3D
             help
                 Select this to build the linux generic compositor implementation based on libGBM/libDRM/Mesa
     endif
