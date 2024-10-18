@@ -3,7 +3,7 @@
 # thunder-interfaces
 #
 ################################################################################
-THUNDER_INTERFACES_VERSION = R5.0.0
+THUNDER_INTERFACES_VERSION = 9bb995b1a967a4ae49de66080f44618dcb27f89e
 THUNDER_INTERFACES_SITE = $(call github,rdkcentral,ThunderInterfaces,$(THUNDER_INTERFACES_VERSION))
 THUNDER_INTERFACES_INSTALL_STAGING = YES
 THUNDER_INTERFACES_DEPENDENCIES = thunder
