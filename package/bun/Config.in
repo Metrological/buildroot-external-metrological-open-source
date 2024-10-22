@@ -1,0 +1,13 @@
+config BR2_PACKAGE_BUN
+	bool "bun"
+ 	select BR2_PACKAGE_HOST_RUSTC
+        select BR2_PACKAGE_LIBDEFLATE
+        select BR2_PACKAGE_ZLIB
+        select BR2_PACKAGE_LIBARCHIVE
+        select BR2_PACKAGE_ZSTD
+        select BR2_PACKAGE_BROTLI
+        select BR2_PACKAGE_C_ARES
+	help
+          Bun is a JavaScript runtime.
+
+	  https://bun.sh/
