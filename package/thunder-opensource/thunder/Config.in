@@ -273,6 +273,7 @@ config BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
       Use tracing without the need of Thunder running. 
 
 config BR2_PACKAGE_THUNDER_BLUETOOTH
+    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
     bool "Bluetooth"
     help
       Thunder Bluetooth User Space Stack
