@@ -207,9 +207,9 @@ __EOF__
                 fi
                 ;;
                 --add-miniuart-bt-overlay)
-                if [ "x${BLUETOOTH}" = "x0" ]; then
-                        if ! grep -qE '^dtoverlay=pi3-miniuart-bt' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
-                                echo "Adding 'dtoverlay=pi3-miniuart-bt' to config.txt (fixes ttyAMA0 serial console)."
+                if [ ${BLUETOOTH} -eq 0 ]; then
+                        if ! grep -qE '^dtoverlay=miniuart-bt' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
+                                echo "Adding 'dtoverlay=miniuart-bt' to config.txt (fixes ttyAMA0 serial console)."
                                 cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
 # Enables (3B, 3B+, 3A+, 4B and Zero W) serial console on ttyAMA0 
