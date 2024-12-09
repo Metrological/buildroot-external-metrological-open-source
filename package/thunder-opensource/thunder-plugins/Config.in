@@ -234,7 +234,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
 
         config BR2_PACKAGE_THUNDER_BLUETOOTH_DEVICE
             string "device"
-            default "/dev/ttyAMA0"
+            default "/dev/ttyAMA1"
             depends on BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL_USERSPACE
             help
                 Define which device is exposed to control the bluetooth chip. 
@@ -254,6 +254,16 @@ config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
     default n
     help
      A Bluetooth Low Energy HID over GATT remote control
+
+    if BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
+        config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL_FIRST_AUDIO_CHUNKSIZE
+            string "AudioFirstChunkSize"
+            default "40"
+
+        config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL_AUDIO_CHUNKSIZE
+            string "AudioChunkSize"
+            default "40"
+    endif
 
 menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
     bool "BluetoothSDPServer"
@@ -412,6 +422,12 @@ menuconfig BR2_PACKAGE_THUNDER_COBALT
         WPE Platform Cobalt plugin
 
     if BR2_PACKAGE_THUNDER_COBALT
+        config BR2_PACKAGE_THUNDER_COBALT_URL
+            string "url"
+            default "https://www.youtube.com/tv"
+            help
+            Select cobalt URL for startup
+
         choice BR2_PACKAGE_THUNDER_COBALT_RESOLUTION
             default BR2_PACKAGE_THUNDER_COBALT_RESOLUTION_720P
             prompt "resolution"
@@ -445,6 +461,12 @@ menuconfig BR2_PACKAGE_THUNDER_COBALT
             default n
             help
             Select this to start the plugin automatically when starting Thunder
+
+        config BR2_PACKAGE_THUNDER_COBALT_RESUMED
+            bool "Start Resumed"
+            default n
+            help
+            Select this to resume the plugin automatically when starting Thunder
 
         config BR2_PACKAGE_THUNDER_COBALT_OUTOFPROCESS
             bool "Out of process"
