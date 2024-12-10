@@ -421,6 +421,30 @@ menuconfig BR2_PACKAGE_THUNDER_COBALT
             help
             Select cobalt URL for startup
 
+        config BR2_PACKAGE_THUNDER_COBALT_VIDEO_BUFFER_BUDGET
+            string "VideoBuffer"
+            default "15"
+            help
+            Select the maximum size (in MB) for the video buffers
+
+        config BR2_PACKAGE_THUNDER_COBALT_AUDIO_BUFFER_BUDGET
+            string "AudioBuffer"
+            default "3"
+            help
+            Select the maximum size (in MB) for the audio buffers
+
+        config BR2_PACKAGE_THUNDER_COBALT_PROGRESSIVE_BUFFER_BUDGET
+            string "AudioBuffer"
+            default "5"
+            help
+            Select the maximum size (in MB) for the progressive buffers
+
+        config BR2_PACKAGE_THUNDER_COBALT_MEDIA_GARBAGE_COLLECT
+            string "MediaGarbageCollect"
+            default "30"
+            help
+            Select the maximum time (in Seconds) for the garabage collect on media buffers.
+
         choice BR2_PACKAGE_THUNDER_COBALT_RESOLUTION
             default BR2_PACKAGE_THUNDER_COBALT_RESOLUTION_720P
             prompt "resolution"
