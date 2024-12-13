@@ -223,7 +223,6 @@ endmenu
 menu "Extensions"
 
 menuconfig BR2_PACKAGE_THUNDER_BROADCAST
-    select BR2_PACKAGE_THUNDER
     bool "Broadcast"
         default n
     help
