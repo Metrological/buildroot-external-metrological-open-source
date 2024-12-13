@@ -637,7 +637,7 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
                 Example "HDMI-A-1,1280x720@60.0 16:9,normal;"
         endif
 
-        config BR2_PACKAGE_THUNDER_COMPOSITOR_EXPERIMENTAL
+        menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR_EXPERIMENTAL
             bool "Experimental Mesa"
             select BR2_PACKAGE_THUNDER_COMPOSITOR_OUTOFPROCESS
             select BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
@@ -646,6 +646,24 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
             select BR2_PACKAGE_MESA3D
             help
                 Select this to build the linux generic compositor implementation based on libGBM/libDRM/Mesa
+        
+        if BR2_PACKAGE_THUNDER_COMPOSITOR_EXPERIMENTAL
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_COMPOSITOR_RENDER_NODE
+            string "Render node"
+            default ""
+            help 
+                Manually specify the render node to use 
+                (e.g. /dev/dri/renderxxx or /dev/dri/cardx).
+        
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_COMPOSITOR_OUTPUT_MODES
+            string "Output modesetting"
+            default ""
+            help 
+                Specify the output modes (name1;x;y;h;w|name2;x;y;h;w) 
+                that the compositor should use.
+
+                HDMI-A-1;0;0;1080;1920
+        endif
     endif
 
 menuconfig BR2_PACKAGE_THUNDER_DEVICEINFO
