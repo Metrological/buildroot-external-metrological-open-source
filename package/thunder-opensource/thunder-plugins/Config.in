@@ -276,74 +276,73 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
     help
       Bluetooth audio plugin
 
-    if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
-        menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
-            bool "BluetoothAudioSink"
-            select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC
-            select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
-    	    select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
-            default n
-            help
-            Bluetooth audio sink
+if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO
+    menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
+        bool "BluetoothAudioSink"
+        select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC
+        select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
+        select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
+        default n
+        help
+        Bluetooth audio sink
 
-        if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
-            config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_LATENCY
+    if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
+        config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_LATENCY
             string "Device latency (ms)"
             default "20"
 
-            menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE
+        menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE
             depends on BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
             bool "Enable SDP service"
             default y
 
-        if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE
+            if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE
+                config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE_NAME
+                    string "Name"
+                    default "A2DP Audio Source"
 
-        config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE_NAME
-            string "Name"
-            default "A2DP Audio Source"
-
-        config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE_DESCRIPTION
-            string "Description"
-            default "Thunder BluetoothAudio plugin"
-        endif
+                config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_SDPSERVICE_DESCRIPTION
+                    string "Description"
+                    default "Thunder BluetoothAudio plugin"
+            endif
 
         config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC
             bool "Enable SBC codec"
             default y
 
             if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC
-            choice BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET
-                prompt "SBC quality"
-                default BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
+                choice BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET
+                    prompt "SBC quality"
+                    default BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
 
-            config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_LQ
-                bool "LQ - Low Quality"
+                    config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_LQ
+                        bool "LQ - Low Quality"
 
-            config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_MQ
-                bool "MQ - Medium Quality"
+                    config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_MQ
+                        bool "MQ - Medium Quality"
 
-            config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
-                bool "HQ - High Quality"
+                    config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_HQ
+                        bool "HQ - High Quality"
 
-            config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_XQ
-                bool "XQ - Extreme Quality"
-            endchoice
+                    config BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK_CODECSBC_PRESET_XQ
+                        bool "XQ - Extreme Quality"
+                endchoice
             endif
     endif
 
-menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
-    bool "BluetoothAudioSource"
-    select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_CODECSBC
-    select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_SDPSERVICE
-    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
-    select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
-    default n
-    help
-      Bluetooth audio source
+    menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
+        bool "BluetoothAudioSource"
+        select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_CODECSBC
+        select BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_SDPSERVICE
+        select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
+        select BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
+        default n
+        help
+            Bluetooth audio source
 
     if BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
         menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE_SDPSERVICE
-            depends on BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
+            select BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
             bool "Enable SDP service"
             default y
 
@@ -371,6 +370,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SOURCE
                     string "Connector path"
                     default "/tmp/bluetoothaudiosource"
     endif
+endif
 
 config BR2_PACKAGE_THUNDER_CECCONTROL
   bool "CEC Control"
