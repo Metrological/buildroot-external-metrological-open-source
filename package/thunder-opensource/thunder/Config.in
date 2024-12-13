@@ -291,18 +291,6 @@ config BR2_PACKAGE_THUNDER_BLUETOOTH
       Thunder Bluetooth User Space Stack
       
 if BR2_PACKAGE_THUNDER_BLUETOOTH
-
-config BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
-    bool "Bluetooth Gatt"
-    help
-      Enable Generic Attribute Support on Bluetooth
-
-config BR2_PACKAGE_THUNDER_BLUETOOTH_AUDIO
-    select BR2_PACKAGE_SBC
-    bool "Bluetooth Audio"
-    help
-      Enable Audio Support on Bluetooth
-
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_BLUETOOTHAUDIOSINK
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
     depends on BR2_PACKAGE_THUNDER_BLUETOOTHAUDIO_SINK
