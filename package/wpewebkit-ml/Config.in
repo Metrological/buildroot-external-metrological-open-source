@@ -193,6 +193,18 @@ endif
 
 if BR2_PACKAGE_WPEWEBKIT_ML2_28 || BR2_PACKAGE_WPEWEBKIT_ML2_38 || BR2_PACKAGE_WPEWEBKIT_ML2_42 || BR2_PACKAGE_WPEWEBKIT_ML2_46 
 
+config BR2_PACKAGE_WPEWEBKIT_ML_ENABLE_NATIVE_AUDIO
+	bool "Enable native audio"
+	default n
+	help
+	  Defines ENABLE_NATIVE_AUDIO=ON
+
+config BR2_PACKAGE_WPEWEBKIT_ML_ENABLE_NATIVE_VIDEO
+	bool "Enable native video"
+	default y
+	help
+	  Defines ENABLE_NATIVE_VIDEO=ON
+
 config BR2_PACKAGE_WPEWEBKIT_ML_MULTIMEDIA
 	bool "multimedia support"
 	default y
