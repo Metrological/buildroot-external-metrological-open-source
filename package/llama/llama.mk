@@ -8,8 +8,11 @@ LLAMA_SITE = $(call github,ggerganov,llama.cpp,$(LLAMA_VERSION))
 LLAMA_INSTALL_STAGING = YES
 # LLAMA_DEPENDENCIES = 
 
-LLAMA_CONF_OPTS=-DCMAKE_C_FLAGS="-mfp16-format=ieee" \
-                -DCMAKE_CXX_FLAGS="-mfp16-format=ieee"
+ifeq ($(BR2_arm)$(BR2_aarch64),y)
+LLAMA_CONF_OPTS += -DCMAKE_C_FLAGS="-mfp16-format=ieee" \
+                   -DCMAKE_CXX_FLAGS="-mfp16-format=ieee"
+endif
+
 
 
 $(eval $(cmake-package))

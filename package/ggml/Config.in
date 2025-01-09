@@ -1,0 +1,7 @@
+config BR2_PACKAGE_GGML
+	bool "ggml"
+        depends on BR2_GCC_ENABLE_OPENMP
+
+comment "ggml needs a toolchain with OpenMP support"
+        depends on !BR2_GCC_ENABLE_OPENMP
+
