@@ -1,0 +1,13 @@
+diff --git a/Compositor/lib/Mesa/renderer/test/texturebuffer/DmaBuffer.h.orig b/Compositor/lib/Mesa/renderer/test/texturebuffer//DmaBuffer.h
+index 223ad44..9d3105f 100644
+--- a/Compositor/lib/Mesa/renderer/test/texturebuffer/DmaBuffer.h.orig
++++ b/Compositor/lib/Mesa/renderer/test/texturebuffer//DmaBuffer.h
+@@ -21,7 +21,7 @@ namespace Compositor {
+ 
+             Exchange::ICompositionBuffer::buffer_id Accessor() const override
+             {
+-                return reinterpret_cast<Exchange::ICompositionBuffer::buffer_id>(_source.Identifier());
++                return static_cast<Exchange::ICompositionBuffer::buffer_id>(_source.Identifier());
+             }
+ 
+             uint32_t Stride() const override
