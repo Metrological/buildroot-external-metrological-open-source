@@ -1,0 +1,10 @@
+--- a/Source/core/Portability.h
++++ b/Source/core/Portability.h
+@@ -221,6 +221,7 @@
+ #define DISABLE_WARNING_DELETE_INCOMPLETE PUSH_WARNING_ARG_("-Wdelete-incomplete")
+ #define DISABLE_WARNING_INCONSISTENT_MISSING_OVERRIDE PUSH_WARNING_ARG_("-Winconsistent-missing-override")
+ #define DISABLE_WARNING_MAYBE_UNINITIALIZED PUSH_WARNING_ARG_("-Wmaybe-uninitialized")
++#define DISABLE_WARNING_ARRAY_BOUNDS PUSH_WARNING_ARG_("-Warray-bounds")
+ #endif
+ #endif
+ 
