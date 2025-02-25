@@ -199,7 +199,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
         choice BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL
             depends on BR2_PACKAGE_RPI_FIRMWARE
             default BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL_USERSPACE
-            prompt "chip controller"
+            prompt "Chip controller"
             help
                 Select who should control the bluetooth chip
 
@@ -247,9 +247,9 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
                 The directory where the bluetooth firmware binaries are stored. 
     endif
 
-config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
+menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
     bool "BluetoothRemoteControl"
-    select BR2_PACKAGE_THUNDER_BLUETOOTH
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
     select BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
     default n
     help
