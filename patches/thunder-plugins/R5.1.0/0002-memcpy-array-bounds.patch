@@ -1,0 +1,12 @@
+--- a/DHCPServer/DHCPServerImplementation.h
++++ b/DHCPServer/DHCPServerImplementation.h
+@@ -167,7 +167,9 @@
+ 
+                 if (_length > maxLength) {
+                     _id._allocation = new uint8_t[_length];
++PUSH_WARNING(DISABLE_WARNING_ARRAY_BOUNDS)
+                     ::memcpy(_id._allocation, id, _length);
++POP_WARNING()
+                 } else {
+                     ::memcpy(_id._buffer, id, _length);
+                 }
