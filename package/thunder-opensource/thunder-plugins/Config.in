@@ -687,7 +687,7 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
             bool "Experimental Mesa"
             select BR2_PACKAGE_THUNDER_COMPOSITOR_OUTOFPROCESS
             select BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
-            select BR2_PACKAGE_THUNDER_COMPOSITOR_BUFFER
+            select BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
             select BR2_PACKAGE_LIBPNG
             select BR2_PACKAGE_MESA3D
             help

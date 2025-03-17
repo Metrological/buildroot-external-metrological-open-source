@@ -249,6 +249,13 @@ config BR2_PACKAGE_THUNDER_COMPOSITOR_BUFFER
     help
       Library to share graphical buffers between processes.
 
+config BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
+    select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
+    select BR2_PACKAGE_THUNDER_EXTENSION_PRIVILEDGED_REQUEST
+    bool "Graphics Buffer"
+    help
+      Library to share graphical buffers between processes.
+
 config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_CDM
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
     bool "CDM"
