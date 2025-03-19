@@ -3,7 +3,7 @@
 # thunder-packagemanager
 #
 ################################################################################
-THUNDER_PACKAGEMANAGER_VERSION = ce5b5406da0e41008f5b782b48eae50f9e83a782
+THUNDER_PACKAGEMANAGER_VERSION = R5.2.0
 THUNDER_PACKAGEMANAGER_SITE_METHOD = git
 THUNDER_PACKAGEMANAGER_SITE = git@github.com:rdkcentral/PackageManager.git
 

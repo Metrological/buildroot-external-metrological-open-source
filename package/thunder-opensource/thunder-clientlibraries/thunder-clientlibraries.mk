@@ -3,7 +3,7 @@
 # thunder-clientlibraries
 #
 ################################################################################
-THUNDER_CLIENTLIBRARIES_VERSION = R5.1.0
+THUNDER_CLIENTLIBRARIES_VERSION = R5.2.0
 THUNDER_CLIENTLIBRARIES_SITE = $(call github,rdkcentral,ThunderClientLibraries,$(THUNDER_CLIENTLIBRARIES_VERSION))
 THUNDER_CLIENTLIBRARIES_INSTALL_STAGING = YES
 THUNDER_CLIENTLIBRARIES_DEPENDENCIES = thunder thunder-interfaces
