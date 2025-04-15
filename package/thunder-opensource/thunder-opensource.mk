@@ -1,2 +1,15 @@
-include $(BR2_EXTERNAL_ML_OSS_PATH)/package/thunder-opensource/*/*.mk
+ifeq ($(BR2_PACKAGE_THUNDER_CMAKE_VERBOSE_BUILD), y)
+THUNDER_CMAKE_COMMON_OPTIONS = \
+		--log-level=VERBOSE \
+		-DCMAKE_VERBOSE_MAKEFILE=ON 
+else
+THUNDER_CMAKE_COMMON_OPTIONS =  \
+		--log-level=WARNING \
+		-DCMAKE_VERBOSE_MAKEFILE=OFF 
+endif
 
+ifeq ($(BR2_PACKAGE_THUNDER_CMAKE_TRACE_CONFIGURATION), y)
+THUNDER_CMAKE_COMMON_OPTIONS  += --trace 
+endif
+
+include $(BR2_EXTERNAL_ML_OSS_PATH)/package/thunder-opensource/*/*.mk

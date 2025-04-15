@@ -15,7 +15,26 @@ config BR2_PACKAGE_THUNDER_DISABLE_INITD
 	bool "Disable init.d"
 	help
 		If enabled the init.d script will NOT be installed.
-		
+
+config BR2_PACKAGE_THUNDER_CMAKE_VERBOSE_BUILD
+	bool "CMake verbose build"
+	default n
+	help
+	   Enable verbose logging for CMake during the build process.
+	   CMake will output detailed logs (--log-level=VERBOSE) and include 
+	   verbose Makefile commands (-DCMAKE_VERBOSE_MAKEFILE=ON). 
+	   This is useful for debugging or inspecting the build process.
+
+config BR2_PACKAGE_THUNDER_CMAKE_TRACE_CONFIGURATION
+	bool "CMake configure tracing"
+	default n
+	help
+	   Enable CMake tracing during the configuration process.
+	   When set, the '--trace' option is added to the CMake command,
+ 	   which outputs detailed information about every file processed by CMake.
+	   This is useful for debugging CMake scripts and understanding the
+	   sequence of file inclusions and commands executed during configuration.
+
 menu "Test applications"
 
 config BR2_PACKAGE_THUNDER_TEST_CYCLICINSPECTOR
