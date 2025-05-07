@@ -242,13 +242,6 @@ config BR2_PACKAGE_THUNDER_EXTENSION_PRIVILEDGED_REQUEST
     help
       Library to share file desciptors between processes.
 
-config BR2_PACKAGE_THUNDER_COMPOSITOR_BUFFER
-    select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
-    select BR2_PACKAGE_THUNDER_EXTENSION_PRIVILEDGED_REQUEST
-    bool "Compositor Buffer"
-    help
-      Library to share graphical buffers between processes.
-
 config BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
     select BR2_PACKAGE_THUNDER_EXTENSION_PRIVILEDGED_REQUEST
