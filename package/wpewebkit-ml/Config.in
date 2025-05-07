@@ -119,11 +119,40 @@ endchoice
 if !BR2_PACKAGE_WPEWEBKIT_ML_DEBUG
 
 config BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS
-	bool "add symbols to a release build"
-        default y if BR2_PACKAGE_WPEWEBKIT_ML_DEBUG
-        default n
-	help
-	  Add symbols to a release build
+    bool "Enable debugging symbols for WPEWebKit"
+    help
+      Enable debugging symbols for the WPEWebKit package. This allows
+      you to choose the level of debugging information included in the
+      build.
+
+choice
+    prompt "Debugging symbol level for WPEWebKit"
+    depends on BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS
+	default BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS_NO
+    help
+      Select the level of debugging symbols to include in the WPEWebKit build.
+
+config BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS_NO
+    bool "No debugging symbols"
+    help
+      Do not include any debugging symbols in the build.
+
+config BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS_LEVEL_1
+    bool "Minimal debugging symbols (-g1)"
+    help
+      Include minimal debugging symbols (file names and line numbers).
+
+config BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS_LEVEL_2
+    bool "Standard debugging symbols (-g2)"
+    help
+      Include standard debugging symbols (variable names and types).
+
+config BR2_PACKAGE_WPEWEBKIT_ML_SYMBOLS_LEVEL_3
+    bool "Maximum debugging symbols (-g3)"
+    help
+      Include maximum debugging symbols (macro definitions).
+
+endchoice
 
 endif
 
