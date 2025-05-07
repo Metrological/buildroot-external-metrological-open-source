@@ -1,0 +1,7 @@
+config BR2_PACKAGE_BLITS_EXAMPLE_APP
+    bool "air-ui-example-app"
+    select BR2_PACKAGE_HOST_NODEJS
+    help
+        Example Air UI Lightning 3 App
+
+        https://github.com/erikhaandrikman/air-ui
