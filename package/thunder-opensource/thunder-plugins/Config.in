@@ -199,7 +199,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
         choice BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL
             depends on BR2_PACKAGE_RPI_FIRMWARE
             default BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL_USERSPACE
-            prompt "chip controller"
+            prompt "Chip controller"
             help
                 Select who should control the bluetooth chip
 
@@ -234,7 +234,7 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
 
         config BR2_PACKAGE_THUNDER_BLUETOOTH_DEVICE
             string "device"
-            default "/dev/ttyAMA0"
+            default "/dev/ttyAMA1"
             depends on BR2_PACKAGE_THUNDER_BLUETOOTH_CHIP_CONTROL_USERSPACE
             help
                 Define which device is exposed to control the bluetooth chip. 
@@ -247,13 +247,23 @@ menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
                 The directory where the bluetooth firmware binaries are stored. 
     endif
 
-config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
+menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
     bool "BluetoothRemoteControl"
-    select BR2_PACKAGE_THUNDER_BLUETOOTH
+    select BR2_PACKAGE_THUNDER_BLUETOOTH_CONTROL
     select BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
     default n
     help
      A Bluetooth Low Energy HID over GATT remote control
+
+    if BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL
+        config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL_FIRST_AUDIO_CHUNKSIZE
+            string "AudioFirstChunkSize"
+            default "40"
+
+        config BR2_PACKAGE_THUNDER_BLUETOOTHREMOTECONTROL_AUDIO_CHUNKSIZE
+            string "AudioChunkSize"
+            default "40"
+    endif
 
 menuconfig BR2_PACKAGE_THUNDER_BLUETOOTHSDPSERVER
     bool "BluetoothSDPServer"
@@ -412,6 +422,36 @@ menuconfig BR2_PACKAGE_THUNDER_COBALT
         WPE Platform Cobalt plugin
 
     if BR2_PACKAGE_THUNDER_COBALT
+        config BR2_PACKAGE_THUNDER_COBALT_URL
+            string "url"
+            default "https://www.youtube.com/tv"
+            help
+            Select cobalt URL for startup
+
+        config BR2_PACKAGE_THUNDER_COBALT_VIDEO_BUFFER_BUDGET
+            string "VideoBuffer"
+            default "15"
+            help
+            Select the maximum size (in MB) for the video buffers
+
+        config BR2_PACKAGE_THUNDER_COBALT_AUDIO_BUFFER_BUDGET
+            string "AudioBuffer"
+            default "3"
+            help
+            Select the maximum size (in MB) for the audio buffers
+
+        config BR2_PACKAGE_THUNDER_COBALT_PROGRESSIVE_BUFFER_BUDGET
+            string "AudioBuffer"
+            default "5"
+            help
+            Select the maximum size (in MB) for the progressive buffers
+
+        config BR2_PACKAGE_THUNDER_COBALT_MEDIA_GARBAGE_COLLECT
+            string "MediaGarbageCollect"
+            default "30"
+            help
+            Select the maximum time (in Seconds) for the garabage collect on media buffers.
+
         choice BR2_PACKAGE_THUNDER_COBALT_RESOLUTION
             default BR2_PACKAGE_THUNDER_COBALT_RESOLUTION_720P
             prompt "resolution"
@@ -445,6 +485,12 @@ menuconfig BR2_PACKAGE_THUNDER_COBALT
             default n
             help
             Select this to start the plugin automatically when starting Thunder
+
+        config BR2_PACKAGE_THUNDER_COBALT_RESUMED
+            bool "Start Resumed"
+            default n
+            help
+            Select this to resume the plugin automatically when starting Thunder
 
         config BR2_PACKAGE_THUNDER_COBALT_OUTOFPROCESS
             bool "Out of process"
@@ -641,7 +687,7 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
             bool "Experimental Mesa"
             select BR2_PACKAGE_THUNDER_COMPOSITOR_OUTOFPROCESS
             select BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
-            select BR2_PACKAGE_THUNDER_COMPOSITOR_BUFFER
+            select BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
             select BR2_PACKAGE_LIBPNG
             select BR2_PACKAGE_MESA3D
             help

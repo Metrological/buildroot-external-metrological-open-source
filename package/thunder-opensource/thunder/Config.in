@@ -242,10 +242,10 @@ config BR2_PACKAGE_THUNDER_EXTENSION_PRIVILEDGED_REQUEST
     help
       Library to share file desciptors between processes.
 
-config BR2_PACKAGE_THUNDER_COMPOSITOR_BUFFER
+config BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
     select BR2_PACKAGE_THUNDER_EXTENSION_PRIVILEDGED_REQUEST
-    bool "Compositor Buffer"
+    bool "Graphics Buffer"
     help
       Library to share graphical buffers between processes.
 
@@ -266,7 +266,9 @@ config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT
 
 config BR2_PACKAGE_THUNDER_BLUETOOTH
     select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
-    bool
+    bool "Bluetooth"
+    help
+      Thunder Bluetooth User Space Stack
 
 config BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
     select BR2_PACKAGE_THUNDER_BLUETOOTH
@@ -282,12 +284,6 @@ config BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
         default n
     help
       Use tracing without the need of Thunder running. 
-
-config BR2_PACKAGE_THUNDER_BLUETOOTH
-    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
-    bool "Bluetooth"
-    help
-      Thunder Bluetooth User Space Stack
       
 if BR2_PACKAGE_THUNDER_BLUETOOTH
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_BLUETOOTHAUDIOSINK

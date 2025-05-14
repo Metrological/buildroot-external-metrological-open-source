@@ -1217,7 +1217,7 @@ bool DRM::ScanOut (DRM::GBM::buf_t & buf) {
 
         // Possibly always failing
         if (_narrowing <DRM::pitch_t, DRM::GBM::stride_t, true> :: value != false) {
-            std::cout << __FILE__ << " : " << __LINE__ << " : Possible narrowing detected." << std::endl;
+            std::cout << __FILE__ << ":" << __LINE__ << "  : Possible narrowing detected." << std::endl;
         }
 
 // TODO correct place?
@@ -1244,7 +1244,7 @@ bool DRM::ScanOut (DRM::GBM::buf_t & buf) {
 
         // Possibly always failing
         if (_narrowing <DRM::pitch_t, DRM::GBM::stride_t, true> :: value != false) {
-            std::cout << __FILE__ << " : " << __LINE__ << " : Possible narrowing detected." << std::endl;
+            std::cout << __FILE__ << ":" << __LINE__ << "  : Possible narrowing detected." << std::endl;
         }
 
         if (drmModeAddFB2WithModifiers (_fd, _width, _height, _format, &_handles [0], &_pitches [0], &_offsets [0], &_modifiers [0], &_fb, 0) == 0) {
@@ -1781,7 +1781,7 @@ bool EGL::ImportBuffer (DRM::GBM::buf_t const & buf, decltype (_max_images) inde
         if (_narrowing < decltype (_img._width), EGLint, true> :: value
          && _narrowing < decltype (_img._height), EGLint, true> :: value) {
             // Narrowing detectedd
-            std::cout << __FILE__ << " : " << __LINE__ << " : Possible narrowing detected." << std::endl;
+            std::cout << __FILE__ << ":" << __LINE__ << "  : Possible narrowing detected." << std::endl;
         }
 
         EGLint _attrs [] = {
@@ -1834,7 +1834,7 @@ bool EGL::ImportBuffer (DRM::GBM::prime_t const & prime, decltype (_max_images) 
          && _narrowing < decltype (prime._modifier), EGLuint64KHR, true> :: value
          ) {
             // Narrowing detectedd
-            std::cout << __FILE__ << " : " << __LINE__ << " : Possible narrowing detected." << std::endl;
+            std::cout << __FILE__ << ":" << __LINE__ << "  : Possible narrowing detected." << std::endl;
         }
 
         EGLint _attrs [] = {

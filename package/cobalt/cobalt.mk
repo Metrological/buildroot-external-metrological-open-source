@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-COBALT_VERSION = e7e0af9fabb41f100cd93e8ec04c307a3b3b3a32
+COBALT_VERSION = c40538454936dc5494450a5ed5fe8430bc366275
 COBALT_SITE = $(call github,Metrological,cobalt,$(COBALT_VERSION))
 COBALT_INSTALL_STAGING = YES
 COBALT_DEPENDENCIES = gst1-plugins-good gst1-plugins-bad host-bison host-ninja thunder-clientlibraries host-python3 host-gn
