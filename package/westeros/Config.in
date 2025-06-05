@@ -1,26 +1,101 @@
-config BR2_PACKAGE_WESTEROS
+menuconfig BR2_PACKAGE_WESTEROS
 	bool "westeros"
 	select BR2_PACKAGE_WAYLAND
 	select BR2_PACKAGE_WAYLAND_PROTOCOLS
 	select BR2_PACKAGE_LIBXKBCOMMON
 	select BR2_PACKAGE_XKEYBOARD_CONFIG
-	select BR2_PACKAGE_WESTEROS_SIMPLEBUFFER
-	select BR2_PACKAGE_WESTEROS_SIMPLESHELL
 	select BR2_PACKAGE_WESTEROS_SOC
-	select BR2_PACKAGE_WESTEROS_SINK
-	select BR2_PACKAGE_WESTEROS_ESSOS
 	help
 	  Westeros is an open source Wayland compositor library that allows
 	  applications to create Wayland displays including embedded
 	  Wayland displays
 
-	  https://github.com/rdkcmf/westeros
+	  https://code.rdkcentral.com/r/components/opensource/westeros
 
 if BR2_PACKAGE_WESTEROS
+	config BR2_PACKAGE_WESTEROS_RENDERER_GL
+		bool "renderer gl"
+		default y
+		help
+			Enable OpenGL renderer support for westeros compositor
+
 	config BR2_PACKAGE_WESTEROS_ESSOS
-	bool "westeros essos support"
-	help
-	 Enable essos in westeros
+		bool "essos"
+		help
+			Essos is a library making it simple to create applications that run either 
+			as native EGL or Wayland clients.  It is a companion to Westeros compositor.
+	
+	config BR2_PACKAGE_WESTEROS_HAS_XDG_SHELL
+		bool
+		default n
+	
+	choice
+		prompt "xdg-shell protocol"
+		default BR2_PACKAGE_WESTEROS_XDG_SHELL_PROTOCOL_V5
+		help
+			Enable xdg-shell protocol support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_XDG_SHELL_DISABLE
+		bool "disable"
+		help
+			Disable xdg-shell support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_XDG_SHELL_PROTOCOL_V5
+		bool "xdg-shell v5"
+		select BR2_PACKAGE_WESTEROS_HAS_XDG_SHELL 
+		help
+			Enable xdg-shell v5 protocol support for Westeros compositor
+	
+	config BR2_PACKAGE_WESTEROS_XDG_SHELL_PROTOCOL_V4
+		bool "xdg-shell v4"
+		select BR2_PACKAGE_WESTEROS_HAS_XDG_SHELL 
+		help
+			Enable xdg-shell v4 protocol support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_XDG_SHELL_PROTOCOL_STABLE
+		bool "xdg-shell stable"
+		select BR2_PACKAGE_WESTEROS_HAS_XDG_SHELL 
+		help
+			Enable xdg-shell stable protocol support for Westeros compositor
+	endchoice
+
+	config BR2_PACKAGE_WESTEROS_SIMPLE_PROTOCOL
+		bool "simple protocol (wl_sb, wl_simple_shell)"
+		default y
+		select BR2_PACKAGE_WESTEROS_SIPLEBUFFER
+		select BR2_PACKAGE_WESTEROS_SIMPLESHELL
+		help
+			Enable simple buffer protocol and simple shell support for Westeros compositor
+	 
+
+	config BR2_PACKAGE_WESTEROS_DMA_BUF_PROTOCOL
+		bool "dma-buf protocol (zwp_linux_dmabuf_v1)"
+		help
+			Enable dma-buf protocol support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_EXPSYNC_PROTOCOL
+		bool "expsync protocol (linux_explicit_synchronization_unstable_v1)"
+		help
+			Enable explicit synchonization protocol support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_EMBEDDED_COMPOSITOR
+		bool "embedded compositor"
+		default y
+		help
+			Enable embedded compositor support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_MODULES
+		bool "modules"
+		help
+			Enable modules support for Westeros compositor
+
+	config BR2_PACKAGE_WESTEROS_APPS
+		bool "applications"
+		help
+			Included applications to run and test Westeros compositor 
+			- westeros
+			- westeros-player
+			- westeros-test
 
 	source "$BR2_EXTERNAL_ML_OSS_PATH/package/westeros/westeros-simpleshell/Config.in"	
 	source "$BR2_EXTERNAL_ML_OSS_PATH/package/westeros/westeros-simplebuffer/Config.in"

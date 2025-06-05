@@ -1,0 +1,32 @@
+From ac7b48dd4c82070127a5ea8917ec13ea182bb1c9 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Wed, 14 May 2025 14:07:13 +0200
+Subject: [PATCH] Install dmabuf and linux-expsync client headers
+
+---
+ Makefile.am | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Makefile.am b/Makefile.am
+index 2507d6c..b317ce0 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -185,6 +185,7 @@ libwesteros_compositor_la_LDFLAGS= \
+ if ENABLE_WESTEROS_LEXPSYNCPROTOCOL
+ libwesteros_compositor_la_SOURCES += linux-expsync/protocol/linux-explicit-synchronization-unstable-v1-protocol.c
+ libwesteros_compositor_la_include_HEADERS += linux-expsync/protocol/linux-explicit-synchronization-unstable-v1-server-protocol.h
++libwesteros_compositor_la_include_HEADERS += linux-expsync/protocol/linux-explicit-synchronization-unstable-v1-client-protocol.h
+ libwesteros_compositor_la_expsyncdir = $(includedir)/linux-expsync
+ libwesteros_compositor_la_expsync_HEADERS = linux-expsync/westeros-linux-expsync.h
+ libwesteros_compositor_la_CXXFLAGS += -I$(srcdir)/linux-expsync/protocol
+@@ -249,6 +250,7 @@ if ENABLE_WESTEROS_LDBPROTOCOL
+ ## --- Linux dmabuf -------
+ libwesteros_linux_dmabuf_server_la_SOURCES = linux-dmabuf/westeros-linux-dmabuf.cpp linux-dmabuf/protocol/linux-dmabuf-unstable-v1-protocol.c
+ libwesteros_linux_dmabuf_server_la_include_HEADERS = linux-dmabuf/westeros-linux-dmabuf.h linux-dmabuf/protocol/linux-dmabuf-unstable-v1-server-protocol.h
++libwesteros_linux_dmabuf_server_la_include_HEADERS = linux-dmabuf/westeros-linux-dmabuf.h linux-dmabuf/protocol/linux-dmabuf-unstable-v1-client-protocol.h
+ libwesteros_linux_dmabuf_server_la_includedir = $(includedir)
+ libwesteros_linux_dmabuf_server_la_CXXFLAGS = $(AM_CXXFLAGS) \
+                                              -I${srcdir}/linux-dmabuf/protocol
+-- 
+2.34.1
+

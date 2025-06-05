@@ -1,0 +1,187 @@
+From 347f797341deb88dc1b963009d84ef4217e30d46 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Tue, 20 May 2025 14:23:06 +0200
+Subject: [PATCH] add PID to logging
+
+---
+ drm/westeros-gl/westeros-gl-console-helper.c | 2 +-
+ drm/westeros-gl/westeros-gl.c                | 4 ++--
+ essos/essos-resmgr.cpp                       | 2 +-
+ essos/essos.cpp                              | 2 +-
+ test/brcm-em/em/brcm-em.cpp                  | 4 ++--
+ test/drm-em/em/drm-em.cpp                    | 4 ++--
+ tools/mediacapture/mediacapture.cpp          | 2 +-
+ westeros-compositor.cpp                      | 4 ++--
+ westeros-sink/raw/westeros-sink-soc.c        | 2 +-
+ westeros-sink/v4l2/westeros-sink-soc.c       | 2 +-
+ 10 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/drm/westeros-gl/westeros-gl-console-helper.c b/drm/westeros-gl/westeros-gl-console-helper.c
+index 381519f..90f31f2 100644
+--- a/drm/westeros-gl/westeros-gl-console-helper.c
++++ b/drm/westeros-gl/westeros-gl-console-helper.c
+@@ -75,7 +75,7 @@ static void wstLog( int level, const char *fmt, ... )
+ {
+    if ( level <= g_activeLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+diff --git a/drm/westeros-gl/westeros-gl.c b/drm/westeros-gl/westeros-gl.c
+index 6aec182..afa952b 100644
+--- a/drm/westeros-gl/westeros-gl.c
++++ b/drm/westeros-gl/westeros-gl.c
+@@ -632,7 +632,7 @@ static void wstLog( int level, const char *fmt, ... )
+ {
+    if ( level <= g_activeLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+@@ -644,7 +644,7 @@ static void wstFrameLog( const char *fmt, ... )
+ {
+    if ( g_frameDebug )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+diff --git a/essos/essos-resmgr.cpp b/essos/essos-resmgr.cpp
+index d4b042e..a87856d 100644
+--- a/essos/essos-resmgr.cpp
++++ b/essos/essos-resmgr.cpp
+@@ -75,7 +75,7 @@ static void essrm_printf( int level, const char *fmt, ... )
+ {
+    if ( level <= gLogLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+       va_end( argptr );
+diff --git a/essos/essos.cpp b/essos/essos.cpp
+index 124c53b..18ca5da 100644
+--- a/essos/essos.cpp
++++ b/essos/essos.cpp
+@@ -325,7 +325,7 @@ static void essLog( int level, const char *fmt, ... )
+ {
+    if ( level <= g_activeLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+       va_end( argptr );
+diff --git a/test/brcm-em/em/brcm-em.cpp b/test/brcm-em/em/brcm-em.cpp
+index e0c0d5d..fd4273f 100644
+--- a/test/brcm-em/em/brcm-em.cpp
++++ b/test/brcm-em/em/brcm-em.cpp
+@@ -462,7 +462,7 @@ static void emPrintf( int level, const char *fmt, ... )
+ {
+    if ( level <= gActiveLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+@@ -551,7 +551,7 @@ bool EMGetWesterosModuleTermCalled( EMCTX *ctx )
+ 
+ void EMSetError( EMCTX *ctx, const char *fmt, ... )
+ {
+-   va_list argptr;
++   va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+    va_start( argptr, fmt );
+    vsprintf( ctx->errorDetail, fmt, argptr );
+    va_end( argptr );
+diff --git a/test/drm-em/em/drm-em.cpp b/test/drm-em/em/drm-em.cpp
+index ed14ee4..fb0d009 100644
+--- a/test/drm-em/em/drm-em.cpp
++++ b/test/drm-em/em/drm-em.cpp
+@@ -524,7 +524,7 @@ static void emPrintf( int level, const char *fmt, ... )
+ {
+    if ( level <= gActiveLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+@@ -648,7 +648,7 @@ bool EMGetWesterosModuleTermCalled( EMCTX *ctx )
+ 
+ void EMSetError( EMCTX *ctx, const char *fmt, ... )
+ {
+-   va_list argptr;
++   va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+    va_start( argptr, fmt );
+    vsprintf( ctx->errorDetail, fmt, argptr );
+    va_end( argptr );
+diff --git a/tools/mediacapture/mediacapture.cpp b/tools/mediacapture/mediacapture.cpp
+index f3eb9ce..054842d 100644
+--- a/tools/mediacapture/mediacapture.cpp
++++ b/tools/mediacapture/mediacapture.cpp
+@@ -272,7 +272,7 @@ static GstStateChangeReturn (*gOrgChangeState) (GstElement *element, GstStateCha
+ 
+ static void iprintf( int level, const char *fmt, ... )
+ {
+-   va_list argptr;
++   va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+ 
+    if ( level <= gDebugLevel )
+    {
+diff --git a/westeros-compositor.cpp b/westeros-compositor.cpp
+index 694b605..3c9c1d7 100644
+--- a/westeros-compositor.cpp
++++ b/westeros-compositor.cpp
+@@ -98,7 +98,7 @@
+ 
+ #define MIN(x,y) (((x) < (y)) ? (x) : (y))
+ 
+-#define INT_FATAL(FORMAT, ...)      wstLog(0, "Westeros Fatal: " FORMAT "\n", __VA_ARGS__)
++#define INT_FATAL(FORMAT, ...)      wstLog(0, "[PID: %d] Westeros Fatal: " FORMAT "\n", __VA_ARGS__)
+ #define INT_ERROR(FORMAT, ...)      wstLog(0, "Westeros Error: " FORMAT "\n", __VA_ARGS__)
+ #define INT_WARNING(FORMAT, ...)    wstLog(1, "Westeros Warning: " FORMAT "\n", __VA_ARGS__)
+ #define INT_INFO(FORMAT, ...)       wstLog(2, "Westeros Info: " FORMAT "\n", __VA_ARGS__)
+@@ -883,7 +883,7 @@ static void wstLog( int level, const char *fmt, ... )
+ {
+    if ( level <= g_activeLevel )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+       va_end( argptr );
+diff --git a/westeros-sink/raw/westeros-sink-soc.c b/westeros-sink/raw/westeros-sink-soc.c
+index 682ca3d..b79a0e9 100644
+--- a/westeros-sink/raw/westeros-sink-soc.c
++++ b/westeros-sink/raw/westeros-sink-soc.c
+@@ -184,7 +184,7 @@ static void frameLog( const char *fmt, ... )
+ {
+    if ( g_frameDebug )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+diff --git a/westeros-sink/v4l2/westeros-sink-soc.c b/westeros-sink/v4l2/westeros-sink-soc.c
+index 2dd930e..ecb6dd6 100644
+--- a/westeros-sink/v4l2/westeros-sink-soc.c
++++ b/westeros-sink/v4l2/westeros-sink-soc.c
+@@ -269,7 +269,7 @@ static void frameLog( const char *fmt, ... )
+ {
+    if ( g_frameDebug )
+    {
+-      va_list argptr;
++      va_list argptr; fprintf(stderr, "[PID: %d] ", getpid());
+       fprintf( stderr, "%lld: ", getCurrentTimeMillis());
+       va_start( argptr, fmt );
+       vfprintf( stderr, fmt, argptr );
+-- 
+2.34.1
+

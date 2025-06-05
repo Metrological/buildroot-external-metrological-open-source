@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-WESTEROS_SINK_VERSION = 23a65d1fa48f6d82d51c3cb6cd08bf403f95187d
-WESTEROS_SINK_SITE_METHOD = git
-WESTEROS_SINK_SITE = https://github.com/rdkcmf/westeros
+WESTEROS_SINK_VERSION = $(WESTEROS_VERSION)
+WESTEROS_SINK_SITE_METHOD = $(WESTEROS_SITE_METHOD)
+WESTEROS_SINK_SITE = $(WESTEROS_SITE)
 WESTEROS_SINK_INSTALL_STAGING = YES
 WESTEROS_SINK_AUTORECONF = YES
 WESTEROS_SINK_AUTORECONF_OPTS = "-Icfg"
@@ -54,5 +54,7 @@ define WESTEROS_SINK_ENTER_BUILD_DIR
 	cd $(@D)/$(WESTEROS_SINK_SUBDIR) && ln -sf ../../westeros-sink/westeros-sink.c && ln -sf ../../westeros-sink/westeros-sink.h
 endef
 WESTEROS_SINK_PRE_BUILD_HOOKS += WESTEROS_SINK_ENTER_BUILD_DIR
+
+WESTEROS_SINK_POST_PATCH_HOOKS += WESTEROS_APPLY_PID_LOG_PATCH
 
 $(eval $(autotools-package))

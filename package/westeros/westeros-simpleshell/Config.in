@@ -1,5 +1,6 @@
 config BR2_PACKAGE_WESTEROS_SIMPLESHELL
 	bool "westeros-simpleshell"
+	depends on BR2_PACKAGE_WESTEROS_SIMPLE_PROTOCOL
 	select BR2_PACKAGE_WAYLAND
 	select BR2_PACKAGE_WAYLAND_PROTOCOLS
 	select BR2_PACKAGE_LIBXKBCOMMON
@@ -7,4 +8,7 @@ config BR2_PACKAGE_WESTEROS_SIMPLESHELL
 	help
 		wayland shell based on shared memory buffers.
         
-		https://github.com/rdkcmf/westeros
+		https://code.rdkcentral.com/r/components/opensource/westeros
+
+comment "westeros-simpleshell needs simple buffer protocol"
+		depends on !BR2_PACKAGE_WESTEROS_SIMPLE_PROTOCOL
