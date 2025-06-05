@@ -473,7 +473,6 @@ menuconfig BR2_PACKAGE_THUNDER_COBALT
             help
                 Set the resolution to 2160p (4k)
         endchoice
-
         config BR2_PACKAGE_THUNDER_COBALT_SINGLE_PLAYBACKRATE
             bool "only 1x playback rate"
             default n
@@ -573,7 +572,44 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
             help
             Set the resolution to 2160p (4k)
         endchoice
-
+        choice BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION
+            prompt "implementation"
+            help
+                Select a compositor implementation
+            default BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA if !BR2_PACKAGE_HAS_NEXUS
+            default BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_NEXUS if BR2_PACKAGE_HAS_NEXUS
+        
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA
+            bool "Mesa"
+            select BR2_PACKAGE_THUNDER_COMPOSITOR_OUTOFPROCESS
+            select BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
+            select BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
+            select BR2_PACKAGE_LIBPNG
+            select BR2_PACKAGE_LIBDRM
+            select BR2_PACKAGE_MESA3D
+            help
+                Select this to build the linux generic compositor implementation based on libGBM/libDRM/Mesa
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTEROS
+            bool "Westeros"
+            select BR2_PACKAGE_WESTEROS
+            help  
+                Use Westeros as the compositor implementation
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTON
+            bool "Weston"
+            select BR2_PACKAGE_WESTON
+            help
+                Use Weston as the compositor implementation
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_DISPMANX
+            bool "Dispmanx"
+            depends on BR2_arm && BR2_PACKAGE_RPI_USERLAND
+            help
+                Use Dispmanx as the compositor implementation
+        config BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_NEXUS
+            bool "Nexus"
+            depends on BR2_PACKAGE_HAS_NEXUS
+            help
+                Use Nexus as the compositor implementation
+        endchoice
         config BR2_PACKAGE_THUNDER_COMPOSITOR_NEXUS_SERVER_EXTERNAL
             bool "Nexus server external"
             depends on BR2_PACKAGE_HAS_NEXUS  && !BR2_PACKAGE_WAYLAND
@@ -668,7 +704,7 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
                 default 0
         endif
 
-        if BR2_PACKAGE_WESTON
+        if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTON
             config BR2_PACKAGE_THUNDER_COMPOSITOR_WESTON_TTY_LIST
             string "Weston tty ids"
             default "1;2;3;4"
@@ -683,32 +719,41 @@ menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR
                 Example "HDMI-A-1,1280x720@60.0 16:9,normal;"
         endif
 
-        menuconfig BR2_PACKAGE_THUNDER_COMPOSITOR_EXPERIMENTAL
-            bool "Experimental Mesa"
-            select BR2_PACKAGE_THUNDER_COMPOSITOR_OUTOFPROCESS
-            select BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
-            select BR2_PACKAGE_THUNDER_GRAPHICS_BUFFER
-            select BR2_PACKAGE_LIBPNG
-            select BR2_PACKAGE_MESA3D
-            help
-                Select this to build the linux generic compositor implementation based on libGBM/libDRM/Mesa
-        
-        if BR2_PACKAGE_THUNDER_COMPOSITOR_EXPERIMENTAL
-        config BR2_PACKAGE_THUNDER_COMPOSITOR_COMPOSITOR_RENDER_NODE
-            string "Render node"
-            default ""
-            help 
-                Manually specify the render node to use 
-                (e.g. /dev/dri/renderxxx or /dev/dri/cardx).
-        
-        config BR2_PACKAGE_THUNDER_COMPOSITOR_COMPOSITOR_OUTPUT_MODES
-            string "Output modesetting"
-            default ""
-            help 
-                Specify the output modes (name1;x;y;h;w|name2;x;y;h;w) 
-                that the compositor should use.
+        if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA || BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTEROS
+            config BR2_PACKAGE_THUNDER_COMPOSITOR_RUNTIME_PATH
+                string "runtime path"
+                default "/tmp" if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA && BR2_PACKAGE_RPI_FIRMWARE
+                default "/run" if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTEROS && BR2_PACKAGE_RPI_FIRMWARE
+                default ""
+                help 
+                    Specify the runtime path to use
+                    (e.g. /tmp or /run). This is used to create the sockets
+                    needed to use the compositor.
 
-                HDMI-A-1;0;0;1080;1920
+                    if it starts with '/' it will be used as is, otherwise
+                    it will be used as a subdirectory of the volitile
+                    path (e.g. /tmp/Thunder/Compositor/<work-dir>).
+        endif
+
+        if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA || BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTEROS
+            config BR2_PACKAGE_THUNDER_COMPOSITOR_RENDER_NODE
+                string "Render node"
+                default "/dev/dri/renderD128" if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA && BR2_PACKAGE_RPI_FIRMWARE
+                default "/dev/dri/card1" if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_WESTEROS && BR2_PACKAGE_RPI_FIRMWARE
+                default ""
+                help 
+                    Manually specify the render node to use 
+                    (e.g. /dev/dri/renderxxx or /dev/dri/cardx).
+        endif
+        if BR2_PACKAGE_THUNDER_COMPOSITOR_IMPLEMENTATION_MESA
+            config BR2_PACKAGE_THUNDER_COMPOSITOR_COMPOSITOR_OUTPUT_MODES
+                string "Output modesetting"
+                default ""
+                help 
+                    Specify the output mode name1;x;y;h;w
+                    that the compositor should use.
+
+                    HDMI-A-1;0;0;1080;1920
         endif
     endif
 
