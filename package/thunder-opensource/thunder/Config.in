@@ -191,6 +191,15 @@ config BR2_PACKAGE_THUNDER_PERFORMANCE_MONITORING
     help
         Enable the performance monitoring.
 
+config BR2_PACKAGE_THUNDER_ENABLE_ENVIRONMENT
+    bool "environment fragments support"
+    default n
+    help
+        Enable the use of environment fragments. This will add a new
+        environment variable to the process that will contain the
+        environment variables that are set in the fragments.
+        This is used to set up the environment for the plugins.
+
 menu "Platform Device Groups"
 
 comment "This should match the groups applied to the respective platforms device recourses."
