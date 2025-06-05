@@ -1,0 +1,52 @@
+From c33e104db94e3e6ecabd5c1a3cfa5b03c35f5c50 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <dev@bybram.com>
+Date: Thu, 5 Jun 2025 09:29:13 +0200
+Subject: [PATCH] dri2: Fix segfault when locking buffer before EGL surface is
+ created
+
+When working on a GBM-based backend for WPE WebKit, I encountered a segfault when enabling
+non-composited WebGL. In this scenario, EGL/GLES initialization is triggered by the canvas
+element, which happens after the threaded compositor has already begun rendering frames.
+
+As a result, the backend attempted to lock the front buffer before `eglCreateWindowSurface`
+was called, leading to a crash.
+
+Since there's no reliable way to check if `eglCreateWindowSurface` was called before
+`gbm_surface_lock_front_buffer`, this patch adds a check and returns `NULL` in that case
+to prevent the segfault.
+
+Signed-off-by: Bram Oosterhuis <dev@bybram.com>
+
+Cc: mesa-stable
+---
+ src/egl/drivers/dri2/platform_drm.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/egl/drivers/dri2/platform_drm.c b/src/egl/drivers/dri2/platform_drm.c
+index 8cbd72197966d..3309d20c7a865 100644
+--- a/src/egl/drivers/dri2/platform_drm.c
++++ b/src/egl/drivers/dri2/platform_drm.c
+@@ -54,6 +54,11 @@ lock_front_buffer(struct gbm_surface *_surf)
+    struct gbm_dri_device *device = gbm_dri_device(_surf->gbm);
+    struct gbm_bo *bo;
+ 
++   if (dri2_surf == NULL) {
++      _eglError(EGL_BAD_SURFACE, "no egl window surface");
++      return NULL;
++   }
++
+    if (dri2_surf->current == NULL) {
+       _eglError(EGL_BAD_SURFACE, "no front buffer");
+       return NULL;
+@@ -75,6 +80,9 @@ release_buffer(struct gbm_surface *_surf, struct gbm_bo *bo)
+    struct gbm_dri_surface *surf = gbm_dri_surface(_surf);
+    struct dri2_egl_surface *dri2_surf = surf->dri_private;
+ 
++   if (dri2_surf == NULL)
++      return;
++
+    for (unsigned i = 0; i < ARRAY_SIZE(dri2_surf->color_buffers); i++) {
+       if (dri2_surf->color_buffers[i].bo == bo) {
+          dri2_surf->color_buffers[i].locked = false;
+-- 
+GitLab
