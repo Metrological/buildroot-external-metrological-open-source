@@ -3,11 +3,12 @@ config BR2_PACKAGE_WESTEROS_SINK
 	select BR2_PACKAGE_GSTREAMER1
 	select BR2_PACKAGE_WAYLAND
 	select BR2_PACKAGE_WAYLAND_PROTOCOLS
+	select BR2_PACKAGE_WESTEROS_ESSOS
 	select BR2_PACKAGE_WAYLAND_EGL_BNXS if BR2_PACKAGE_HAS_NEXUS
 
 	help
 	  GStreamer sink for westeros.
 
-	  https://github.com/rdkcmf/westeros
+	  https://code.rdkcentral.com/r/components/opensource/westeros
 
 
