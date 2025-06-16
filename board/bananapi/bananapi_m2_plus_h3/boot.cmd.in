@@ -1,0 +1,13 @@
+setenv kernel_image /#KERNEL#
+setenv fdt_file /sun8i-h3-bananapi-m2-plus.dtb
+setenv cma "128M"
+
+# Load kernel and DTB
+load mmc 0:1 ${kernel_addr_r} ${kernel_image}
+load mmc 0:1 ${fdt_addr_r} ${fdt_file}
+
+# Set final bootargs
+setenv bootargs "console=ttyS0,115200 console=tty1 root=/dev/mmcblk0p2 rootwait cma=${cma}"
+
+# Boot
+bootz ${kernel_addr_r} - ${fdt_addr_r}
