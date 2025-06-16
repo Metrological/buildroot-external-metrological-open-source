@@ -147,7 +147,7 @@ __EOF__
                         echo "Adding 'dtoverlay=vc4-fkms-v3d' to config.txt."
                         cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
-# Add VC4 GPU support
+# Enable DRM VC4 V3D driver
 dtoverlay=vc4-fkms-v3d
 __EOF__
                 fi
@@ -158,8 +158,9 @@ __EOF__
                         echo "Adding 'dtoverlay=vc4-kms-v3d' to config.txt."
                         cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
-# Add VC4 GPU support
+# Enable DRM VC4 V3D driver
 dtoverlay=vc4-kms-v3d
+max_framebuffers=2
 __EOF__
                 fi
                 ;;
