@@ -1,10 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -u
+# set -u
 set -e
-set -x
+# set -x
 
 BOARD_DIR="$(dirname "$0")"
+USE_EXTLINUX=0
+
+. "${BR2_EXTERNAL_ML_OSS_PATH}/scripts/get_linux_image_name.sh"
 
 for arg in "$@"
 do
@@ -67,7 +70,57 @@ ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100 # ttyS0 console' ${TARGET_DIR}/
                         fi
                 fi
                 ;;
+                --use-extlinux)
+                USE_EXTLINUX=1
         esac
 done
 
-install -m 666 -D "${BOARD_DIR}"/extlinux-$(basename ${BOARD_DIR}).conf "${TARGET_DIR}"/boot/extlinux/extlinux.conf
+UBOOT_BOARD=$(eval grep ^BR2_TARGET_UBOOT_BOARD_DEFCONFIG= ${BR2_CONFIG} | cut -d '=' -f 2 | tr -d '"')
+
+KERNEL=$(get_linux_image_name "${BR2_CONFIG}")
+
+export
+
+FILES=()
+CUSTOM_BOOT_FILES=( )
+
+if [ "${USE_EXTLINUX}" -eq 1 ]; then
+    echo "Installing extlinux configuration for U-Boot board ${UBOOT_BOARD}"
+
+    mkdir -pv "${BINARIES_DIR}/extlinux"
+
+    sed -e "s|#KERNEL#|${KERNEL}|" \
+        "${BOARD_DIR}/${UBOOT_BOARD}/extlinux.conf.in" > "${BINARIES_DIR}/extlinux/extlinux.conf"
+
+    # Adding it to FILES array doen't work, because genimage.cfg copies the file to the root of the boot partition
+    # Instead, we add the file with a custom path "source:destination"
+    CUSTOM_BOOT_FILES+=( "extlinux/extlinux.conf:extlinux/extlinux.conf" )
+else
+   echo "Installing boot.src configuration for U-Boot board ${UBOOT_BOARD}"
+
+   sed -e "s|#KERNEL#|${KERNEL}|" \
+       "${BOARD_DIR}/${UBOOT_BOARD}/boot.cmd.in" > "${BINARIES_DIR}/boot.cmd" 
+
+   NORMALIZED_ARCH=$(eval grep ^BR2_NORMALIZED_ARCH= ${BR2_CONFIG} | cut -d '=' -f 2 | tr -d '"')
+
+   ${HOST_DIR}/usr/bin/mkimage -A ${NORMALIZED_ARCH} -T script -C none -d "${BINARIES_DIR}/boot.cmd" "${BINARIES_DIR}/boot.scr"
+
+   FILES+=( "boot.scr" )
+fi
+
+FILES+=( "${KERNEL}" )
+
+for i in "${BINARIES_DIR}"/*.dtb; do
+    FILES+=( "${i#${BINARIES_DIR}/}" )
+done
+
+BOOT_FILES=$(printf '\\t\\t\\t"%s",\\n' "${FILES[@]}")
+
+for pair in "${CUSTOM_BOOT_FILES[@]}"; do
+    IFS=':' read -r src dst <<< "$pair"
+    BOOT_FILE_LIST+=$(printf '\t\tfile %s { image = "%s"}\n' "$src" "$dst")
+done
+
+sed -e "s|#BOOT_FILES#|${BOOT_FILES}|" \
+    -e "s|#BOOT_FILE_LIST#|${BOOT_FILE_LIST}|" \
+    "${BOARD_DIR}/genimage.cfg.in" > "${BINARIES_DIR}/genimage.cfg" 

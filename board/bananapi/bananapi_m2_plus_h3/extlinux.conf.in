@@ -1,0 +1,4 @@
+label Bananapi M2 Plus linux
+  kernel /#KERNEL#
+  devicetree /sun8i-h3-bananapi-m2-plus.dtb
+  append console=ttyS0,115200 console=tty1 root=/dev/mmcblk0p2 rootwait cma=128M
