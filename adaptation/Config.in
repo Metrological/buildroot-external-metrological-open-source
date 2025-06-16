@@ -1,3 +1,4 @@
 menu "buildroot adaptations"
 source "$BR2_EXTERNAL_ML_OSS_PATH/adaptation/gst1-plugins-base/Config.in"
+source "$BR2_EXTERNAL_ML_OSS_PATH/adaptation/dropbear/Config.in"
 endmenu

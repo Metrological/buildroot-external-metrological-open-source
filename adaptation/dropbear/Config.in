@@ -1,0 +1,11 @@
+menu "dropbear"
+config BR2_PACKAGE_DROPBEAR_LIBDROPBEAR_SUPPORT
+	bool "libdropbear"
+	depends on BR2_PACKAGE_DROPBEAR
+	help
+	  GBM windowing system
+
+comment "libdropbear needs dropbear"
+	depends on (!BR2_PACKAGE_DROPBEAR)
+
+endmenu
