@@ -5,4 +5,4 @@ BUILDROOT_REFERENCE=$(shell $(GIT) rev-parse --short HEAD)
 BUILDROOT_DIRTY=$(shell $(GIT) diff --shortstat 2>/dev/null | wc -l)
 
 include $(sort $(wildcard $(BR2_EXTERNAL_ML_OSS_PATH)/package/*/*.mk))
-include $(sort $(wildcard $(BR2_EXTERNAL_ML_OSS_PATH)/adaptation/*/*.mk))
+include $(BR2_EXTERNAL_ML_OSS_PATH)/adaptation/adaptation.mk
