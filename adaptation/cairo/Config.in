@@ -1,0 +1,14 @@
+menu "cairo"
+config BR2_PACKAGE_CAIRO_ENABLE_GLES_BACKEND
+	bool "Enable GLES support"
+	depends on BR2_PACKAGE_CAIRO
+	depends on BR2_PACKAGE_HAS_LIBEGL
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	help
+	  Enable support for the GLES backend in Cairo.
+
+	  This is needed for WPE Webkit < v2.46, which requires the EGL/GLES backend 
+
+comment "cairo-gles2 needs the GLES platform and cairo"
+	depends on !BR2_PACKAGE_CAIRO || !BR2_PACKAGE_HAS_LIBEGL || !BR2_PACKAGE_HAS_LIBGLES
+endmenu
