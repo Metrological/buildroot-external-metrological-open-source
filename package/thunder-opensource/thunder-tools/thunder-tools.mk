@@ -3,7 +3,7 @@
 # thunder-tools
 #
 ################################################################################
-HOST_THUNDER_TOOLS_VERSION = R5.2.0
+HOST_THUNDER_TOOLS_VERSION = 1ea5895e595ca58fac126acf14e170fb2765f5d5
 HOST_THUNDER_TOOLS_SITE = $(call github,rdkcentral,ThunderTools,$(HOST_THUNDER_TOOLS_VERSION))
 HOST_THUNDER_TOOLS_INSTALL_STAGING = YES
 HOST_THUNDER_TOOLS_INSTALL_TARGET = NO
