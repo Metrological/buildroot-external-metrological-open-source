@@ -1898,5 +1898,12 @@ config BR2_PACKAGE_THUNDER_WIFICONTROL
 
 config BR2_PACKAGE_THUNDER_HAS_YOUTUBE
     bool
+    
+config BR2_PACKAGE_THUNDER_PLUGININITIALIZERSERVICE
+    select BR2_PACKAGE_THUNDER_PLUGINS
+    bool "PluginInitializerService"
+    help
+      PluginInitializerService Plugin
+
 
 comment "External plugins below"
