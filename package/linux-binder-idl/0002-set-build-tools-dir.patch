@@ -1,0 +1,38 @@
+From aa3956a9baadb0f25aea5d48a2de9830b53b0111 Mon Sep 17 00:00:00 2001
+From: Santhosh Ramani <santhosh_ramani2@comcast.com>
+Date: Thu, 4 Sep 2025 13:34:18 +0000
+Subject: [PATCH] set-build-tools-dir
+
+---
+ setup-env.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/setup-env.sh b/setup-env.sh
+index 92ee157..9ff2547 100755
+--- a/setup-env.sh
++++ b/setup-env.sh
+@@ -248,10 +248,10 @@ build_linux_binder() {
+     ${CD} ${BUILD_DIR}
+     if [ "${TARGET_LIB_VERSION}" = "64" ]; then
+         LOGI "Build 64Bit binder library for host machine"
+-        ${CMAKE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBUILD_ENV_HOST=ON -DTARGET_LIB64_VERSION=ON ${WORK_DIR} && ${MAKE} install -j `nproc`
++        ${CMAKE} -DANDROID_BUILD_TOOLS_DIR=${ANDROID_BUILD_TOOLS_DIR} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBUILD_ENV_HOST=ON -DTARGET_LIB64_VERSION=ON ${WORK_DIR} && ${MAKE} install -j `nproc`
+     else
+         LOGI "Build 32Bit binder library for host machine"
+-        ${CMAKE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBUILD_ENV_HOST=ON ${WORK_DIR} && ${MAKE} install -j `nproc`
++        ${CMAKE} -DANDROID_BUILD_TOOLS_DIR=${ANDROID_BUILD_TOOLS_DIR} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBUILD_ENV_HOST=ON ${WORK_DIR} && ${MAKE} install -j `nproc`
+     fi
+     if [ $? -ne 0 ]; then
+         LOGE "Failed to build the linux binder libraries and binaries"
+@@ -279,7 +279,7 @@ build_binder_examples() {
+ 
+     ${CD} ${EXAMPLE_OUT_DIR}
+     #${CMAKE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBUILD_USING_AIDL_UTILITY=ON ${EXAMPLE_DIR} && ${MAKE} install -j `nproc`
+-    ${CMAKE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ${EXAMPLE_DIR} && ${MAKE} install -j `nproc`
++    ${CMAKE} -DANDROID_BUILD_TOOLS_DIR=${ANDROID_BUILD_TOOLS_DIR} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ${EXAMPLE_DIR} && ${MAKE} install -j `nproc`
+     if [ $? -ne 0 ]; then
+         LOGE "Failed to build the linux binder examples"
+         ${CD} ${WORK_DIR}
+-- 
+2.34.1
+

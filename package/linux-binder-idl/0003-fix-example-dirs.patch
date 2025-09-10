@@ -1,0 +1,39 @@
+From 23f04e5a239f236217a7fdf3c1ed27c016120747 Mon Sep 17 00:00:00 2001
+From: Santhosh Ramani <santhosh_ramani2@comcast.com>
+Date: Thu, 4 Sep 2025 13:53:25 +0000
+Subject: [PATCH] fix-example-dirs
+
+---
+ example/FWManager/CMakeLists.txt | 2 +-
+ example/Perf/CMakeLists.txt      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/example/FWManager/CMakeLists.txt b/example/FWManager/CMakeLists.txt
+index 684f323..80b2173 100644
+--- a/example/FWManager/CMakeLists.txt
++++ b/example/FWManager/CMakeLists.txt
+@@ -24,7 +24,7 @@
+ ###########################################################
+ # FWManager binder example
+ ###########################################################
+-
++set(FWMANAGER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+ set(FWMANAGER_SERVICE_DIR ${FWMANAGER_DIR}/service)
+ set(FWMANAGER_CLIENT_DIR ${FWMANAGER_DIR}/client)
+ set(FWMANAGER_GEN_DIR ${FWMANAGER_DIR}/gen)
+diff --git a/example/Perf/CMakeLists.txt b/example/Perf/CMakeLists.txt
+index 04b03e0..2c548f9 100644
+--- a/example/Perf/CMakeLists.txt
++++ b/example/Perf/CMakeLists.txt
+@@ -21,7 +21,7 @@
+ ###########################################################
+ # RTTPerformance binder example
+ ###########################################################
+-
++set(RTTPERFORMANCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+ set(RTTPERFORMANCE_SERVICE_DIR ${RTTPERFORMANCE_DIR}/service)
+ set(RTTPERFORMANCE_CLIENT_DIR ${RTTPERFORMANCE_DIR}/client)
+ set(RTTPERFORMANCE_GEN_DIR ${RTTPERFORMANCE_DIR}/gen)
+-- 
+2.34.1
+

@@ -1,0 +1,788 @@
+From a81c033820a7758a45f81319d75ad0e11dbd8070 Mon Sep 17 00:00:00 2001
+From: Santhosh Ramani <santhosh_ramani2@comcast.com>
+Date: Thu, 4 Sep 2025 13:19:34 +0000
+Subject: [PATCH] cmake: make ANDROID_BUILD_TOOLS_DIR overridable; add new
+ example
+
+---
+ CMakeLists.txt                                |   2 +-
+ example/CMakeLists.txt                        |   3 +-
+ example/Perf/CMakeLists.txt                   | 106 ++++++++++
+ .../Perf/aidl/com/test/IRTTPerformance.aidl   |   8 +
+ example/Perf/client/RTTPerformanceClient.cpp  | 152 +++++++++++++
+ example/Perf/gen/com/test/IRTTPerformance.cpp | 199 ++++++++++++++++++
+ .../gen/include/com/test/BnRTTPerformance.h   |  29 +++
+ .../gen/include/com/test/BpRTTPerformance.h   |  17 ++
+ .../gen/include/com/test/IRTTPerformance.h    |  32 +++
+ example/Perf/service/RTTPerformance.h         |  90 ++++++++
+ .../Perf/service/RTTPerformanceService.cpp    |  44 ++++
+ 11 files changed, 680 insertions(+), 2 deletions(-)
+ create mode 100644 example/Perf/CMakeLists.txt
+ create mode 100644 example/Perf/aidl/com/test/IRTTPerformance.aidl
+ create mode 100644 example/Perf/client/RTTPerformanceClient.cpp
+ create mode 100644 example/Perf/gen/com/test/IRTTPerformance.cpp
+ create mode 100644 example/Perf/gen/include/com/test/BnRTTPerformance.h
+ create mode 100644 example/Perf/gen/include/com/test/BpRTTPerformance.h
+ create mode 100644 example/Perf/gen/include/com/test/IRTTPerformance.h
+ create mode 100644 example/Perf/service/RTTPerformance.h
+ create mode 100644 example/Perf/service/RTTPerformanceService.cpp
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6eea75c..821103c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -101,7 +101,7 @@ set(ANDROID_CORE_DIR ${ANDROID_DIR}/core)
+ set(ANDROID_NATIVE_DIR ${ANDROID_DIR}/native)
+ set(ANDROID_FMTLIB_DIR ${ANDROID_DIR}/fmtlib)
+ set(ANDROID_AIDL_TOOL_DIR ${ANDROID_DIR}/aidl)
+-set(ANDROID_BUILD_TOOLS_DIR ${ANDROID_DIR}/build-tools/linux-x86)
++set(ANDROID_BUILD_TOOLS_DIR ${ANDROID_DIR}/build-tools/linux-x86 CACHE PATH "Android build tools dir")
+ 
+ set(BINDER_DIR ${ANDROID_NATIVE_DIR}/libs/binder)
+ set(LIBUTILS_DIR ${ANDROID_CORE_DIR}/libutils)
+diff --git a/example/CMakeLists.txt b/example/CMakeLists.txt
+index be7c98e..d046f73 100644
+--- a/example/CMakeLists.txt
++++ b/example/CMakeLists.txt
+@@ -128,4 +128,5 @@ link_directories(
+ )
+ 
+ # Add binder example directories
+-add_subdirectory(FWManager)
+\ No newline at end of file
++add_subdirectory(FWManager)
++add_subdirectory(Perf)
+diff --git a/example/Perf/CMakeLists.txt b/example/Perf/CMakeLists.txt
+new file mode 100644
+index 0000000..04b03e0
+--- /dev/null
++++ b/example/Perf/CMakeLists.txt
+@@ -0,0 +1,106 @@
++# *
++# * If not stated otherwise in this file or this component's LICENSE file the
++# * following copyright and licenses apply:
++# *
++# * Copyright 2024 RDK Management
++# *
++# * Licensed under the Apache License, Version 2.0 (the "License");
++# * you may not use this file except in compliance with the License.
++# * You may obtain a copy of the License at
++# *
++# * http://www.apache.org/licenses/LICENSE-2.0
++# *
++# * Unless required by applicable law or agreed to in writing, software
++# * distributed under the License is distributed on an "AS IS" BASIS,
++# * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# * See the License for the specific language governing permissions and
++# * limitations under the License.
++# *
++# *
++
++###########################################################
++# RTTPerformance binder example
++###########################################################
++
++set(RTTPERFORMANCE_SERVICE_DIR ${RTTPERFORMANCE_DIR}/service)
++set(RTTPERFORMANCE_CLIENT_DIR ${RTTPERFORMANCE_DIR}/client)
++set(RTTPERFORMANCE_GEN_DIR ${RTTPERFORMANCE_DIR}/gen)
++
++###########################################################
++# RTTPerformance Service
++###########################################################
++
++if (USE_PREBUILT_GEN_FILES)
++    message("Using generated prebuilt stubs and proxies")
++
++    set(RTTPERFORMANCE_AIDL_SRCS
++	    ${RTTPERFORMANCE_GEN_DIR}/com/test/IRTTPerformance.cpp
++    )
++
++else ()
++    message("Generate stubs and proxies from .aidl file using aidl utility")
++
++    set(RTTPERFORMANCE_AIDL_SRCS
++	    "com/test/IRTTPerformance.aidl"
++    )
++
++    AidlGenerator(RTTPERFORMANCE_AIDL "${RTTPERFORMANCE_DIR}/aidl" "${RTTPERFORMANCE_AIDL_SRCS}")
++
++endif ()
++
++add_executable(RTTPerformanceService ${RTTPERFORMANCE_SERVICE_DIR}/RTTPerformanceService.cpp ${RTTPERFORMANCE_AIDL_SRCS})
++
++target_compile_options(RTTPerformanceService PRIVATE
++    -Wall -Wextra -std=c++17
++)
++
++if (USE_PREBUILT_GEN_FILES)
++	target_include_directories(RTTPerformanceService PRIVATE
++        ${RTTPERFORMANCE_GEN_DIR}/include
++    )
++else ()
++	target_include_directories(RTTPerformanceService PRIVATE
++        ${GENERATED_DIR}/RTTPERFORMANCE_AIDL/include
++    )
++endif ()
++
++target_link_libraries(RTTPerformanceService PRIVATE binder utils fwmanager)
++
++###########################################################
++# RTTPerformance Client
++###########################################################
++if (USE_PREBUILT_GEN_FILES)
++	add_executable(RTTPerformanceClient
++		${RTTPERFORMANCE_CLIENT_DIR}/RTTPerformanceClient.cpp
++        ${RTTPERFORMANCE_AIDL_SRCS})
++
++    target_include_directories(RTTPerformanceClient PRIVATE
++        ${RTTPERFORMANCE_GEN_DIR}/include
++    )
++else ()
++    add_executable(RTTPerformanceClient
++        ${RTTPERFORMANCE_CLIENT_DIR}/RTTPerformanceClient.cpp
++        ${RTTPERFORMANCE_AIDL_OUTPUTS})
++
++    target_include_directories(RTTPerformanceClient PRIVATE
++        ${GENERATED_DIR}/RTTPERFORMANCE_AIDL/include
++    )
++endif ()
++
++target_compile_options(RTTPerformanceClient PRIVATE
++    -Wall -Wextra -std=c++17
++)
++
++target_link_libraries(RTTPerformanceClient PRIVATE binder utils)
++
++###########################################################
++# Install the binary
++###########################################################
++install(
++    TARGETS
++    RTTPerformanceService
++    RTTPerformanceClient
++
++    RUNTIME
++    DESTINATION ${CMAKE_INSTALL_BINDIR}
++)
+diff --git a/example/Perf/aidl/com/test/IRTTPerformance.aidl b/example/Perf/aidl/com/test/IRTTPerformance.aidl
+new file mode 100644
+index 0000000..bb501ed
+--- /dev/null
++++ b/example/Perf/aidl/com/test/IRTTPerformance.aidl
+@@ -0,0 +1,8 @@
++interface IRTTPerformance {
++    // Method with separate `in` and `out` arrays
++    int sendAndReceive(in byte[] data, out byte[] response);
++    
++    // Method with `inout` array
++    int sendAndModify(inout byte[] data);
++}
++
+diff --git a/example/Perf/client/RTTPerformanceClient.cpp b/example/Perf/client/RTTPerformanceClient.cpp
+new file mode 100644
+index 0000000..ac7756d
+--- /dev/null
++++ b/example/Perf/client/RTTPerformanceClient.cpp
+@@ -0,0 +1,152 @@
++/*
++ * If not stated otherwise in this file or this component's LICENSE file the
++ * following copyright and licenses apply:
++ *
++ * Copyright 2024 RDK Management
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++#include <sysexits.h>
++#include <unistd.h>
++#include <sys/reboot.h>
++
++#include <string>
++#include <vector>
++
++#include <iostream>
++#include <fstream>
++#include <chrono>
++#include <cmath>
++#include <numeric>
++
++#include <binder/IServiceManager.h>
++#include <utils/String16.h>
++#include <utils/StrongPointer.h>
++#include <cutils/properties.h>
++
++#include "com/test/IRTTPerformance.h"
++#include "com/test/BnRTTPerformance.h"
++
++#include <binder/IPCThreadState.h>
++#include <binder/ProcessState.h>
++
++using android::OK;
++using android::String16;
++using android::String8;
++using android::sp;
++
++using android::binder::Status;
++
++using namespace com::test;
++using namespace android;
++using namespace std;
++
++#define RTT_PERF_TEST_APP_VERSION        "1.0.0"
++
++// Function to calculate average
++double calculateAverage(const std::vector<int64_t>& times) {
++    return std::accumulate(times.begin(), times.end(), 0LL) / static_cast<double>(times.size());
++}
++
++// Function to calculate standard deviation
++double calculateStdDev(const std::vector<int64_t>& times, double avg) {
++    double variance = 0.0;
++    for (const auto& time : times) {
++        variance += (time - avg) * (time - avg);
++    }
++    variance /= times.size();
++    return std::sqrt(variance);
++}
++
++void runTest(sp<IRTTPerformance> performanceTestService, uint32_t dataSize, uint32_t iterations, bool inMemory)
++{
++    std::vector<int64_t> times;
++    std::vector<uint8_t> data(dataSize, 0xAB); 
++    std::vector<uint8_t> response(dataSize); 
++    int32_t status = -1;
++    if(inMemory)
++    {
++        for (int i = 0; i < iterations; ++i) {
++            auto start = std::chrono::high_resolution_clock::now();
++
++            performanceTestService->sendAndModify(&data, &status);
++
++            auto end = std::chrono::high_resolution_clock::now();
++            auto roundTripTime = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
++            times.push_back(roundTripTime);
++        }
++    }
++    else
++    {
++        uint32_t response_size = dataSize;
++
++        for (int i = 0; i < iterations; ++i) {
++            auto start = std::chrono::high_resolution_clock::now();
++
++            performanceTestService->sendAndReceive(data, &response, &status);
++
++            auto end = std::chrono::high_resolution_clock::now();
++            auto roundTripTime = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
++            times.push_back(roundTripTime);
++        }
++    }
++
++    int64_t bestTime = *std::min_element(times.begin(), times.end());
++    double averageTime = calculateAverage(times);
++    double stdDevTime = calculateStdDev(times, averageTime);
++    std::cout << "Data size: " << dataSize << " bytes" << std::endl;
++    std::cout << "Best time: " << bestTime << " microseconds" << std::endl;
++    std::cout << "Average time: " << averageTime << " microseconds" << std::endl;
++    std::cout << "Standard deviation: " << stdDevTime << " microseconds" << std::endl;
++    std::cout << "----------------------------" << std::endl;
++
++}
++
++int main() {
++
++    printf("\n\n");
++    printf("###########################################################\n");
++    printf("RTTPerformance Test App - V%s %s\n", RTT_PERF_TEST_APP_VERSION, __TIMESTAMP__);
++    printf("###########################################################\n");
++    printf("\n\n");
++
++    sp<IRTTPerformance> rttPerformanceService;
++    status_t status;
++
++    printf("\nRTTPerformanceTestApp : Getting RTTPerformanceService from ServiceManager\n");
++    status = getService(String16("RTTPerformanceService"), &rttPerformanceService);
++    if (status != OK) {
++        printf("\nRTTPerformanceTestApp : Failed to Get RTTPerformanceService handle from ServiceManager : [%s]\n", Status::fromStatusT(status).toString8().c_str());
++        return -1;
++    }
++
++    std::vector<size_t> dataSizes = {32, 128, 512, 1024, 4096, 8192, 16384, 32768, 65536};
++
++    // Number of iterations for each data size
++    int iterations = 100;
++
++    // Run the test for each data size
++    printf("****Test with separate buffers for input and output data****");
++    for (size_t dataSize : dataSizes) {
++        runTest(rttPerformanceService, dataSize, iterations, true);
++    }
++    printf("****Test with in-memory modification of buffer****");
++    for (size_t dataSize : dataSizes) {
++        runTest(rttPerformanceService, dataSize, iterations, false);
++    }
++
++    return 0;
++    return 0;
++}
+diff --git a/example/Perf/gen/com/test/IRTTPerformance.cpp b/example/Perf/gen/com/test/IRTTPerformance.cpp
+new file mode 100644
+index 0000000..888f62f
+--- /dev/null
++++ b/example/Perf/gen/com/test/IRTTPerformance.cpp
+@@ -0,0 +1,199 @@
++#include <com/test/IRTTPerformance.h>
++#include <com/test/BpRTTPerformance.h>
++namespace com {
++namespace test {
++DO_NOT_DIRECTLY_USE_ME_IMPLEMENT_META_INTERFACE(RTTPerformance, "IRTTPerformance")
++} //namespace test
++} //namespace com
++#include <com/test/BpRTTPerformance.h>
++#include <com/test/BnRTTPerformance.h>
++#include <binder/Parcel.h>
++#include <android-base/macros.h>
++
++namespace com {
++namespace test {
++
++BpRTTPerformance::BpRTTPerformance(const ::android::sp<::android::IBinder>& _aidl_impl)
++    : BpInterface<IRTTPerformance>(_aidl_impl){
++}
++
++::android::binder::Status BpRTTPerformance::sendAndReceive(const ::std::vector<uint8_t>& data, ::std::vector<uint8_t>* response, int32_t* _aidl_return) {
++  ::android::Parcel _aidl_data;
++  _aidl_data.markForBinder(remoteStrong());
++  ::android::Parcel _aidl_reply;
++  ::android::status_t _aidl_ret_status = ::android::OK;
++  ::android::binder::Status _aidl_status;
++  _aidl_ret_status = _aidl_data.writeInterfaceToken(getInterfaceDescriptor());
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_data.writeByteVector(data);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_data.writeVectorSize(*response);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = remote()->transact(BnRTTPerformance::TRANSACTION_sendAndReceive, _aidl_data, &_aidl_reply, 0);
++  if (UNLIKELY(_aidl_ret_status == ::android::UNKNOWN_TRANSACTION && IRTTPerformance::getDefaultImpl())) {
++     return IRTTPerformance::getDefaultImpl()->sendAndReceive(data, response, _aidl_return);
++  }
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_status.readFromParcel(_aidl_reply);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  if (!_aidl_status.isOk()) {
++    return _aidl_status;
++  }
++  _aidl_ret_status = _aidl_reply.readInt32(_aidl_return);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_reply.readByteVector(response);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_error:
++  _aidl_status.setFromStatusT(_aidl_ret_status);
++  return _aidl_status;
++}
++
++::android::binder::Status BpRTTPerformance::sendAndModify(::std::vector<uint8_t>* data, int32_t* _aidl_return) {
++  ::android::Parcel _aidl_data;
++  _aidl_data.markForBinder(remoteStrong());
++  ::android::Parcel _aidl_reply;
++  ::android::status_t _aidl_ret_status = ::android::OK;
++  ::android::binder::Status _aidl_status;
++  _aidl_ret_status = _aidl_data.writeInterfaceToken(getInterfaceDescriptor());
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_data.writeByteVector(*data);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = remote()->transact(BnRTTPerformance::TRANSACTION_sendAndModify, _aidl_data, &_aidl_reply, 0);
++  if (UNLIKELY(_aidl_ret_status == ::android::UNKNOWN_TRANSACTION && IRTTPerformance::getDefaultImpl())) {
++     return IRTTPerformance::getDefaultImpl()->sendAndModify(data, _aidl_return);
++  }
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_status.readFromParcel(_aidl_reply);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  if (!_aidl_status.isOk()) {
++    return _aidl_status;
++  }
++  _aidl_ret_status = _aidl_reply.readInt32(_aidl_return);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_ret_status = _aidl_reply.readByteVector(data);
++  if (((_aidl_ret_status) != (::android::OK))) {
++    goto _aidl_error;
++  }
++  _aidl_error:
++  _aidl_status.setFromStatusT(_aidl_ret_status);
++  return _aidl_status;
++}
++} //namespace test
++} //namespace com
++  //
++#include <com/test/BnRTTPerformance.h>
++#include <binder/Parcel.h>
++#include <binder/Stability.h>
++
++namespace com {
++namespace test {
++BnRTTPerformance::BnRTTPerformance()
++{
++  ::android::internal::Stability::markCompilationUnit(this);
++}
++
++::android::status_t BnRTTPerformance::onTransact(uint32_t _aidl_code, const ::android::Parcel& _aidl_data, ::android::Parcel* _aidl_reply, uint32_t _aidl_flags) {
++  ::android::status_t _aidl_ret_status = ::android::OK;
++  switch (_aidl_code) {
++  case BnRTTPerformance::TRANSACTION_sendAndReceive:
++  {
++    ::std::vector<uint8_t> in_data;
++    ::std::vector<uint8_t> out_response;
++    int32_t _aidl_return;
++    if (!(_aidl_data.checkInterface(this))) {
++      _aidl_ret_status = ::android::BAD_TYPE;
++      break;
++    }
++    _aidl_ret_status = _aidl_data.readByteVector(&in_data);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    _aidl_ret_status = _aidl_data.resizeOutVector(&out_response);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    ::android::binder::Status _aidl_status(sendAndReceive(in_data, &out_response, &_aidl_return));
++    _aidl_ret_status = _aidl_status.writeToParcel(_aidl_reply);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    if (!_aidl_status.isOk()) {
++      break;
++    }
++    _aidl_ret_status = _aidl_reply->writeInt32(_aidl_return);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    _aidl_ret_status = _aidl_reply->writeByteVector(out_response);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++  }
++  break;
++  case BnRTTPerformance::TRANSACTION_sendAndModify:
++  {
++    ::std::vector<uint8_t> in_data;
++    int32_t _aidl_return;
++    if (!(_aidl_data.checkInterface(this))) {
++      _aidl_ret_status = ::android::BAD_TYPE;
++      break;
++    }
++    _aidl_ret_status = _aidl_data.readByteVector(&in_data);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    ::android::binder::Status _aidl_status(sendAndModify(&in_data, &_aidl_return));
++    _aidl_ret_status = _aidl_status.writeToParcel(_aidl_reply);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    if (!_aidl_status.isOk()) {
++      break;
++    }
++    _aidl_ret_status = _aidl_reply->writeInt32(_aidl_return);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++    _aidl_ret_status = _aidl_reply->writeByteVector(in_data);
++    if (((_aidl_ret_status) != (::android::OK))) {
++      break;
++    }
++  }
++  break;
++  default:
++  {
++    _aidl_ret_status = ::android::BBinder::onTransact(_aidl_code, _aidl_data, _aidl_reply, _aidl_flags);
++  }
++  break;
++  }
++  if (_aidl_ret_status == ::android::UNEXPECTED_NULL) {
++    _aidl_ret_status = ::android::binder::Status::fromExceptionCode(::android::binder::Status::EX_NULL_POINTER).writeOverParcel(_aidl_reply);
++  }
++  return _aidl_ret_status;
++}
++} //namespace test
++} //namespace com
+diff --git a/example/Perf/gen/include/com/test/BnRTTPerformance.h b/example/Perf/gen/include/com/test/BnRTTPerformance.h
+new file mode 100644
+index 0000000..df17b26
+--- /dev/null
++++ b/example/Perf/gen/include/com/test/BnRTTPerformance.h
+@@ -0,0 +1,29 @@
++#pragma once
++
++#include <binder/IInterface.h>
++#include <com/test/IRTTPerformance.h>
++namespace com {
++namespace test {
++class BnRTTPerformance : public ::android::BnInterface<IRTTPerformance> {
++public:
++  static constexpr uint32_t TRANSACTION_sendAndReceive = ::android::IBinder::FIRST_CALL_TRANSACTION + 0;
++  static constexpr uint32_t TRANSACTION_sendAndModify = ::android::IBinder::FIRST_CALL_TRANSACTION + 1;
++  explicit BnRTTPerformance();
++  ::android::status_t onTransact(uint32_t _aidl_code, const ::android::Parcel& _aidl_data, ::android::Parcel* _aidl_reply, uint32_t _aidl_flags) override;
++};  // class BnRTTPerformance
++
++class IRTTPerformanceDelegator : public BnRTTPerformance {
++public:
++  explicit IRTTPerformanceDelegator(::android::sp<IRTTPerformance> &impl) : _aidl_delegate(impl) {}
++
++  ::android::binder::Status sendAndReceive(const ::std::vector<uint8_t>& data, ::std::vector<uint8_t>* response, int32_t* _aidl_return) override {
++    return _aidl_delegate->sendAndReceive(data, response, _aidl_return);
++  }
++  ::android::binder::Status sendAndModify(::std::vector<uint8_t>* data, int32_t* _aidl_return) override {
++    return _aidl_delegate->sendAndModify(data, _aidl_return);
++  }
++private:
++  ::android::sp<IRTTPerformance> _aidl_delegate;
++};  // class IRTTPerformanceDelegator
++} //namespace test
++} //namespace com
+diff --git a/example/Perf/gen/include/com/test/BpRTTPerformance.h b/example/Perf/gen/include/com/test/BpRTTPerformance.h
+new file mode 100644
+index 0000000..dcfa5c7
+--- /dev/null
++++ b/example/Perf/gen/include/com/test/BpRTTPerformance.h
+@@ -0,0 +1,17 @@
++#pragma once
++
++#include <binder/IBinder.h>
++#include <binder/IInterface.h>
++#include <utils/Errors.h>
++#include <com/test/IRTTPerformance.h>
++namespace com {
++namespace test {
++class BpRTTPerformance : public ::android::BpInterface<IRTTPerformance> {
++public:
++  explicit BpRTTPerformance(const ::android::sp<::android::IBinder>& _aidl_impl);
++  virtual ~BpRTTPerformance() = default;
++  ::android::binder::Status sendAndReceive(const ::std::vector<uint8_t>& data, ::std::vector<uint8_t>* response, int32_t* _aidl_return) override;
++  ::android::binder::Status sendAndModify(::std::vector<uint8_t>* data, int32_t* _aidl_return) override;
++};  // class BpRTTPerformance
++} //namespace test
++} //namespace com
+diff --git a/example/Perf/gen/include/com/test/IRTTPerformance.h b/example/Perf/gen/include/com/test/IRTTPerformance.h
+new file mode 100644
+index 0000000..6afa0c5
+--- /dev/null
++++ b/example/Perf/gen/include/com/test/IRTTPerformance.h
+@@ -0,0 +1,32 @@
++#pragma once
++
++#include <binder/IBinder.h>
++#include <binder/IInterface.h>
++#include <binder/Status.h>
++#include <cstdint>
++#include <utils/StrongPointer.h>
++#include <vector>
++
++namespace com {
++namespace test {
++class IRTTPerformance : public ::android::IInterface {
++public:
++  DECLARE_META_INTERFACE(RTTPerformance)
++  virtual ::android::binder::Status sendAndReceive(const ::std::vector<uint8_t>& data, ::std::vector<uint8_t>* response, int32_t* _aidl_return) = 0;
++  virtual ::android::binder::Status sendAndModify(::std::vector<uint8_t>* data, int32_t* _aidl_return) = 0;
++};  // class IRTTPerformance
++
++class IRTTPerformanceDefault : public IRTTPerformance {
++public:
++  ::android::IBinder* onAsBinder() override {
++    return nullptr;
++  }
++  ::android::binder::Status sendAndReceive(const ::std::vector<uint8_t>& /*data*/, ::std::vector<uint8_t>* /*response*/, int32_t* /*_aidl_return*/) override {
++    return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
++  }
++  ::android::binder::Status sendAndModify(::std::vector<uint8_t>* /*data*/, int32_t* /*_aidl_return*/) override {
++    return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
++  }
++};  // class IRTTPerformanceDefault
++} //namespace test
++} //namespace com
+diff --git a/example/Perf/service/RTTPerformance.h b/example/Perf/service/RTTPerformance.h
+new file mode 100644
+index 0000000..741db28
+--- /dev/null
++++ b/example/Perf/service/RTTPerformance.h
+@@ -0,0 +1,90 @@
++/*
++ * If not stated otherwise in this file or this component's LICENSE file the
++ * following copyright and licenses apply:
++ *
++ * Copyright 2024 RDK Management
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#ifndef _RTT_PERFORMANCE_H_
++#define _RTT_PERFORMANCE_H_
++
++#include <string>
++#include <vector>
++
++#include <android/log.h>
++#include <binder/BinderService.h>
++#include <binder/Status.h>
++#include <utils/Errors.h>
++#include <utils/Log.h>
++
++#include <utils/String16.h>
++#include <utils/Vector.h>
++
++#include "com/test/BnRTTPerformance.h"
++
++// libutils
++using android::OK;
++using android::String8;
++using android::String16;
++using android::sp;
++
++// libbinder
++using android::defaultServiceManager;
++using android::binder::Status;
++
++// Generated code
++using com::test::BnRTTPerformance;
++
++// Standard library
++using std::string;
++using std::vector;
++
++using namespace com::test;
++
++class RTTPerformance : public android::BinderService<RTTPerformance>,
++                  public BnRTTPerformance {
++    public:
++        friend class BinderService<RTTPerformance>;
++
++        RTTPerformance() {}
++        virtual ~RTTPerformance() = default;
++
++        static char const* getServiceName() { return "RTTPerformanceService"; }
++
++	Status sendAndReceive(const ::std::vector<uint8_t>& data, ::std::vector<uint8_t>* response, int32_t* _aidl_return) override
++	{
++	    // Echo the input data as the response
++            *response = data;
++        
++            // Set success status (0 for success)
++            *_aidl_return = 0;
++        
++            return Status::ok();
++	}
++
++
++        Status sendAndModify(::std::vector<uint8_t>* data, int32_t* _aidl_return) override
++	{
++	    // Modify the input data (in this example, we'll just append some data)
++            data->push_back(0xFF);  // Example modification
++        
++            // Set success status (0 for success)
++            *_aidl_return = 0;
++        
++            return Status::ok();	
++	}
++};
++
++#endif //_RTT_PERFORMANCE_H_
+diff --git a/example/Perf/service/RTTPerformanceService.cpp b/example/Perf/service/RTTPerformanceService.cpp
+new file mode 100644
+index 0000000..df93c75
+--- /dev/null
++++ b/example/Perf/service/RTTPerformanceService.cpp
+@@ -0,0 +1,44 @@
++/*
++ * If not stated otherwise in this file or this component's LICENSE file the
++ * following copyright and licenses apply:
++ *
++ * Copyright 2024 RDK Management
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#include <binder/IPCThreadState.h>
++#include <binder/ProcessState.h>
++#include <binder/IServiceManager.h>
++#include "RTTPerformance.h"
++
++using namespace android;
++using namespace com::test;
++
++int main(int argc, char** argv) {
++    // Initialize the ProcessState for this process (server)
++    sp<ProcessState> proc(ProcessState::self());
++    
++    // Register the RTTPerformance with the Service Manager
++    sp<IServiceManager> sm = defaultServiceManager();
++    sm->addService(String16("RTTPerformanceService"), new RTTPerformance());
++
++    // Start the Binder thread pool to handle client requests
++    sp<ProcessState> ps(ProcessState::self());
++    ps->startThreadPool();
++
++    // Run the main loop, allowing the service to continue running
++    IPCThreadState::self()->joinThreadPool();
++
++    return 0;
++}
+-- 
+2.34.1
+

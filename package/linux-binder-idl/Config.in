@@ -1,0 +1,5 @@
+config BR2_PACKAGE_LINUX_BINDER_IDL
+    bool "linux-binder-idl"
+    help
+      Android Binder IPC and AIDL toolchain ported to Linux.
+      Based on rdkcentral/linux_binder_idl (AOSP 13).

@@ -1,0 +1,4 @@
+config BR2_PACKAGE_BINDER
+	bool "binder"
+	help
+	  Low level Binder library and tools.

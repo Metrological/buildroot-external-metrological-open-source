@@ -1,0 +1,11 @@
+--- a/drivers/android/binder.c	2022-04-24 19:58:19.000000000 +0000
++++ b/drivers/android/binder.c	2025-09-08 07:50:26.713198205 +0000
+@@ -714,7 +714,7 @@ static struct binder_node *binder_init_n
+ 	node->work.type = BINDER_WORK_NODE;
+ 	node->min_priority = flags & FLAT_BINDER_FLAG_PRIORITY_MASK;
+ 	node->accept_fds = !!(flags & FLAT_BINDER_FLAG_ACCEPTS_FDS);
+-	node->txn_security_ctx = !!(flags & FLAT_BINDER_FLAG_TXN_SECURITY_CTX);
++	node->txn_security_ctx = 0;
+ 	spin_lock_init(&node->lock);
+ 	INIT_LIST_HEAD(&node->work.entry);
+ 	INIT_LIST_HEAD(&node->async_todo);
