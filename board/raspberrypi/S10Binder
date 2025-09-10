@@ -1,0 +1,20 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          binderfs
+# Required-Start:    $local_fs
+# Default-Start:     S
+# Default-Stop:
+### END INIT INFO
+
+case "$1" in
+    start)
+        echo "Mounting binderfs..."
+        mkdir -p /dev/binderfs
+        mount -t binder binder /dev/binderfs
+        # Create symlinks so legacy paths work
+        [ ! -e /dev/binder ] && ln -s /dev/binderfs/binder /dev/binder
+        [ ! -e /dev/hwbinder ] && ln -s /dev/binderfs/hwbinder /dev/hwbinder
+        [ ! -e /dev/vndbinder ] && ln -s /dev/binderfs/vndbinder /dev/vndbinder
+        ;;
+esac
