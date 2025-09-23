@@ -7,7 +7,8 @@ config BR2_PACKAGE_WPEBACKEND_LIBWPE_VERSION
 	default "1.14.0" if BR2_PACKAGE_WPEWEBKIT_ML2_38
 	default "1.14.0" if BR2_PACKAGE_WPEWEBKIT_ML2_42
 	default "1.16.2" if BR2_PACKAGE_WPEWEBKIT_ML2_46
-	default "1.16.0"
+	default "1.16.2" if BR2_PACKAGE_WPEWEBKIT_ML2_50
+	default "1.16.2"
 
 config BR2_PACKAGE_WPEBACKEND
 	bool "wpebackend"
