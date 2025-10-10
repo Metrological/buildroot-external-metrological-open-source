@@ -1,0 +1,33 @@
+From f0e1aa5faa195db6627dff20008e02e126a1b628 Mon Sep 17 00:00:00 2001
+From: Samuel Holland <samuel@sholland.org>
+Date: Wed, 1 Jan 2020 16:04:01 -0600
+Subject: [PATCH 06/64] arm64: dts: allwinner: h6: Protect SCP clocks
+
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index 2301c59b4..be4d4ab37 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -279,6 +279,7 @@ ccu: clock@3001000 {
+ 			reg = <0x03001000 0x1000>;
+ 			clocks = <&osc24M>, <&rtc CLK_OSC32K>, <&rtc CLK_IOSC>;
+ 			clock-names = "hosc", "losc", "iosc";
++			protected-clocks = <CLK_BUS_MSGBOX>;
+ 			#clock-cells = <1>;
+ 			#reset-cells = <1>;
+ 		};
+@@ -973,6 +974,7 @@ r_ccu: clock@7010000 {
+ 			clocks = <&osc24M>, <&rtc CLK_OSC32K>, <&rtc CLK_IOSC>,
+ 				 <&ccu CLK_PLL_PERIPH0>;
+ 			clock-names = "hosc", "losc", "iosc", "pll-periph";
++			protected-clocks = <CLK_R_APB1_TWD>;
+ 			#clock-cells = <1>;
+ 			#reset-cells = <1>;
+ 		};
+-- 
+2.43.0
+
