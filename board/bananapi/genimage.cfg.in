@@ -12,6 +12,10 @@ image boot.vfat {
 
 image sdcard.img {
 	hdimage {
+		# Set a fixed disk signature for consistent PARTUUIDs
+		# This is a 32-bit hex value that will be used as the MBR disk ID
+		# 0xC0FFEE00 - Because embedded development runs on coffee!
+		disk-signature = 0xC0FFEE00
 	}
 
 	partition u-boot {
@@ -25,10 +29,14 @@ image sdcard.img {
 		partition-type = 0xC
 		bootable = "true"
 		image = "boot.vfat"
+		# With MBR disk-signature 0xC0FFEE00 and partition 1
+		# The PARTUUID will be: c0ffee00-01
 	}
 
 	partition rootfs {
 		partition-type = 0x83
 		image = "rootfs.ext4"
+		# With MBR disk-signature 0xC0FFEE00 and partition 2
+		# The PARTUUID will be: c0ffee00-02
 	}
 }
