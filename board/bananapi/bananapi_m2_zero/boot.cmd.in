@@ -1,5 +1,5 @@
 setenv kernel_image /#KERNEL#
-setenv fdt_file /sun8i-h3-bananapi-m2-plus.dtb
+setenv fdt_file /sun8i-h3-bananapi-m2-zero.dtb
 setenv cma "64M"
 
 # Load kernel and DTB
