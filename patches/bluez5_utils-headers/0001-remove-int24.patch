@@ -1,0 +1,27 @@
+From a93d1083c05e62a1582d09a1fb18dbabdf2df8e8 Mon Sep 17 00:00:00 2001
+From: MFransen <m.fransen@metrological.com>
+Date: Tue, 18 Nov 2025 09:20:43 +0100
+Subject: [PATCH] remove int24
+
+---
+ lib/bluetooth.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/lib/bluetooth.h b/lib/bluetooth.h
+index 1286aa7..d403b53 100644
+--- a/lib/bluetooth.h
++++ b/lib/bluetooth.h
+@@ -443,10 +443,6 @@ void bt_free(void *ptr);
+ int bt_error(uint16_t code);
+ const char *bt_compidtostr(int id);
+ 
+-typedef struct {
+-	uint8_t data[3];
+-} uint24_t;
+-
+ typedef struct {
+ 	uint8_t data[16];
+ } uint128_t;
+-- 
+2.43.0
+
