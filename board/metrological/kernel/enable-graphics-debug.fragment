@@ -1,0 +1,13 @@
+# Adds validation for DRM modesetting locks
+# Output goes to dmesg, no runtime toggle — just warns on lock violations
+CONFIG_DRM_DEBUG_MODESET_LOCK=y
+
+# Extra validation on ww_mutex (used heavily by DRM atomic)
+# Helps catch deadlocks, output in dmesg, always active once built
+CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
+
+# Enables tracing events for dma_fence signal/wait
+# Enable: echo 1 > /sys/kernel/debug/tracing/events/dma_fence/enable
+# Watch: cat /sys/kernel/debug/tracing/trace_pipe
+# Shows fence create/signal/wait timing — useful for finding where you're stuck
+CONFIG_DMA_FENCE_TRACE=y
