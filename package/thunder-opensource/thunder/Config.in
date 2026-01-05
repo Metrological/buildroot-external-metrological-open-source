@@ -264,20 +264,108 @@ config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_CDM
     help
       CDM client support compatible with OpenCDM
 
-config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT
-    select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
-    bool "CompositorClient"
-        default y
-    help
-      A graphical/input abstraction. This library is included in micro services that requires user
-          interaction (Graphics/input). The implementation hides all the compositor specific details.
-      allows for relaying keys to plugins
+menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT
+	select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
+	bool "CompositorClient"
+	default y
+	help
+	  A graphical/input abstraction. This library is included in micro services that requires user
+	  interaction (Graphics/input). The implementation hides all the compositor specific details.
+	  allows for relaying keys to plugins
+if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT
 
-config BR2_PACKAGE_THUNDER_BLUETOOTH
-    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
-    bool "Bluetooth"
-    help
-      Thunder Bluetooth User Space Stack
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_BUILD_TESTS
+	bool "CompositorClient Tests"
+	default y
+	help
+	  Build CompositorClient test applications including the texture
+	  renderer test app and associated test plugins for validating
+	  compositor client functionality.
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_TESTS_INSTALL_GBM_UTIL
+	bool "CompositorClient GBM Surface"
+	depends on BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_BUILD_TESTS
+	help
+	  Install the GBM surface util to discover proper GBM behaviour.
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_TESTS_INSTALL_RENDER_APP
+	bool "CompositorClient Render App"
+	depends on BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_BUILD_TESTS
+	help
+	  Install the texture renderer test application for validating
+	  compositor client rendering functionality.
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_TESTS_INSTALL_RENDER_PLUGIN
+	bool "CompositorClient Render Plugin"
+	depends on BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_BUILD_TESTS
+	help
+	  Install the texture renderer test plugin for validating
+	  compositor client plugin functionality.
+
+if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_TESTS_INSTALL_RENDER_PLUGIN
+
+choice
+	prompt "Plugin Start Mode"
+	default BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_STARTMODE_ACTIVATED
+	help
+	  Controls when the ClientCompositorRender plugin starts.
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_STARTMODE_ACTIVATED
+	bool "Activated"
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_STARTMODE_DEACTIVATED
+	bool "Deactivated"
+
+endchoice
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_STARTMODE
+	string
+	default "Activated" if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_STARTMODE_ACTIVATED
+	default "Deactivated" if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_STARTMODE_DEACTIVATED
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_RESUMED
+	bool "Plugin Resumed State"
+	default y
+	help
+	  Set ClientCompositorRender plugin resume state.
+
+choice
+	prompt "Plugin Mode"
+	default BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_LOCAL
+	help
+	  Controls if the plugin runs in its own process, in-process, or remote.
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_LOCAL
+	bool "Local"
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_OFF
+	bool "Off"
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_CONTAINER
+	bool "Container"
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_DISTRIBUTED
+	bool "Distributed
+
+endchoice
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE
+	string
+	default "Local" if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_LOCAL
+	default "Off" if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_OFF
+	default "Container" if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_CONTAINER
+	default "Distributed" if BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_MODE_DISTRIBUTED
+
+config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT_PLUGIN_INSTANCES
+	int "Number of Plugin Instances"
+	default 1
+	range 1 10
+	help
+	  Controls how many instances of the plugin will be installed.
+
+endif
+
+endif
 
 config BR2_PACKAGE_THUNDER_BLUETOOTH_GATT
     select BR2_PACKAGE_THUNDER_BLUETOOTH
