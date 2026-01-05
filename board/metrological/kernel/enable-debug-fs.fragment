@@ -1,0 +1,21 @@
+# Mounts at /sys/kernel/debug, exposes kernel debug interfaces
+# Enable: mount -t debugfs none /sys/kernel/debug
+CONFIG_DEBUG_FS=y
+
+# Per-callsite printk control, lets you enable/disable specific debug messages
+# Enable: echo 'module vc4 +p' > /sys/kernel/debug/dynamic_debug/control
+# List available: cat /sys/kernel/debug/dynamic_debug/control
+CONFIG_DYNAMIC_DEBUG=y
+
+# Core function tracer framework, enables /sys/kernel/debug/tracing/
+# Foundation for all kernel tracing — function calls, latencies, tracepoints
+CONFIG_FTRACE=y
+
+# Generic tracing infrastructure — ring buffer, trace output formatting
+# Provides trace_pipe interface, usually auto-selected by FTRACE
+CONFIG_TRACING=y
+
+# Enables tracepoint-based events in /sys/kernel/debug/tracing/events/
+# Gives you per-subsystem traces like dma_fence, drm, gpu schedulers
+# List categories: ls /sys/kernel/debug/tracing/events/
+CONFIG_EVENT_TRACING=y
