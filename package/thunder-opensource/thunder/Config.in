@@ -200,6 +200,19 @@ config BR2_PACKAGE_THUNDER_ENABLE_ENVIRONMENT
         environment variables that are set in the fragments.
         This is used to set up the environment for the plugins.
 
+config BR2_PACKAGE_THUNDER_TOOLS_PROXYSTUB_SECURITY
+    bool "security checks in COM-RPC proxy stubs"
+    default n
+
+config BR2_PACKAGE_THUNDER_TOOLS_PROXYSTUB_COHERENCY
+    bool "coherency checks in COM-RPC proxy stubs"
+    default n
+
+config BR2_PACKAGE_THUNDER_ENABLE_JSONRPC_STATS
+    bool "enable JSON-RPC stats"
+    depends on !BR2_PACKAGE_THUNDER_BUILD_TYPE_PRODUCTION
+    default y
+
 menu "Platform Device Groups"
 
 comment "This should match the groups applied to the respective platforms device recourses."
