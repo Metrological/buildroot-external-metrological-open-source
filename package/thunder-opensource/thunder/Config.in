@@ -264,6 +264,12 @@ config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_CDM
     help
       CDM client support compatible with OpenCDM
 
+menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH
+    bool "Bluetooth"
+    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
+    help 
+      Thunder Bluetooth User Space Stack
+
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT
 	select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
 	bool "CompositorClient"
