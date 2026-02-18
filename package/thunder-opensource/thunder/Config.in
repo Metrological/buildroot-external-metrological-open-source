@@ -266,9 +266,25 @@ config BR2_PACKAGE_THUNDER_CLIENTLIBRARY_CDM
 
 menuconfig BR2_PACKAGE_THUNDER_BLUETOOTH
     bool "Bluetooth"
-    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
-    help 
+    help
       Thunder Bluetooth User Space Stack
+
+if BR2_PACKAGE_THUNDER_BLUETOOTH
+
+choice
+    prompt "BlueZ header source"
+    default BR2_PACKAGE_THUNDER_BLUETOOTH_USE_SYSTEM_BLUEZ_HEADERS
+
+config BR2_PACKAGE_THUNDER_BLUETOOTH_USE_SYSTEM_BLUEZ_HEADERS
+    bool "Use system BlueZ headers"
+    select BR2_PACKAGE_BLUEZ5_UTILS_HEADERS
+
+config BR2_PACKAGE_THUNDER_BLUETOOTH_DOWNLOAD_BLUEZ_HEADERS
+    bool "Download private BlueZ headers"
+
+endchoice
+
+endif
 
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_COMPOSITORCLIENT
 	select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
