@@ -421,6 +421,7 @@ config BR2_PACKAGE_THUNDER_EXTENSION_OPENTELEMETRY
     bool "OpenTelemetry"
         default n
     select BR2_PACKAGE_OPENTELEMETRY_CPP
+    select BR2_PACKAGE_OPENTELEMETRY_CPP_OTLP_HTTP
     help
       Enable OpenTelemetry support. 
 
