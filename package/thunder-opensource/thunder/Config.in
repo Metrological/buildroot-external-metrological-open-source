@@ -416,7 +416,13 @@ config BR2_PACKAGE_THUNDER_EXTENSION_LOCALTRACER
         default n
     help
       Use tracing without the need of Thunder running. 
-      
+
+config BR2_PACKAGE_THUNDER_EXTENSION_OPENTELEMETRY
+    bool "OpenTelemetry"
+        default n
+    help
+      Enable OpenTelemetry support. 
+
 if BR2_PACKAGE_THUNDER_BLUETOOTH
 menuconfig BR2_PACKAGE_THUNDER_CLIENTLIBRARY_BLUETOOTHAUDIOSINK
     select BR2_PACKAGE_THUNDER_CLIENTLIBRARIES
