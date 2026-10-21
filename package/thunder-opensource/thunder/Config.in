@@ -184,6 +184,12 @@ config BR2_PACKAGE_THUNDER_EXCEPTIONS_ENABLE
     default n
     help
         Enable the use of exceptions.
+        
+config BR2_PACKAGE_THUNDER_ENABLE_W3C_TRACE_CONTEXT_PROPAGATION
+    bool "W3C trace context"
+    default n
+    help
+        enable Thunder W3C trace context propagation.
 
 config BR2_PACKAGE_THUNDER_PERFORMANCE_MONITORING
     bool "performance monitoring"
@@ -422,6 +428,7 @@ config BR2_PACKAGE_THUNDER_EXTENSION_OPENTELEMETRY
         default n
     select BR2_PACKAGE_OPENTELEMETRY_CPP
     select BR2_PACKAGE_OPENTELEMETRY_CPP_OTLP_HTTP
+    select BR2_PACKAGE_THUNDER_ENABLE_W3C_TRACE_CONTEXT_PROPAGATION
     help
       Enable OpenTelemetry support. 
 
